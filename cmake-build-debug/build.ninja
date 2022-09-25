@@ -36,7 +36,7 @@ include CMakeFiles/rules.ninja
 #############################################
 # Logical path to working directory; prefix for absolute paths.
 
-cmake_ninja_workdir = /Users/riccardo/Programmazione/SpaceInvaders/SpaceInvaders/cmake-build-debug/
+cmake_ninja_workdir = /Users/riccardo/Programmazione/SpaceInvaders/cmake-build-debug/
 # =============================================================================
 # Object build statements for EXECUTABLE target SpaceInvaders
 
@@ -46,7 +46,7 @@ cmake_ninja_workdir = /Users/riccardo/Programmazione/SpaceInvaders/SpaceInvaders
 
 build cmake_object_order_depends_target_SpaceInvaders: phony || CMakeFiles/SpaceInvaders.dir
 
-build CMakeFiles/SpaceInvaders.dir/main.cpp.o: CXX_COMPILER__SpaceInvaders_Debug /Users/riccardo/Programmazione/SpaceInvaders/SpaceInvaders/main.cpp || cmake_object_order_depends_target_SpaceInvaders
+build CMakeFiles/SpaceInvaders.dir/main.cpp.o: CXX_COMPILER__SpaceInvaders_Debug /Users/riccardo/Programmazione/SpaceInvaders/main.cpp || cmake_object_order_depends_target_SpaceInvaders
   DEP_FILE = CMakeFiles/SpaceInvaders.dir/main.cpp.o.d
   FLAGS = -std=c++11 -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.3.sdk
   INCLUDES = -I/usr/local/include -isystem /opt/homebrew/include
@@ -55,7 +55,7 @@ build CMakeFiles/SpaceInvaders.dir/main.cpp.o: CXX_COMPILER__SpaceInvaders_Debug
   TARGET_COMPILE_PDB = CMakeFiles/SpaceInvaders.dir/
   TARGET_PDB = SpaceInvaders.pdb
 
-build CMakeFiles/SpaceInvaders.dir/View/Menu.cpp.o: CXX_COMPILER__SpaceInvaders_Debug /Users/riccardo/Programmazione/SpaceInvaders/SpaceInvaders/View/Menu.cpp || cmake_object_order_depends_target_SpaceInvaders
+build CMakeFiles/SpaceInvaders.dir/View/Menu.cpp.o: CXX_COMPILER__SpaceInvaders_Debug /Users/riccardo/Programmazione/SpaceInvaders/View/Menu.cpp || cmake_object_order_depends_target_SpaceInvaders
   DEP_FILE = CMakeFiles/SpaceInvaders.dir/View/Menu.cpp.o.d
   FLAGS = -std=c++11 -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.3.sdk
   INCLUDES = -I/usr/local/include -isystem /opt/homebrew/include
@@ -87,7 +87,7 @@ build SpaceInvaders: CXX_EXECUTABLE_LINKER__SpaceInvaders_Debug CMakeFiles/Space
 # Utility command for edit_cache
 
 build CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /Users/riccardo/Programmazione/SpaceInvaders/SpaceInvaders/cmake-build-debug && /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+  COMMAND = cd /Users/riccardo/Programmazione/SpaceInvaders/cmake-build-debug && /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
   DESC = No interactive CMake dialog available...
   restat = 1
 
@@ -98,7 +98,7 @@ build edit_cache: phony CMakeFiles/edit_cache.util
 # Utility command for rebuild_cache
 
 build CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /Users/riccardo/Programmazione/SpaceInvaders/SpaceInvaders/cmake-build-debug && /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake --regenerate-during-build -S/Users/riccardo/Programmazione/SpaceInvaders/SpaceInvaders -B/Users/riccardo/Programmazione/SpaceInvaders/SpaceInvaders/cmake-build-debug
+  COMMAND = cd /Users/riccardo/Programmazione/SpaceInvaders/cmake-build-debug && /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake --regenerate-during-build -S/Users/riccardo/Programmazione/SpaceInvaders -B/Users/riccardo/Programmazione/SpaceInvaders/cmake-build-debug
   DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1
@@ -114,7 +114,7 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 # =============================================================================
 
 #############################################
-# Folder: /Users/riccardo/Programmazione/SpaceInvaders/SpaceInvaders/cmake-build-debug
+# Folder: /Users/riccardo/Programmazione/SpaceInvaders/cmake-build-debug
 
 build all: phony SpaceInvaders
 

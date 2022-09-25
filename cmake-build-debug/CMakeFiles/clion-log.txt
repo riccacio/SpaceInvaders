@@ -1,4 +1,4 @@
-/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/Applications/CLion.app/Contents/bin/ninja/mac/ninja -G Ninja -S /Users/riccardo/Programmazione/SpaceInvaders/SpaceInvaders -B /Users/riccardo/Programmazione/SpaceInvaders/SpaceInvaders/cmake-build-debug
+/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/Applications/CLion.app/Contents/bin/ninja/mac/ninja -G Ninja -S /Users/riccardo/Programmazione/SpaceInvaders -B /Users/riccardo/Programmazione/SpaceInvaders/cmake-build-debug
 -- The C compiler identification is AppleClang 14.0.0.14000029
 -- The CXX compiler identification is AppleClang 14.0.0.14000029
 -- Detecting C compiler ABI info
@@ -14,4 +14,4 @@
 -- Found SFML 2.5.1 in /opt/homebrew/lib/cmake/SFML
 -- Configuring done
 -- Generating done
--- Build files have been written to: /Users/riccardo/Programmazione/SpaceInvaders/SpaceInvaders/cmake-build-debug
+-- Build files have been written to: /Users/riccardo/Programmazione/SpaceInvaders/cmake-build-debug

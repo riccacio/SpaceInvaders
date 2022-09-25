@@ -10,7 +10,8 @@ public:
     ~Menu();
 
     void run();
-    void createText();
+private:
+    int record = 3950;
 };
 
 #endif //SPACEINVADERS_MENU_H
