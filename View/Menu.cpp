@@ -7,6 +7,8 @@
 using namespace sf;
 using namespace std;
 
+Menu::Menu():record(3950){}
+
 void Menu::run(){
     RenderWindow window(VideoMode(1280, 1400), "Space Invaders");
     SoundBuffer buffer;

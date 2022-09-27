@@ -6,12 +6,10 @@ using namespace std;
 
 class Menu{
 public:
-    Menu() = default;
-    ~Menu() = default;
-
+    Menu();
     void run();
 private:
-    int record = 3950;
+    int record;
 };
 
 #endif //SPACEINVADERS_MENU_H
