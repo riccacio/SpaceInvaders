@@ -2,20 +2,15 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <unistd.h>
-#include <iostream>
 #include <sstream>
 
 using namespace sf;
 using namespace std;
 
-Menu::Menu(){}
-Menu::~Menu(){}
-
-
 void Menu::run(){
     RenderWindow window(VideoMode(1280, 1400), "Space Invaders");
     SoundBuffer buffer;
-    buffer.loadFromFile("../Sound/menu.wav");
+    buffer.loadFromFile("Sound/menu.wav");
     Sound sound;
     sound.setBuffer(buffer);
     //sound.play();
@@ -30,7 +25,7 @@ void Menu::run(){
                 window.close();
         }
         Font f1;
-        f1.loadFromFile("../Font/ARCADE_N.TTF");
+        f1.loadFromFile("Font/ARCADE_N.TTF");
         Text title;
         Text text;
         Text info;
@@ -73,7 +68,7 @@ void Menu::run(){
         recordText.setPosition(350,20);
         sprShip.setPosition(550,900);
 
-        texShip.loadFromFile("../Sprite/ship.png");
+        texShip.loadFromFile("Sprite/ship.png");
         sprShip.setTexture(texShip);
         sprShip.setScale(7,7);
 

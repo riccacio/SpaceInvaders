@@ -6,8 +6,8 @@ using namespace std;
 
 class Info {
 public:
-    Info();
-    ~Info();
+    Info() = default;
+    ~Info() = default;
 
     void run();
 };

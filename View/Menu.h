@@ -6,8 +6,8 @@ using namespace std;
 
 class Menu{
 public:
-    Menu();
-    ~Menu();
+    Menu() = default;
+    ~Menu() = default;
 
     void run();
 private:
