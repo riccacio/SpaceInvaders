@@ -18,7 +18,7 @@ void Menu::run(){
     buffer.loadFromFile("../Sound/menu.wav");
     Sound sound;
     sound.setBuffer(buffer);
-    sound.play();
+    //sound.play();
     sound.setLoop(true);
     while (window.isOpen())
     {
@@ -38,7 +38,6 @@ void Menu::run(){
         Text recordText;
         Texture texShip;
         Sprite sprShip;
-
 
         title.setFont(f1);
         text.setFont(f1);
