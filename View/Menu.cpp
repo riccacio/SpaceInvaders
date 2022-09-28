@@ -63,9 +63,10 @@ void Menu::run(){
         hiScore.setCharacterSize(32);
         recordText.setCharacterSize(32);
 
-        title.setPosition(240,370);
-        text.setPosition(340,750);
-        info.setPosition(430,550);
+        centerText(title, 370);
+        centerText(info, 550);
+        centerText(text, 750);
+
         hiScore.setPosition(30,20);
         recordText.setPosition(350,20);
         sprShip.setPosition(550,900);
@@ -95,4 +96,10 @@ void Menu::run(){
         window.draw(sprShip);
         window.display();
     }
+}
+
+void Menu::centerText(Text& text, int height){
+    FloatRect textRect = text.getLocalBounds();
+    text.setOrigin(textRect.left + textRect.width/2.0f,textRect.top  + textRect.height/2.0f);
+    text.setPosition(Vector2f(1280/2.0f, height));
 }

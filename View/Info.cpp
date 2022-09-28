@@ -78,29 +78,30 @@ void Info::run(){
         alien3.setFillColor(Color::White);
         back.setFillColor(Color::Green);
 
-        title.setCharacterSize(45);
-        shot.setCharacterSize(35);
-        left.setCharacterSize(35);
-        right.setCharacterSize(35);
-        myst.setCharacterSize(35);
-        alien1.setCharacterSize(35);
-        alien2.setCharacterSize(35);
-        alien3.setCharacterSize(35);
-        back.setCharacterSize(25);
+        title.setCharacterSize(55);
+        shot.setCharacterSize(40);
+        left.setCharacterSize(40);
+        right.setCharacterSize(40);
+        myst.setCharacterSize(40);
+        alien1.setCharacterSize(40);
+        alien2.setCharacterSize(40);
+        alien3.setCharacterSize(40);
+        back.setCharacterSize(30);
 
-        title.setPosition(420,150);
-        shot.setPosition(320,350);
-        left.setPosition(320,450);
-        right.setPosition(320,550);
-        myst.setPosition(570,660);
-        mystS.setPosition(370,650);
-        alien1.setPosition(570,780);
-        alien1S.setPosition(380,750);
-        alien2.setPosition(570,900);
-        alien2S.setPosition(380,870);
-        alien3.setPosition(570,1010);
-        alien3S.setPosition(390,980);
-        back.setPosition(360,1170);
+        centerText(title, 150);
+        centerText(shot, 350);
+        centerText(back, 1200);
+
+        left.setPosition(297,440);
+        right.setPosition(297,550);
+        myst.setPosition(520,660);
+        mystS.setPosition(320,650);
+        alien1.setPosition(520,780);
+        alien1S.setPosition(330,750);
+        alien2.setPosition(520,900);
+        alien2S.setPosition(330,870);
+        alien3.setPosition(520,1010);
+        alien3S.setPosition(340,980);
 
         window.clear();
         window.draw(title);
@@ -118,4 +119,10 @@ void Info::run(){
         window.draw(back);
         window.display();
     }
+}
+
+void Info::centerText(Text& text, int height){
+    FloatRect textRect = text.getLocalBounds();
+    text.setOrigin(textRect.left + textRect.width/2.0f,textRect.top  + textRect.height/2.0f);
+    text.setPosition(Vector2f(1280/2.0f, height));
 }
