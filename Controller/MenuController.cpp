@@ -5,9 +5,13 @@
 
 using namespace std;
 
-void keyPressed(){
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::H)){
-        unique_ptr<Info> info(new Info);
-        info->run();
+MenuController::MenuController(): event(){}
+
+void MenuController::keyPressed(){
+    if (event.type== Event::KeyReleased){
+        if(event.key.code == Keyboard::H){
+            unique_ptr<Info> info(new Info);
+            info->run();
+        }
     }
 }

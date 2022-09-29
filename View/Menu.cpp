@@ -6,9 +6,7 @@
 
 using namespace sf;
 
-Menu::Menu():record(6223), i(0),event(){
-    unique_ptr<MenuController> mc(new MenuController);
-}
+Menu::Menu():record(6223), i(0),event(), mc(new MenuController){}
 
 void Menu::run(){
     RenderWindow window(VideoMode(WIDTH, HEIGHT), "Space Invaders");
@@ -28,10 +26,16 @@ void Menu::run(){
     sound.setBuffer(buffer);
     //sound.play();
     sound.setLoop(true);
+
     while (window.isOpen()) {
+        mc->keyPressed();
         while (window.pollEvent(event)){
-            if (event.type == Event::Closed)
+            if (event.type == Event::Closed){
                 window.close();
+                exit(EXIT_SUCCESS);
+            }
+            //FIXME don't work
+            mc->keyPressed();
         }
         title.setFont(f1);
         text.setFont(f1);
@@ -81,7 +85,6 @@ void Menu::run(){
             text.setFillColor(Color::Black);
             i=0;
         }
-
         window.clear();
         window.draw(title);
         window.draw(text);

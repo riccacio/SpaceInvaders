@@ -32,7 +32,7 @@ private:
     Sprite sprShip;
     SoundBuffer buffer;
     Sound sound;
-
+    unique_ptr<MenuController> mc;
 };
 
 #endif //SPACEINVADERS_MENU_H

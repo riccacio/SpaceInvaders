@@ -6,7 +6,7 @@
 using namespace sf;
 
 void Info::run(){
-    RenderWindow window(VideoMode(1280, 1400), "Space Invaders");
+    RenderWindow window(VideoMode(1280, 1400), "Space Invaders-Info");
     if(!f1.loadFromFile("Font/arcade.TTF")){
         std::cout << ("ERROR: font not found!") << std::endl;
         window.close();
