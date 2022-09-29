@@ -2,38 +2,20 @@
 #include <SFML/Graphics.hpp>
 
 using namespace sf;
-using namespace std;
 
 void Info::run(){
     RenderWindow window(VideoMode(1280, 1400), "Space Invaders");
-    while (window.isOpen())
-    {
-        Event event;
-
-        while (window.pollEvent(event))
-        {
+    while (window.isOpen()){
+        while (window.pollEvent(event)){
             if (event.type == Event::Closed)
                 window.close();
         }
-        Font f1;
+        //TODO manage loading error
         f1.loadFromFile("Font/ARCADE_N.TTF");
-        Text title;
-        Text shot;
-        Text left;
-        Text right;
-        Text myst;
-        Text alien1;
-        Text alien2;
-        Text alien3;
-        Text back;
-        Texture mystT;
-        Texture alien1T;
-        Texture alien2T;
-        Texture alien3T;
-        Sprite mystS;
-        Sprite alien1S;
-        Sprite alien2S;
-        Sprite alien3S;
+        mystT.loadFromFile("Sprite/mystery.png");
+        alien1T.loadFromFile("Sprite/alien1_0.png");
+        alien2T.loadFromFile("Sprite/alien2_0.png");
+        alien3T.loadFromFile("Sprite/alien3_0.png");
 
         title.setFont(f1);
         shot.setFont(f1);
@@ -55,14 +37,11 @@ void Info::run(){
         alien3.setString("= 10 POINTS");
         back.setString("PRESS B TO BACK TO MENU");
 
-        mystT.loadFromFile("Sprite/mystery.png");
-        alien1T.loadFromFile("Sprite/alien1_0.png");
-        alien2T.loadFromFile("Sprite/alien2_0.png");
-        alien3T.loadFromFile("Sprite/alien3_0.png");
         mystS.setTexture(mystT);
         alien1S.setTexture(alien1T);
         alien2S.setTexture(alien2T);
         alien3S.setTexture(alien3T);
+
         mystS.setScale(5,5);
         alien1S.setScale(4,4);
         alien2S.setScale(4,4);

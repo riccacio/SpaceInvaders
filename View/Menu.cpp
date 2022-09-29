@@ -5,37 +5,25 @@
 #include <sstream>
 
 using namespace sf;
-using namespace std;
 
-Menu::Menu():record(3950){}
+
+Menu::Menu():record(6223), i(0){}
 
 void Menu::run(){
-    RenderWindow window(VideoMode(1280, 1400), "Space Invaders");
-    SoundBuffer buffer;
+    RenderWindow window(VideoMode(WIDTH, HEIGHT), "Space Invaders");
+    //TODO manage loading error in Menu
     buffer.loadFromFile("Sound/menu.wav");
-    Sound sound;
+    f1.loadFromFile("Font/ARCADE_N.TTF");
+    texShip.loadFromFile("Sprite/ship.png");
+
     sound.setBuffer(buffer);
     //sound.play();
     sound.setLoop(true);
-    while (window.isOpen())
-    {
-        Event event;
-
-        while (window.pollEvent(event))
-        {
+    while (window.isOpen()){
+        while (window.pollEvent(event)){
             if (event.type == Event::Closed)
                 window.close();
         }
-        Font f1;
-        f1.loadFromFile("Font/ARCADE_N.TTF");
-        Text title;
-        Text text;
-        Text info;
-        Text hiScore;
-        Text recordText;
-        Texture texShip;
-        Sprite sprShip;
-
         title.setFont(f1);
         text.setFont(f1);
         info.setFont(f1);
@@ -46,9 +34,9 @@ void Menu::run(){
         text.setString("PRESS SPACE TO START");
         info.setString("HOW TO PLAY H (H)");
         hiScore.setString("HI-SCORE: ");
-        stringstream ss;
+        std::stringstream ss;
         ss<<record;
-        string s;
+        std::string s;
         ss>>s;
         recordText.setString(s);
 
@@ -66,17 +54,15 @@ void Menu::run(){
         centerText(title, 370);
         centerText(info, 550);
         centerText(text, 750);
+        centerSprite(sprShip, 950);
 
         hiScore.setPosition(30,20);
-        recordText.setPosition(350,20);
-        sprShip.setPosition(550,900);
+        recordText.setPosition(310,20);
 
-        texShip.loadFromFile("Sprite/ship.png");
         sprShip.setTexture(texShip);
         sprShip.setScale(7,7);
 
         //flashing text
-        int i;
         usleep(120000); //1 sec
         if(i==0){
             text.setFillColor(Color::White);
@@ -98,8 +84,13 @@ void Menu::run(){
     }
 }
 
-void Menu::centerText(Text& text, int height){
+void Menu::centerText(Text& text, float height){
     FloatRect textRect = text.getLocalBounds();
     text.setOrigin(textRect.left + textRect.width/2.0f,textRect.top  + textRect.height/2.0f);
-    text.setPosition(Vector2f(1280/2.0f, height));
+    text.setPosition(Vector2f(WIDTH/2.0f, height));
+}
+void Menu::centerSprite(Sprite& sprite, float height){
+    FloatRect textRect = sprite.getLocalBounds();
+    sprite.setOrigin(textRect.left + textRect.width/2.0f,textRect.top  + textRect.height/2.0f);
+    sprite.setPosition(Vector2f(WIDTH/2.0f, height));
 }
