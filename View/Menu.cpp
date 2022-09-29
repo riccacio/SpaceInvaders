@@ -6,20 +6,29 @@
 
 using namespace sf;
 
-
-Menu::Menu():record(6223), i(0){}
+Menu::Menu():record(6223), i(0),event(){
+    unique_ptr<MenuController> mc(new MenuController);
+}
 
 void Menu::run(){
     RenderWindow window(VideoMode(WIDTH, HEIGHT), "Space Invaders");
-    //TODO manage loading error in Menu
-    buffer.loadFromFile("Sound/menu.wav");
-    f1.loadFromFile("Font/ARCADE_N.TTF");
-    texShip.loadFromFile("Sprite/ship.png");
+    if(!buffer.loadFromFile("Sound/menu.wav")){
+        std::cout << ("ERROR: sound not found!") << std::endl;
+        window.close();
+    }
+    if(!f1.loadFromFile("Font/arcade.TTF")){
+        std::cout << ("ERROR: font not found!") << std::endl;
+        window.close();
+    }
+    if(!texShip.loadFromFile("Sprite/ship.png")){
+        std::cout << ("ERROR: sprite ship not found!") << std::endl;
+        window.close();
+    }
 
     sound.setBuffer(buffer);
     //sound.play();
     sound.setLoop(true);
-    while (window.isOpen()){
+    while (window.isOpen()) {
         while (window.pollEvent(event)){
             if (event.type == Event::Closed)
                 window.close();

@@ -1,5 +1,6 @@
 #ifndef SPACEINVADERS_MENU_H
 #define SPACEINVADERS_MENU_H
+#include "../Controller/MenuController.h"
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
@@ -31,6 +32,7 @@ private:
     Sprite sprShip;
     SoundBuffer buffer;
     Sound sound;
+
 };
 
 #endif //SPACEINVADERS_MENU_H

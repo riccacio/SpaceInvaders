@@ -1,21 +1,37 @@
 #include "Info.h"
 #include <SFML/Graphics.hpp>
+#include <iostream>
+
 
 using namespace sf;
 
 void Info::run(){
     RenderWindow window(VideoMode(1280, 1400), "Space Invaders");
+    if(!f1.loadFromFile("Font/arcade.TTF")){
+        std::cout << ("ERROR: font not found!") << std::endl;
+        window.close();
+    }
+    if(!aliensT[0].loadFromFile("Sprite/mystery.png")){
+        std::cout << ("ERROR: sprite not found!") << std::endl;
+        window.close();
+    }
+    if(!aliensT[1].loadFromFile("Sprite/alien1_0.png")){
+        std::cout << ("ERROR: sprite not found!") << std::endl;
+        window.close();
+    }
+    if(!aliensT[2].loadFromFile("Sprite/alien2_0.png")){
+        std::cout << ("ERROR: sprite not found!") << std::endl;
+        window.close();
+    }
+    if(!aliensT[3].loadFromFile("Sprite/alien3_0.png")){
+        std::cout << ("ERROR: sprite not found!") << std::endl;
+        window.close();
+    }
     while (window.isOpen()){
         while (window.pollEvent(event)){
             if (event.type == Event::Closed)
                 window.close();
         }
-        //TODO manage loading error
-        f1.loadFromFile("Font/ARCADE_N.TTF");
-        mystT.loadFromFile("Sprite/mystery.png");
-        alien1T.loadFromFile("Sprite/alien1_0.png");
-        alien2T.loadFromFile("Sprite/alien2_0.png");
-        alien3T.loadFromFile("Sprite/alien3_0.png");
 
         title.setFont(f1);
         shot.setFont(f1);
@@ -37,15 +53,15 @@ void Info::run(){
         alien3.setString("= 10 POINTS");
         back.setString("PRESS B TO BACK TO MENU");
 
-        mystS.setTexture(mystT);
-        alien1S.setTexture(alien1T);
-        alien2S.setTexture(alien2T);
-        alien3S.setTexture(alien3T);
+        aliensS[0].setTexture(aliensT[0]);
+        aliensS[1].setTexture(aliensT[1]);
+        aliensS[2].setTexture(aliensT[2]);
+        aliensS[3].setTexture(aliensT[3]);
 
-        mystS.setScale(5,5);
-        alien1S.setScale(4,4);
-        alien2S.setScale(4,4);
-        alien3S.setScale(4,4);
+        aliensS[0].setScale(5,5);
+        aliensS[1].setScale(4,4);
+        aliensS[2].setScale(4,4);
+        aliensS[3].setScale(4,4);
 
         title.setFillColor(Color::White);
         shot.setFillColor(Color::White);
@@ -74,13 +90,13 @@ void Info::run(){
         left.setPosition(297,440);
         right.setPosition(297,550);
         myst.setPosition(520,660);
-        mystS.setPosition(320,650);
+        aliensS[0].setPosition(320,650);
         alien1.setPosition(520,780);
-        alien1S.setPosition(330,750);
+        aliensS[1].setPosition(330,750);
         alien2.setPosition(520,900);
-        alien2S.setPosition(330,870);
+        aliensS[2].setPosition(330,870);
         alien3.setPosition(520,1010);
-        alien3S.setPosition(340,980);
+        aliensS[3].setPosition(340,980);
 
         window.clear();
         window.draw(title);
@@ -88,19 +104,19 @@ void Info::run(){
         window.draw(left);
         window.draw(right);
         window.draw(myst);
-        window.draw(mystS);
+        window.draw(aliensS[0]);
         window.draw(alien1);
-        window.draw(alien1S);
+        window.draw(aliensS[1]);
         window.draw(alien2);
-        window.draw(alien2S);
+        window.draw(aliensS[2]);
         window.draw(alien3);
-        window.draw(alien3S);
+        window.draw(aliensS[3]);
         window.draw(back);
         window.display();
     }
 }
 
-void Info::centerText(Text& text, int height){
+void Info::centerText(Text& text, float height){
     FloatRect textRect = text.getLocalBounds();
     text.setOrigin(textRect.left + textRect.width/2.0f,textRect.top  + textRect.height/2.0f);
     text.setPosition(Vector2f(1280/2.0f, height));

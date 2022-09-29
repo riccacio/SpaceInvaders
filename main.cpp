@@ -3,9 +3,7 @@
 #include "View/Info.h"
 
 int main() {
-    /*unique_ptr<Menu> menu(new Menu);
-    menu->run();*/
-    unique_ptr<Info> info(new Info);
-    info->run();
+    unique_ptr<Menu> menu(new Menu);
+    menu->run();
     return 0;
 }
