@@ -14,9 +14,9 @@ public:
     static const int HEIGHT = 1400;
     //Constructor & Destructor
     Menu();
-    virtual ~Menu();
 
     //functions
+    const bool running() const;
     void pollEvents();
     void update();
     void render();
@@ -27,7 +27,7 @@ private:
     //Private functions
     void initVariables();
     void initWindow();
-    const bool running() const;
+
 
     //Variables
     unique_ptr<RenderWindow> window;
