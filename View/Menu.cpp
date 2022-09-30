@@ -1,4 +1,5 @@
 #include "Menu.h"
+#include "../View/Info.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <unistd.h>
@@ -6,37 +7,87 @@
 
 using namespace sf;
 
-Menu::Menu():record(6223), i(0),event(), mc(new MenuController){}
+Menu::Menu():record(6223), i(0),event(){
+    this->initVariables();
+    this->initWindow();
+}
+//Private functions
+void Menu::initVariables() {
+    this->window = nullptr;
+
+}
+void Menu::initWindow() {
+    this->videoMode.height = HEIGHT;
+    this->videoMode.width = WIDTH;
+    this->window = make_unique<RenderWindow>(new RenderWindow(this->videoMode, "Space Invaders", Style::Titlebar | Style::Close));
+}
+
+const bool Menu::running() const {
+    return this->window->isOpen();
+}
+
+//Functions
+void Menu::pollEvents() {
+    //Event polling
+    while (this->window->pollEvent(this->event)){
+        switch (this->event.type){
+            case Event::Closed:
+                this->window->close();
+                break;
+            case Event::KeyPressed:
+                if(event.key.code == Keyboard::Escape){
+                    this->window->close();
+                }
+                if(event.key.code == Keyboard::H){
+                    unique_ptr<Info> info(new Info);
+                    info->run();
+                }
+                break;
+        }
+    }
+}
+
+void Menu::update(){
+    this->pollEvents();
+}
+void Menu::render() {
+    this->window->clear();
+
+    //Draw here
+
+    this->window->display();
+}
 
 void Menu::run(){
-    RenderWindow window(VideoMode(WIDTH, HEIGHT), "Space Invaders");
+    //Menu loop
+    while(running()){
+        //Update
+        update();
+        //Render
+        render();
+    }
+    /*
     if(!buffer.loadFromFile("Sound/menu.wav")){
         std::cout << ("ERROR: sound not found!") << std::endl;
         window.close();
+        exit(EXIT_SUCCESS);
     }
     if(!f1.loadFromFile("Font/arcade.TTF")){
         std::cout << ("ERROR: font not found!") << std::endl;
         window.close();
+        exit(EXIT_SUCCESS);
     }
     if(!texShip.loadFromFile("Sprite/ship.png")){
         std::cout << ("ERROR: sprite ship not found!") << std::endl;
         window.close();
+        exit(EXIT_SUCCESS);
     }
 
     sound.setBuffer(buffer);
     //sound.play();
     sound.setLoop(true);
 
-    while (window.isOpen()) {
-        mc->keyPressed();
-        while (window.pollEvent(event)){
-            if (event.type == Event::Closed){
-                window.close();
-                exit(EXIT_SUCCESS);
-            }
-            //FIXME don't work
-            mc->keyPressed();
-        }
+    while (running()) {
         title.setFont(f1);
         text.setFont(f1);
         info.setFont(f1);
@@ -94,6 +145,7 @@ void Menu::run(){
         window.draw(sprShip);
         window.display();
     }
+*/
 }
 
 void Menu::centerText(Text& text, float height){
