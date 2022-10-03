@@ -1,12 +1,11 @@
-#ifndef SPACEINVADERS_MENU_H
-#define SPACEINVADERS_MENU_H
+#ifndef MENU_H
+#define MENU_H
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <sstream>
 
 using namespace sf;
-using namespace std;
 
 class Menu{
 public:
@@ -14,9 +13,10 @@ public:
     static const int HEIGHT = 1400;
     //Constructor & Destructor
     Menu();
+    ~Menu() = default;
 
     //functions
-    const bool running() const;
+    bool running() const;
     void pollEvents();
     void update();
     void render();
@@ -28,9 +28,8 @@ private:
     void initVariables();
     void initWindow();
 
-
     //Variables
-    unique_ptr<RenderWindow> window;
+    std::unique_ptr<RenderWindow> window;
     VideoMode videoMode;
     Event event;
 
@@ -48,4 +47,4 @@ private:
     int i;
 };
 
-#endif //SPACEINVADERS_MENU_H
+#endif // MENU_H
