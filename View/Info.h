@@ -6,11 +6,8 @@ using namespace sf;
 
 class Info {
 public:
-    static const int WIDTH = 1280;
-    static const int HEIGHT = 1400;
     //Constructor & Destructor
     Info();
-    ~Info() = default;
 
     //functions
     bool running() const;
@@ -18,8 +15,12 @@ public:
     void update();
     void render();
     void run();
-    static void centerText(Text& text, float height);
+    static void centerItem(Text& text, float height);
 private:
+    //Constants
+    static const int WIDTH = 1280;
+    static const int HEIGHT = 1400;
+
     //Private functions
     void initVariables();
     void initWindow();
@@ -29,7 +30,7 @@ private:
     VideoMode videoMode;
     Event event;
 
-    Font f1;
+    Font f;
     Text title;
     Text shot;
     Text left;

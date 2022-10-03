@@ -1,4 +1,5 @@
 #include "Info.h"
+#include "Menu.h"
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
@@ -46,7 +47,7 @@ void Info::update(){
     this->pollEvents();
 }
 void Info::render(){
-    if(!f1.loadFromFile("Font/arcade.TTF")){
+    if(!f.loadFromFile("Font/arcade.TTF")){
         std::cout << ("ERROR: font not found!") << std::endl;
         this->window->close();
     }
@@ -67,15 +68,15 @@ void Info::render(){
         this->window->close();
     }
 
-    title.setFont(f1);
-    shot.setFont(f1);
-    left.setFont(f1);
-    right.setFont(f1);
-    myst.setFont(f1);
-    alien1.setFont(f1);
-    alien2.setFont(f1);
-    alien3.setFont(f1);
-    back.setFont(f1);
+    title.setFont(f);
+    shot.setFont(f);
+    left.setFont(f);
+    right.setFont(f);
+    myst.setFont(f);
+    alien1.setFont(f);
+    alien2.setFont(f);
+    alien3.setFont(f);
+    back.setFont(f);
 
     title.setString("HOW TO PLAY");
     shot.setString("SHOT = PRESS SPACE");
@@ -117,9 +118,9 @@ void Info::render(){
     alien3.setCharacterSize(40);
     back.setCharacterSize(30);
 
-    centerText(title, 150);
-    centerText(shot, 350);
-    centerText(back, 1200);
+    centerItem(title, 150);
+    centerItem(shot, 350);
+    centerItem(back, 1200);
 
     left.setPosition(297,440);
     right.setPosition(297,550);
@@ -159,7 +160,7 @@ void Info::run(){
     }
 }
 
-void Info::centerText(Text& text, float height){
+void Info::centerItem(Text& text, float height){
     FloatRect textRect = text.getLocalBounds();
     text.setOrigin(textRect.left + textRect.width/2.0f,textRect.top  + textRect.height/2.0f);
     text.setPosition(Vector2f(1280/2.0f, height));

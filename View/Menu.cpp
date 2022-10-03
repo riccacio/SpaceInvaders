@@ -2,6 +2,7 @@
 #include "../View/Info.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
+#include <unistd.h>
 #include <memory>
 #include <sstream>
 
@@ -39,7 +40,8 @@ void Menu::pollEvents() {
                 if(event.key.code == Keyboard::Escape){
                     this->window->close();
                 }
-                if(event.key.code == Keyboard::H){
+                else if(event.key.code == Keyboard::H){
+                    this->window->setVisible(false);
                     std::unique_ptr<Info> info(new Info);
                     info->run();
                 }
@@ -54,30 +56,20 @@ void Menu::update(){
     this->pollEvents();
 }
 void Menu::render() {
-    if(!buffer.loadFromFile("Sound/menu.wav")){
-        std::cout << ("ERROR: sound not found!") << std::endl;
-        this->window->close();
-        exit(EXIT_SUCCESS);
-    }
-    if(!f1.loadFromFile("Font/arcade.TTF")){
+    if(!f.loadFromFile("Font/arcade.TTF")){
         std::cout << ("ERROR: font not found!") << std::endl;
         this->window->close();
-        exit(EXIT_SUCCESS);
     }
     if(!texShip.loadFromFile("Sprite/ship.png")){
         std::cout << ("ERROR: sprite ship not found!") << std::endl;
         this->window->close();
-        exit(EXIT_SUCCESS);
     }
 
-    sound.setBuffer(buffer);
-    //sound.play();
-    sound.setLoop(true);
-    title.setFont(f1);
-    text.setFont(f1);
-    info.setFont(f1);
-    hiScore.setFont(f1);
-    recordText.setFont(f1);
+    title.setFont(f);
+    text.setFont(f);
+    info.setFont(f);
+    hiScore.setFont(f);
+    recordText.setFont(f);
 
     title.setString("SPACE INVADERS");
     text.setString("PRESS SPACE TO START");
@@ -100,10 +92,10 @@ void Menu::render() {
     hiScore.setCharacterSize(32);
     recordText.setCharacterSize(32);
 
-    centerText(title, 370);
-    centerText(info, 550);
-    centerText(text, 750);
-    centerSprite(sprShip, 950);
+    centerItem(title, 370);
+    centerItem(info, 550);
+    centerItem(text, 750);
+    centerItem(sprShip, 950);
 
     hiScore.setPosition(30,20);
     recordText.setPosition(310,20);
@@ -112,6 +104,7 @@ void Menu::render() {
     sprShip.setScale(7,7);
 
     //flashing text
+    usleep(100000); // 1 sec
     if(i==0){
         text.setFillColor(Color::White);
         i=1;
@@ -131,6 +124,7 @@ void Menu::render() {
 }
 
 void Menu::run(){
+    music();
     //Menu loop
     while(running()){
         //Update
@@ -140,13 +134,22 @@ void Menu::run(){
     }
 }
 
-void Menu::centerText(Text& text, float height){
+void Menu::centerItem(Text& text, float height){
     FloatRect textRect = text.getLocalBounds();
     text.setOrigin(textRect.left + textRect.width/2.0f,textRect.top  + textRect.height/2.0f);
     text.setPosition(Vector2f(WIDTH/2.0f, height));
 }
-void Menu::centerSprite(Sprite& sprite, float height){
+void Menu::centerItem(Sprite& sprite, float height){
     FloatRect textRect = sprite.getLocalBounds();
     sprite.setOrigin(textRect.left + textRect.width/2.0f,textRect.top  + textRect.height/2.0f);
     sprite.setPosition(Vector2f(WIDTH/2.0f, height));
+}
+void Menu::music(){
+    if(!buffer.loadFromFile("Sound/menu.wav")){
+        std::cout << ("ERROR: sound not found!") << std::endl;
+        this->window->close();
+    }
+    sound.setBuffer(buffer);
+    sound.play();
+    sound.setLoop(true);
 }
