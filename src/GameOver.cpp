@@ -1,11 +1,10 @@
 #include "../include/GameOver.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
-#include <unistd.h>
 
 using namespace sf;
 
-GameOver::GameOver(){
+GameOver::GameOver():event(){
     this->initVariables();
     this->initWindow();
 }
@@ -13,7 +12,9 @@ GameOver::GameOver(){
 //Private functions
 void GameOver::initVariables() {
     this->window = nullptr;
-
+    close=false;
+    for (int i = 0; i<=9; i++)
+        text.emplace_back();
 }
 void GameOver::initWindow() {
     this->videoMode.height = HEIGHT;
@@ -53,57 +54,55 @@ void GameOver::render(){
         std::cout << ("ERROR: font not found!") << std::endl;
         this->window->close();
     }
-    int posx=0;
-    title[0].setString("G");
-    title[1].setString("A");
-    title[2].setString("M");
-    title[3].setString("E");
-    title[4].setString(" ");
-    title[5].setString("O");
-    title[6].setString("V");
-    title[7].setString("E");
-    title[8].setString("R");
-    for(int i=0; i<9; i++,posx+=100){
-        title[i].setFont(f);
-        title[i].setFillColor(Color::White);
-        title[i].setCharacterSize(70);
-        title[i].setPosition(200+posx,370);
+
+    int posX=0;
+    text[0].setString("G");
+    text[1].setString("A");
+    text[2].setString("M");
+    text[3].setString("E");
+    text[4].setString(" ");
+    text[5].setString("O");
+    text[6].setString("V");
+    text[7].setString("E");
+    text[8].setString("R");
+    for(int i=0; i<text.size(); i++,posX+=100){
+        text[i].setFont(f);
+        text[i].setFillColor(Color::White);
+        text[i].setCharacterSize(70);
+        text[i].setPosition(200+(float)posX,570);
     }
 
     //FIXME resolve sleep and stamp game over
-    //sleep(milliseconds(1000));
-    sleep(milliseconds(100)); // 0.1sec
-    int i;
-    if(i==0){
-        title[0].setFillColor(Color::White);
-        i=1;
-    }
-    else{
-        title[0].setFillColor(Color::Black);
-        i=0;
-    }
-    this->window->clear();
-
-    for(int i=0; i<9; i++){
-        this->window->draw(title[i]);
+    for(int i=0; i<text.size(); i++){
+        for(int j=0;j<i+1;j++){
+            this->window->draw(text[j]);
+        }
+        sleep(milliseconds(200));
+        this->window->display();
     }
     this->window->display();
+    sleep(milliseconds(4000));
+    close=true;
+
+    //TODO
+    /*
+     * da sistemare la chiusura di game over
+     * guardare la condizione di uscita
+     * cercare di stampare la scritta e far chiudere la finestra
+     * di gameover in automatico
+     */
+
 }
 
 void GameOver::run(){
     music();
     //Menu loop
-    while(running()){
+    while(!close){
         //Update
         update();
         //Render
         render();
     }
-}
-void GameOver::centerItem(Text& text, float height){
-    FloatRect textRect = text.getLocalBounds();
-    text.setOrigin(textRect.left + textRect.width/2.0f,textRect.top  + textRect.height/2.0f);
-    text.setPosition(Vector2f(WIDTH/2.0f, height));
 }
 void GameOver::music(){
     if(!buffer.loadFromFile("Sound/game_over.wav")){
@@ -112,4 +111,9 @@ void GameOver::music(){
     }
     sound.setBuffer(buffer);
     sound.play();
+}
+void GameOver::centerItem(Text& text, float height){
+    FloatRect textRect = text.getLocalBounds();
+    text.setOrigin(textRect.left + textRect.width/2.0f,textRect.top  + textRect.height/2.0f);
+    text.setPosition(Vector2f(WIDTH/2.0f, height));
 }

@@ -18,8 +18,8 @@ public:
     void update();
     void render();
     void run();
-    static void centerItem(Text& text, float height);
     void music();
+    static void centerItem(Text& text, float height);
 private:
     //Constants
     static const int WIDTH = 1280;
@@ -34,9 +34,12 @@ private:
     Event event;
 
     Font f;
-    Text title[9];
+    std::vector<Text> text = {};
+    Text title;
     SoundBuffer buffer;
     Sound sound;
+
+    bool close;
 };
 
 #endif //GAMEOVER_H

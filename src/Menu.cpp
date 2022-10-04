@@ -124,7 +124,7 @@ void Menu::render() {
 }
 
 void Menu::run(){
-    music();
+    //music();
     //Menu loop
     while(running()){
         //Update
