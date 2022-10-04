@@ -3,8 +3,6 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <unistd.h>
-#include <memory>
-#include <sstream>
 
 using namespace sf;
 
