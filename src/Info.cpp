@@ -1,4 +1,4 @@
-#include "Info.h"
+#include "../include/Info.h"
 #include <SFML/Graphics.hpp>
 #include <iostream>
 

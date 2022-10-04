@@ -1,8 +1,8 @@
-#include "Menu.h"
-#include "../View/Info.h"
+#include "../include/Menu.h"
+#include "../include/Info.h"
+#include "../include/GameOver.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
-#include <unistd.h>
 
 using namespace sf;
 
@@ -40,8 +40,10 @@ void Menu::pollEvents() {
                 }
                 else if(event.key.code == Keyboard::H){
                     this->window->setVisible(false);
-                    std::unique_ptr<Info> info(new Info);
-                    info->run();
+                    /*std::unique_ptr<Info> info(new Info);
+                    info->run();*/
+                    std::unique_ptr<GameOver> gameOver(new GameOver);
+                    gameOver->run();
                 }
                 break;
             default:
@@ -102,7 +104,7 @@ void Menu::render() {
     sprShip.setScale(7,7);
 
     //flashing text
-    usleep(100000); // 1 sec
+    sleep(milliseconds(100)); // 0.1sec
     if(i==0){
         text.setFillColor(Color::White);
         i=1;
