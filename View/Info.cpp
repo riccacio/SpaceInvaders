@@ -1,5 +1,4 @@
 #include "Info.h"
-#include "Menu.h"
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
@@ -33,9 +32,10 @@ void Info::pollEvents() {
                 this->window->close();
                 break;
             case Event::KeyPressed:
-                if(event.key.code == Keyboard::B){
+                if (event.key.code == Keyboard::Escape) {
                     this->window->close();
-                }
+                }else if (event.key.code == Keyboard::B)
+                    this->window->close();
                 break;
             default:
                 break;
