@@ -1,6 +1,5 @@
 #include "../include/Menu.h"
 #include "../include/Info.h"
-#include "../include/GameOver.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 
@@ -40,10 +39,8 @@ void Menu::pollEvents() {
                 }
                 else if(event.key.code == Keyboard::H){
                     this->window->setVisible(false);
-                    /*std::unique_ptr<Info> info(new Info);
-                    info->run();*/
-                    std::unique_ptr<GameOver> gameOver(new GameOver);
-                    gameOver->run();
+                    std::unique_ptr<Info> info(new Info);
+                    info->run();
                 }
                 break;
             default:
@@ -124,7 +121,7 @@ void Menu::render() {
 }
 
 void Menu::run(){
-    //music();
+    music();
     //Menu loop
     while(running()){
         //Update

@@ -40,6 +40,13 @@ private:
     Text alien2;
     Text alien3;
     Text back;
+    /*TODO riscrivere gli array in questo modo:
+     * "std::vector<Text> text = {}"
+     * nel .cpp dentro "initVariables()":
+     * "for (int i = 0; i<=9; i++)
+     *      text.emplace_back();"
+     *
+     */
     Texture aliensT[4];
     Sprite aliensS[4];
 };

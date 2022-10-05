@@ -2,7 +2,6 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
-
 using namespace sf;
 
 Info::Info(){
@@ -88,6 +87,7 @@ void Info::render(){
     alien3.setString("= 10 POINTS");
     back.setString("PRESS B TO BACK TO MENU");
 
+    //TODO ciclo for
     aliensS[0].setTexture(aliensT[0]);
     aliensS[1].setTexture(aliensT[1]);
     aliensS[2].setTexture(aliensT[2]);

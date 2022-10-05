@@ -32,14 +32,12 @@ private:
     std::unique_ptr<RenderWindow> window;
     VideoMode videoMode;
     Event event;
-
     Font f;
-    std::vector<Text> text = {};
-    Text title;
+    Text text;
+    Text exit;
     SoundBuffer buffer;
     Sound sound;
-
-    bool close;
+    int i;
 };
 
 #endif //GAMEOVER_H

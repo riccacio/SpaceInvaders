@@ -4,7 +4,7 @@
 
 using namespace sf;
 
-GameOver::GameOver():event(){
+GameOver::GameOver():event(), i(0){
     this->initVariables();
     this->initWindow();
 }
@@ -12,9 +12,6 @@ GameOver::GameOver():event(){
 //Private functions
 void GameOver::initVariables() {
     this->window = nullptr;
-    close=false;
-    for (int i = 0; i<=9; i++)
-        text.emplace_back();
 }
 void GameOver::initWindow() {
     this->videoMode.height = HEIGHT;
@@ -54,50 +51,34 @@ void GameOver::render(){
         std::cout << ("ERROR: font not found!") << std::endl;
         this->window->close();
     }
-
-    int posX=0;
-    text[0].setString("G");
-    text[1].setString("A");
-    text[2].setString("M");
-    text[3].setString("E");
-    text[4].setString(" ");
-    text[5].setString("O");
-    text[6].setString("V");
-    text[7].setString("E");
-    text[8].setString("R");
-    for(int i=0; i<text.size(); i++,posX+=100){
-        text[i].setFont(f);
-        text[i].setFillColor(Color::White);
-        text[i].setCharacterSize(70);
-        text[i].setPosition(200+(float)posX,570);
+    text.setString("G A M E  O V E R");
+    exit.setString("PRESS ESC TO EXIT");
+    text.setFont(f);
+    exit.setFont(f);
+    text.setFillColor(Color::White);
+    sleep(milliseconds(250)); // 0.25sec
+    if(i==0){
+        exit.setFillColor(Color::Green);
+        i=1;
+    }
+    else{
+        exit.setFillColor(Color::Black);
+        i=0;
     }
 
-    //FIXME resolve sleep and stamp game over
-    for(int i=0; i<text.size(); i++){
-        for(int j=0;j<i+1;j++){
-            this->window->draw(text[j]);
-        }
-        sleep(milliseconds(200));
-        this->window->display();
-    }
+    text.setCharacterSize(70);
+    exit.setCharacterSize(30);
+    centerItem(text, 570);
+    centerItem(exit, 1200);
+    this->window->draw(text);
+    this->window->draw(exit);
     this->window->display();
-    sleep(milliseconds(4000));
-    close=true;
-
-    //TODO
-    /*
-     * da sistemare la chiusura di game over
-     * guardare la condizione di uscita
-     * cercare di stampare la scritta e far chiudere la finestra
-     * di gameover in automatico
-     */
-
 }
 
 void GameOver::run(){
     music();
     //Menu loop
-    while(!close){
+    while(running()){
         //Update
         update();
         //Render
