@@ -1,10 +1,7 @@
 #include "../include/MainWindow.h"
 #include <SFML/Graphics.hpp>
 
-MainWindow::MainWindow():event(){
-    this->initVariables();
-    this->initWindow();
-}
+MainWindow::MainWindow():event() {}
 
 //Private functions
 void MainWindow::initVariables() {
@@ -50,5 +47,15 @@ void MainWindow::run(){
         //Render
         render();
     }
+}
+void MainWindow::centerItem(Text& text, float height){
+    FloatRect textRect = text.getLocalBounds();
+    text.setOrigin(textRect.left + textRect.width/2.0f,textRect.top  + textRect.height/2.0f);
+    text.setPosition(Vector2f(WIDTH/2.0f, height));
+}
+void MainWindow::centerItem(Sprite& sprite, float height){
+    FloatRect textRect = sprite.getLocalBounds();
+    sprite.setOrigin(textRect.left + textRect.width/2.0f,textRect.top  + textRect.height/2.0f);
+    sprite.setPosition(Vector2f(WIDTH/2.0f, height));
 }
 

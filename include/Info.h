@@ -11,10 +11,9 @@ public:
     Info();
     ~Info() = default;
 
-    //functions
+    //Functions
     void pollEvents() override;
     void render() override;
-    static void centerItem(Text& text, float height);
 private:
     //Function
     void initVariables() override;
@@ -22,15 +21,7 @@ private:
 
     //Variables
     Font f;
-    Text title;
-    Text shot;
-    Text left;
-    Text right;
-    Text myst;
-    Text alien1;
-    Text alien2;
-    Text alien3;
-    Text back;
+    std::vector<Text> graphicText = {};
     std::vector<Texture> aliensT = {};
     std::vector<Sprite> aliensS = {};
 };

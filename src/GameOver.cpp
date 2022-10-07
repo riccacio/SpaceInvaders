@@ -4,48 +4,11 @@
 
 using namespace sf;
 
-GameOver::GameOver():event(), i(0){
-    this->initVariables();
+GameOver::GameOver():i(0){
     this->initWindow();
 }
 
-//Private functions
-void GameOver::initVariables() {
-    this->window = nullptr;
-}
-void GameOver::initWindow() {
-    this->videoMode.height = HEIGHT;
-    this->videoMode.width = WIDTH;
-    this->window = std::make_unique<RenderWindow>(this->videoMode, "Space Invaders - Game Over", Style::Titlebar | Style::Close);
-}
-
 //Functions
-bool GameOver::running() const {
-    return this->window->isOpen();
-}
-
-void GameOver::pollEvents() {
-    //Event polling
-    while (this->window->pollEvent(this->event)){
-        switch (this->event.type){
-            case Event::Closed:
-                this->window->close();
-                break;
-            case Event::KeyPressed:
-                if(event.key.code == Keyboard::Escape){
-                    this->window->close();
-                }
-                break;
-            default:
-                break;
-        }
-    }
-}
-
-void GameOver::update(){
-    this->pollEvents();
-}
-
 void GameOver::render(){
     if(!f.loadFromFile("Font/arcade.TTF")) {
         std::cout << ("ERROR: font not found!") << std::endl;
@@ -77,7 +40,6 @@ void GameOver::render(){
 
 void GameOver::run(){
     music();
-    //Menu loop
     while(running()){
         //Update
         update();
@@ -92,9 +54,4 @@ void GameOver::music(){
     }
     sound.setBuffer(buffer);
     sound.play();
-}
-void GameOver::centerItem(Text& text, float height){
-    FloatRect textRect = text.getLocalBounds();
-    text.setOrigin(textRect.left + textRect.width/2.0f,textRect.top  + textRect.height/2.0f);
-    text.setPosition(Vector2f(WIDTH/2.0f, height));
 }

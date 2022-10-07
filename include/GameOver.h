@@ -1,37 +1,23 @@
 #ifndef GAMEOVER_H
 #define GAMEOVER_H
-#include <iostream>
+#include "../include/MainWindow.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
-#include <sstream>
 
 using namespace sf;
 
-class GameOver {
+class GameOver: public MainWindow {
 public:
-    //Constructor
+    //Constructor & Destructor
     GameOver();
+    ~GameOver() = default;
 
     //Functions
-    bool running() const;
-    void pollEvents();
-    void update();
-    void render();
-    void run();
+    void render() override;
+    void run() override;
     void music();
-    static void centerItem(Text& text, float height);
 private:
-    //Constants
-    static const int WIDTH = 1280;
-    static const int HEIGHT = 1400;
-    //Private functions
-    void initVariables();
-    void initWindow();
-
     //Variables
-    std::unique_ptr<RenderWindow> window;
-    VideoMode videoMode;
-    Event event;
     Font f;
     Text text;
     Text exit;

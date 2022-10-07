@@ -25,8 +25,9 @@ void Menu::pollEvents() {
                     std::unique_ptr<Info> info(new Info);
                     info->run();
                 }
-                else if (event.key.code == Keyboard::Space)
+                else if (event.key.code == Keyboard::Space){
                     this->window->close();
+                }
             default:
                 break;
         }
@@ -109,17 +110,6 @@ void Menu::run(){
         //Render
         render();
     }
-}
-
-void Menu::centerItem(Text& text, float height){
-    FloatRect textRect = text.getLocalBounds();
-    text.setOrigin(textRect.left + textRect.width/2.0f,textRect.top  + textRect.height/2.0f);
-    text.setPosition(Vector2f(WIDTH/2.0f, height));
-}
-void Menu::centerItem(Sprite& sprite, float height){
-    FloatRect textRect = sprite.getLocalBounds();
-    sprite.setOrigin(textRect.left + textRect.width/2.0f,textRect.top  + textRect.height/2.0f);
-    sprite.setPosition(Vector2f(WIDTH/2.0f, height));
 }
 void Menu::music(){
     if(!buffer.loadFromFile("Sound/menu.wav")){

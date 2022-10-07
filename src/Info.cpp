@@ -16,6 +16,8 @@ void Info::initVariables() {
         aliensT.emplace_back();
         aliensS.emplace_back();
     }
+    for (int i = 0; i<=9; i++)
+        graphicText.emplace_back();
 }
 void Info::initWindow() {
     this->videoMode.height = HEIGHT;
@@ -64,86 +66,52 @@ void Info::render() {
         this->window->close();
     }
 
-    title.setFont(f);
-    shot.setFont(f);
-    left.setFont(f);
-    right.setFont(f);
-    myst.setFont(f);
-    alien1.setFont(f);
-    alien2.setFont(f);
-    alien3.setFont(f);
-    back.setFont(f);
+    for(int i=0; i<9; i++)
+        graphicText[i].setFont(f);
 
-    title.setString("HOW TO PLAY");
-    shot.setString("SHOT = PRESS SPACE");
-    left.setString("LEFT = LEFT ARROW");
-    right.setString("RIGHT = RIGHT ARROW");
-    myst.setString("= ? MYSTERY");
-    alien1.setString("= 30 POINTS");
-    alien2.setString("= 20 POINTS");
-    alien3.setString("= 10 POINTS");
-    back.setString("PRESS B TO BACK TO MENU");
+    graphicText[0].setString("HOW TO PLAY"); // title
+    graphicText[1].setString("SHOT = PRESS SPACE"); // shot
+    graphicText[2].setString("LEFT = LEFT ARROW"); // left
+    graphicText[3].setString("RIGHT = RIGHT ARROW"); // right
+    graphicText[4].setString("= ? MYSTERY"); // mysterious
+    graphicText[5].setString("= 30 POINTS"); // alien1
+    graphicText[6].setString("= 20 POINTS"); // alien2
+    graphicText[7].setString("= 10 POINTS"); // alien3
+    graphicText[8].setString("PRESS B TO BACK TO MENU"); // back
 
-    //TODO ciclo for
     for (int i = 0; i < 4; i++) {
         aliensS[i].setTexture(aliensT[i]);
         aliensS[i].setScale(4, 4);
     }
+    for(int i=0; i<8; i++)
+        graphicText[i].setFillColor(Color::White);
+    graphicText[8].setFillColor(Color::Green);
 
-    title.setFillColor(Color::White);
-    shot.setFillColor(Color::White);
-    left.setFillColor(Color::White);
-    right.setFillColor(Color::White);
-    myst.setFillColor(Color::White);
-    alien1.setFillColor(Color::White);
-    alien2.setFillColor(Color::White);
-    alien3.setFillColor(Color::White);
-    back.setFillColor(Color::Green);
+    graphicText[0].setCharacterSize(55);
+    for(int i=1; i<8; i++)
+        graphicText[i].setCharacterSize(40);
 
-    title.setCharacterSize(55);
-    shot.setCharacterSize(40);
-    left.setCharacterSize(40);
-    right.setCharacterSize(40);
-    myst.setCharacterSize(40);
-    alien1.setCharacterSize(40);
-    alien2.setCharacterSize(40);
-    alien3.setCharacterSize(40);
-    back.setCharacterSize(30);
+    graphicText[8].setCharacterSize(30);
 
-    centerItem(title, 150);
-    centerItem(shot, 350);
-    centerItem(back, 1200);
+    centerItem(graphicText[0], 150);
+    centerItem(graphicText[1], 350);
+    centerItem(graphicText[8], 1200);
 
-    left.setPosition(297, 440);
-    right.setPosition(297, 550);
-    myst.setPosition(520, 660);
-    aliensS[0].setPosition(320, 650);
-    alien1.setPosition(520, 780);
+    graphicText[2].setPosition(297, 440);
+    graphicText[3].setPosition(297, 550);
+    graphicText[4].setPosition(520, 660);
+    aliensS[0].setPosition(330, 655);
+    graphicText[5].setPosition(520, 780);
     aliensS[1].setPosition(330, 750);
-    alien2.setPosition(520, 900);
+    graphicText[6].setPosition(520, 900);
     aliensS[2].setPosition(330, 870);
-    alien3.setPosition(520, 1010);
-    aliensS[3].setPosition(340, 980);
+    graphicText[7].setPosition(520, 1010);
+    aliensS[3].setPosition(330, 980);
 
     this->window->clear();
-    this->window->draw(title);
-    this->window->draw(shot);
-    this->window->draw(left);
-    this->window->draw(right);
-    this->window->draw(myst);
-    this->window->draw(aliensS[0]);
-    this->window->draw(alien1);
-    this->window->draw(aliensS[1]);
-    this->window->draw(alien2);
-    this->window->draw(aliensS[2]);
-    this->window->draw(alien3);
-    this->window->draw(aliensS[3]);
-    this->window->draw(back);
+    for(int i=0; i<4; i++)
+        this->window->draw(aliensS[i]);
+    for(int i=0; i<9; i++)
+        this->window->draw(graphicText[i]);
     this->window->display();
-}
-
-void Info::centerItem(Text& text, float height){
-    FloatRect textRect = text.getLocalBounds();
-    text.setOrigin(textRect.left + textRect.width/2.0f,textRect.top  + textRect.height/2.0f);
-    text.setPosition(Vector2f(1280/2.0f, height));
 }

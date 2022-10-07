@@ -7,15 +7,18 @@ using namespace sf;
 
 class MainWindow {
 public:
-    //Constructor and Destructor
+    //Constructor & Destructor
     MainWindow();
     ~MainWindow() = default;
 
+    //Functions
     [[nodiscard]] virtual bool running() const;
     virtual void pollEvents();
     virtual void update();
     virtual void render();
     virtual void run();
+    static void centerItem(Text& text, float height);
+    static void centerItem(Sprite& sprite, float height);
 protected:
     //Constants
     static const int WIDTH = 1280;

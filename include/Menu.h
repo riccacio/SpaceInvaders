@@ -18,8 +18,6 @@ public:
     void pollEvents() override;
     void render() override;
     void run() override;
-    static void centerItem(Text& text, float height);
-    static void centerItem(Sprite& sprite, float height);
     void music();
 private:
     //Variables
