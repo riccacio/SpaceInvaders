@@ -22,6 +22,7 @@ public:
 private:
     //Variables
     Font f;
+    //TODO vector text
     Text title;
     Text text;
     Text info;
