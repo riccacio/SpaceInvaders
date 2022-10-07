@@ -1,5 +1,6 @@
 #ifndef MENU_H
 #define MENU_H
+#include "../include/MainWindow.h"
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
@@ -7,33 +8,21 @@
 
 using namespace sf;
 
-class Menu{
+class Menu: public MainWindow{
 public:
-    //Constructor
+    //Constructor and Destructor
     Menu();
+    ~Menu() = default;
 
     //Functions
-    bool running() const;
-    void pollEvents();
-    void update();
-    void render();
-    void run();
+    void pollEvents() override;
+    void render() override;
+    void run() override;
     static void centerItem(Text& text, float height);
     static void centerItem(Sprite& sprite, float height);
     void music();
 private:
-    //Constants
-    static const int WIDTH = 1280;
-    static const int HEIGHT = 1400;
-    //Private functions
-    void initVariables();
-    void initWindow();
-
     //Variables
-    std::unique_ptr<RenderWindow> window;
-    VideoMode videoMode;
-    Event event;
-
     Font f;
     Text title;
     Text text;

@@ -12,15 +12,15 @@ Info::Info(){
 //Private functions
 void Info::initVariables() {
     this->window = nullptr;
+    for (int i = 0; i<=4; i++){
+        aliensT.emplace_back();
+        aliensS.emplace_back();
+    }
 }
 void Info::initWindow() {
     this->videoMode.height = HEIGHT;
     this->videoMode.width = WIDTH;
     this->window = std::make_unique<RenderWindow>(this->videoMode, "Space Invaders - Info", Style::Titlebar | Style::Close);
-}
-
-bool Info::running() const {
-    return this->window->isOpen();
 }
 
 void Info::pollEvents() {
@@ -42,27 +42,24 @@ void Info::pollEvents() {
     }
 }
 
-void Info::update(){
-    this->pollEvents();
-}
-void Info::render(){
-    if(!f.loadFromFile("Font/arcade.TTF")){
+void Info::render() {
+    if (!f.loadFromFile("Font/arcade.TTF")) {
         std::cout << ("ERROR: font not found!") << std::endl;
         this->window->close();
     }
-    if(!aliensT[0].loadFromFile("Sprite/mystery.png")){
+    if (!aliensT[0].loadFromFile("Sprite/mystery.png")) {
         std::cout << ("ERROR: sprite not found!") << std::endl;
         this->window->close();
     }
-    if(!aliensT[1].loadFromFile("Sprite/alien1_0.png")){
+    if (!aliensT[1].loadFromFile("Sprite/alien1_0.png")) {
         std::cout << ("ERROR: sprite not found!") << std::endl;
         this->window->close();
     }
-    if(!aliensT[2].loadFromFile("Sprite/alien2_0.png")){
+    if (!aliensT[2].loadFromFile("Sprite/alien2_0.png")) {
         std::cout << ("ERROR: sprite not found!") << std::endl;
         this->window->close();
     }
-    if(!aliensT[3].loadFromFile("Sprite/alien3_0.png")){
+    if (!aliensT[3].loadFromFile("Sprite/alien3_0.png")) {
         std::cout << ("ERROR: sprite not found!") << std::endl;
         this->window->close();
     }
@@ -88,15 +85,10 @@ void Info::render(){
     back.setString("PRESS B TO BACK TO MENU");
 
     //TODO ciclo for
-    aliensS[0].setTexture(aliensT[0]);
-    aliensS[1].setTexture(aliensT[1]);
-    aliensS[2].setTexture(aliensT[2]);
-    aliensS[3].setTexture(aliensT[3]);
-
-    aliensS[0].setScale(5,5);
-    aliensS[1].setScale(4,4);
-    aliensS[2].setScale(4,4);
-    aliensS[3].setScale(4,4);
+    for (int i = 0; i < 4; i++) {
+        aliensS[i].setTexture(aliensT[i]);
+        aliensS[i].setScale(4, 4);
+    }
 
     title.setFillColor(Color::White);
     shot.setFillColor(Color::White);
@@ -122,16 +114,16 @@ void Info::render(){
     centerItem(shot, 350);
     centerItem(back, 1200);
 
-    left.setPosition(297,440);
-    right.setPosition(297,550);
-    myst.setPosition(520,660);
-    aliensS[0].setPosition(320,650);
-    alien1.setPosition(520,780);
-    aliensS[1].setPosition(330,750);
-    alien2.setPosition(520,900);
-    aliensS[2].setPosition(330,870);
-    alien3.setPosition(520,1010);
-    aliensS[3].setPosition(340,980);
+    left.setPosition(297, 440);
+    right.setPosition(297, 550);
+    myst.setPosition(520, 660);
+    aliensS[0].setPosition(320, 650);
+    alien1.setPosition(520, 780);
+    aliensS[1].setPosition(330, 750);
+    alien2.setPosition(520, 900);
+    aliensS[2].setPosition(330, 870);
+    alien3.setPosition(520, 1010);
+    aliensS[3].setPosition(340, 980);
 
     this->window->clear();
     this->window->draw(title);
@@ -148,16 +140,6 @@ void Info::render(){
     this->window->draw(aliensS[3]);
     this->window->draw(back);
     this->window->display();
-}
-
-void Info::run(){
-    //Info loop
-    while(running()){
-        //Update
-        update();
-        //Render
-        render();
-    }
 }
 
 void Info::centerItem(Text& text, float height){

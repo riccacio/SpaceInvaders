@@ -5,27 +5,11 @@
 
 using namespace sf;
 
-Menu::Menu():record(6223), i(0),event(){
-    this->initVariables();
+Menu::Menu():record(6223), i(0){
     this->initWindow();
 }
 
-//Private functions
-void Menu::initVariables() {
-    this->window = nullptr;
-
-}
-void Menu::initWindow() {
-    this->videoMode.height = HEIGHT;
-    this->videoMode.width = WIDTH;
-    this->window = std::make_unique<RenderWindow>(this->videoMode, "Space Invaders", Style::Titlebar | Style::Close);
-}
-
 //Functions
-bool Menu::running() const {
-    return this->window->isOpen();
-}
-
 void Menu::pollEvents() {
     //Event polling
     while (this->window->pollEvent(this->event)){
@@ -38,20 +22,17 @@ void Menu::pollEvents() {
                     this->window->close();
                 }
                 else if(event.key.code == Keyboard::H){
-                    this->window->setVisible(false);
                     std::unique_ptr<Info> info(new Info);
                     info->run();
                 }
-                break;
+                else if (event.key.code == Keyboard::Space)
+                    this->window->close();
             default:
                 break;
         }
     }
 }
 
-void Menu::update(){
-    this->pollEvents();
-}
 void Menu::render() {
     if(!f.loadFromFile("Font/arcade.TTF")){
         std::cout << ("ERROR: font not found!") << std::endl;
@@ -119,7 +100,6 @@ void Menu::render() {
     this->window->draw(sprShip);
     this->window->display();
 }
-
 void Menu::run(){
     music();
     //Menu loop
