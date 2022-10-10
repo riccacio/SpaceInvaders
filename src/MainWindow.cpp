@@ -39,7 +39,9 @@ void MainWindow::pollEvents() {
 void MainWindow::update(){
     this->pollEvents();
 }
+
 void MainWindow::render(){}
+
 void MainWindow::run(){
     while(running()){
         //Update
@@ -48,11 +50,13 @@ void MainWindow::run(){
         render();
     }
 }
+
 void MainWindow::centerItem(Text& text, float height){
     FloatRect textRect = text.getLocalBounds();
     text.setOrigin(textRect.left + textRect.width/2.0f,textRect.top  + textRect.height/2.0f);
     text.setPosition(Vector2f(WIDTH/2.0f, height));
 }
+
 void MainWindow::centerItem(Sprite& sprite, float height){
     FloatRect textRect = sprite.getLocalBounds();
     sprite.setOrigin(textRect.left + textRect.width/2.0f,textRect.top  + textRect.height/2.0f);

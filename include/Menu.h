@@ -20,14 +20,11 @@ public:
     void run() override;
     void music();
 private:
+    void initVariables() override;
+
     //Variables
     Font f;
-    //TODO vector text
-    Text title;
-    Text text;
-    Text info;
-    Text hiScore;
-    Text recordText;
+    std::vector<Text> graphicText = {};
     Texture texShip;
     Sprite sprShip;
     SoundBuffer buffer;

@@ -10,7 +10,7 @@ GameOver::GameOver():i(0){
 
 //Functions
 void GameOver::render(){
-    if(!f.loadFromFile("Font/arcade.TTF")) {
+    if(!f.loadFromFile("font/arcade.TTF")) {
         std::cout << ("ERROR: font not found!") << std::endl;
         this->window->close();
     }
@@ -33,6 +33,7 @@ void GameOver::render(){
     exit.setCharacterSize(30);
     centerItem(text, 570);
     centerItem(exit, 1200);
+    this->window->clear();
     this->window->draw(text);
     this->window->draw(exit);
     this->window->display();
@@ -48,7 +49,7 @@ void GameOver::run(){
     }
 }
 void GameOver::music(){
-    if(!buffer.loadFromFile("Sound/game_over.wav")){
+    if(!buffer.loadFromFile("sound/game_over.wav")){
         std::cout << ("ERROR: sound not found!") << std::endl;
         this->window->close();
     }
