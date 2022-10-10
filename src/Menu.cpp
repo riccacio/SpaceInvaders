@@ -1,6 +1,6 @@
 #include "../include/Menu.h"
 #include "../include/Info.h"
-#include "../include/GameOver.h"
+#include "../include/Game.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 
@@ -26,21 +26,32 @@ void Menu::pollEvents() {
                 this->window->close();
                 break;
             case Event::KeyPressed:
-                if(event.key.code == Keyboard::Escape){
-                    this->window->close();
-                }
-                else if(event.key.code == Keyboard::H){
-                    std::unique_ptr<Info> info(new Info);
-                    info->run();
-                }
-                else if (event.key.code == Keyboard::Space){
-                    std::unique_ptr<GameOver> gm(new GameOver);
-                    gm->run();
-                    this->window->close();
-                }
+                checkEvent(event.key.code);
             default:
                 break;
         }
+    }
+}
+
+void Menu::checkEvent(auto& e){
+    switch (e) {
+        case Keyboard::Escape:
+            this->window->close();
+            break;
+        case Keyboard::H:{
+            std::unique_ptr<Info> info(new Info);
+            info->run();
+            break;
+        }
+        case Keyboard::Space:{
+            this->window->close();
+            sound.stop();
+            std::unique_ptr<Game> game(new Game);
+            game->run();
+            break;
+        }
+        default:
+            break;
     }
 }
 

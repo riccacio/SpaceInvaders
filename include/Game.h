@@ -1,5 +1,5 @@
-#ifndef MENU_H
-#define MENU_H
+#ifndef GAME_H
+#define GAME_H
 #include "../include/MainWindow.h"
 #include <iostream>
 #include <SFML/Graphics.hpp>
@@ -8,11 +8,11 @@
 
 using namespace sf;
 
-class Menu: public MainWindow{
+class Game: public MainWindow{
 public:
     //Constructor and Destructor
-    Menu();
-    ~Menu() = default;
+    Game();
+    ~Game() = default;
 
     //Functions
     void pollEvents() override;
@@ -25,13 +25,19 @@ private:
 
     //Variables
     Font f;
-    std::vector<Text> graphicText = {};
+    Text hiscore;
+    Text recordText;
+    Text scoreText;
+    Text scoreTextNum;
+    Text livesText;
     Texture texShip;
-    Sprite sprShip;
+    RectangleShape line;
+    std::vector<Sprite> sprShip = {};
     SoundBuffer buffer;
     Sound sound;
     int record;
-    int i;
+    int score;
+    int lives;
 };
 
-#endif // MENU_H
+#endif //GAME_H
