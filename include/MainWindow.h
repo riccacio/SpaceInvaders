@@ -6,6 +6,18 @@
 using namespace sf;
 
 class MainWindow {
+protected:
+    //Constants
+    static const int WIDTH = 1280;
+    static const int HEIGHT = 1400;
+
+    //Private functions
+    virtual void initVariables();
+    virtual void initWindow();
+
+    std::unique_ptr<RenderWindow> window;
+    VideoMode videoMode;
+    Event event;
 public:
     //Constructor & Destructor
     MainWindow();
@@ -19,18 +31,6 @@ public:
     virtual void run();
     static void centerItem(Text& text, float height);
     static void centerItem(Sprite& sprite, float height);
-protected:
-    //Constants
-    static const int WIDTH = 1280;
-    static const int HEIGHT = 1400;
-
-    //Private functions
-    virtual void initVariables();
-    virtual void initWindow();
-
-    std::unique_ptr<RenderWindow> window;
-    VideoMode videoMode;
-    Event event;
 };
 
 #endif //MAINWINDOW_H

@@ -6,14 +6,6 @@
 using namespace sf;
 
 class Info: public MainWindow {
-public:
-    //Constructor & Destructor
-    Info();
-    ~Info() = default;
-
-    //Functions
-    void pollEvents() override;
-    void render() override;
 private:
     //Function
     void initVariables() override;
@@ -23,6 +15,14 @@ private:
     std::vector<Text> graphicText = {};
     std::vector<Texture> aliensT = {};
     std::vector<Sprite> aliensS = {};
+public:
+    //Constructor & Destructor
+    Info();
+    ~Info() = default;
+
+    //Functions
+    void pollEvents() override;
+    void render() override;
 };
 
 #endif //INFO_H

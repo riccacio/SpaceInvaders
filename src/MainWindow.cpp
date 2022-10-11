@@ -12,6 +12,7 @@ void MainWindow::initWindow() {
     this->videoMode.height = HEIGHT;
     this->videoMode.width = WIDTH;
     this->window = std::make_unique<RenderWindow>(this->videoMode, "Space Invaders", Style::Titlebar | Style::Close);
+    this->window->setFramerateLimit(60);
 }
 
 //Functions

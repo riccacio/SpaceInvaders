@@ -7,6 +7,14 @@
 using namespace sf;
 
 class GameOver: public MainWindow {
+private:
+    //Variables
+    Font f;
+    Text text;
+    Text exit;
+    SoundBuffer buffer;
+    Sound sound;
+    int i;
 public:
     //Constructor & Destructor
     GameOver();
@@ -16,14 +24,6 @@ public:
     void render() override;
     void run() override;
     void music();
-private:
-    //Variables
-    Font f;
-    Text text;
-    Text exit;
-    SoundBuffer buffer;
-    Sound sound;
-    int i;
 };
 
 #endif //GAMEOVER_H
