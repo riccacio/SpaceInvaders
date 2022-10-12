@@ -30,6 +30,8 @@ private:
     int record;
     int score;
     int lives;
+    float rightLimit;
+    float leftLimit;
 public:
     //Constructor and Destructor
     Game();
@@ -39,8 +41,10 @@ public:
     void pollEvents() override;
     void render() override;
     void run() override;
+    void centerItem(Sprite& s, float height) override;
     void music();
     void checkEvent(auto& e);
+    void checkKey(auto& e);
     void moveShip();
 };
 

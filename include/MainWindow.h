@@ -30,7 +30,7 @@ public:
     virtual void render();
     virtual void run();
     static void centerItem(Text& text, float height);
-    static void centerItem(Sprite& sprite, float height);
+    virtual void centerItem(Sprite& sprite, float height);
 };
 
 #endif //MAINWINDOW_H

@@ -8,11 +8,12 @@ using namespace sf;
 
 class Ship{
 private:
-    static const int WIDTH;
-    static const int HEIGHT;
-    int x;
-    int y;
+    static const int WIDTH = 115;
+    static const int HEIGHT = 50;
+    float x;
+    float y;
     int direction;// right=1, left=-1
+    float speed;
 
     //Rect hitBox;
     Texture texShip;
@@ -22,12 +23,14 @@ public:
     ~Ship() = default;
     Sprite &getSprShip();
     void setTexShip(const Texture &texShip);
-    int getX() const;
-    int getY() const;//TODO delete
-    void setX(int x);
-    void setY(int y);//TODO delete
+    float getX() const;
+    float getY() const;
+    float getSpeed() const;
+    void setX(float x);
     int getDirection() const;
     void setDirection(int direction);
+    static const int getWidth();
+    static const int getHeight();
 };
 
 

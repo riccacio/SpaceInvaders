@@ -6,7 +6,7 @@
 
 using namespace sf;
 
-Game::Game(): record(6223), lives(3), score(0){
+Game::Game(): record(6223), lives(3), score(0), leftLimit(0), rightLimit(static_cast<float>(WIDTH-ship->getWidth())){
     this->initVariables();
     this->initWindow();
 }
@@ -26,8 +26,6 @@ void Game::pollEvents() {
             case Event::Closed:
                 this->window->close();
                 break;
-            /*case Event::KeyPressed:
-                checkEvent((event.key.code));*/
             default:
                 break;
         }
@@ -36,6 +34,16 @@ void Game::pollEvents() {
 }
 
 void Game::checkEvent(auto& e){
+    switch (this->event.type){
+        case Event::KeyPressed:
+            checkKey(e);
+            break;
+        default:
+            break;
+    }
+}
+
+void Game::checkKey(auto &e) {
     switch (e){
         case Keyboard::Escape:
             this->window->close();
@@ -45,22 +53,23 @@ void Game::checkEvent(auto& e){
             std::cout << "sparo" << std::endl;
             break;
         case Keyboard::Left:
-            //left
-            ship->setDirection(-1);
-            Game::moveShip();
-            std::cout << "sinistra" << std::endl;
+            if(ship->getX()>=leftLimit){
+                ship->setDirection(-1);
+                Game::moveShip();
+                ship->setX(ship->getX()-ship->getSpeed());
+            }
             break;
         case Keyboard::Right:
-            //shoot
-            ship->setDirection(1);
-            Game::moveShip();
-            std::cout << "destra" << std::endl;
+            if(ship->getX()<=rightLimit){
+                ship->setDirection(1);
+                Game::moveShip();
+                ship->setX(ship->getX()+ship->getSpeed());
+            }
             break;
         default:
             break;
     }
 }
-
 void Game::render() {
     if(!f.loadFromFile("font/arcade.TTF")){
         std::cout << ("ERROR: font not found!") << std::endl;
@@ -132,7 +141,7 @@ void Game::render() {
 
 void Game::run(){
     //music();
-    centerItem(ship->getSprShip(), 1150);
+    centerItem(ship->getSprShip(), ship->getY());
     while(running()){
         //Update
         update();
@@ -150,7 +159,13 @@ void Game::music(){
     sound.play();
     sound.setLoop(true);
 }
-//FIXME non si ferma
 void Game::moveShip(){
-    ship->getSprShip().move(10*ship->getDirection(),0);
+    ship->getSprShip().move(ship->getSpeed()*static_cast<float>(ship->getDirection()),0.0f);
+}
+
+void Game::centerItem(Sprite& sprite, float height){
+    FloatRect textRect = sprite.getLocalBounds();
+    sprite.setOrigin(textRect.left + textRect.width/2.0f,textRect.top  + textRect.height/2.0f);
+    sprite.setPosition(Vector2f((WIDTH/2.0f)-(static_cast<float>(ship->getWidth())/2.0f), height));
+    ship->setX((WIDTH/2.0f)-(static_cast<float>(ship->getWidth())/2.0f));
 }
