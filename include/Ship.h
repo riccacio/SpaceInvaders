@@ -1,6 +1,5 @@
 #ifndef SHIP_H
 #define SHIP_H
-//#include "../include/Game.h"
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
@@ -14,6 +13,7 @@ private:
     float y;
     int direction;// right=1, left=-1
     float speed;
+    int shotFrequency;
 
     //Rect hitBox;
     Texture texShip;
@@ -24,6 +24,7 @@ public:
     Sprite &getSprShip();
     void setTexShip(const Texture &texShip);
     float getX() const;
+    int getShotFrequency() const;
     float getY() const;
     float getSpeed() const;
     void setX(float x);

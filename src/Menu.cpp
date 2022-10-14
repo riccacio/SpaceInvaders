@@ -69,11 +69,7 @@ void Menu::render() {
     graphicText[1].setString("HOW TO PLAY (H)");
     graphicText[2].setString("PRESS SPACE TO START");
     graphicText[3].setString("HI-SCORE: ");
-    std::stringstream ss;
-    ss<<record;
-    std::string s;
-    ss>>s;
-    graphicText[4].setString(s);
+    graphicText[4].setString(recordS);
 
     for (int j = 0; j<=5; j++){
         graphicText[j].setFont(f);
@@ -108,6 +104,7 @@ void Menu::render() {
         i=0;
     }
     this->window->clear();
+    readRecord();
     for (int j = 0; j<=5; j++)
         this->window->draw(graphicText[j]);
     this->window->draw(sprShip);

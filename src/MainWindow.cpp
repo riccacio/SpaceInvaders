@@ -1,5 +1,6 @@
 #include "../include/MainWindow.h"
 #include <SFML/Graphics.hpp>
+#include <fstream>
 
 MainWindow::MainWindow():event() {}
 
@@ -64,3 +65,10 @@ void MainWindow::centerItem(Sprite& sprite, float height){
     sprite.setPosition(Vector2f(WIDTH/2.0f, height));
 }
 
+void MainWindow::readRecord(){
+    std::ifstream iFile("record.txt");
+    if (iFile.is_open()){
+        getline(iFile, recordS);
+        iFile.close();
+    }
+}

@@ -27,11 +27,12 @@ private:
     std::vector<Sprite> sprShip = {};
     SoundBuffer buffer;
     Sound sound;
-    int record;
+    //int record;
     int score;
     int lives;
     float rightLimit;
     float leftLimit;
+    int keyTime;
 public:
     //Constructor and Destructor
     Game();
@@ -46,6 +47,7 @@ public:
     void checkEvent(auto& e);
     void checkKey(auto& e);
     void moveShip();
+    void writeRecord();
 };
 
 #endif //GAME_H

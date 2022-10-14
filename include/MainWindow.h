@@ -18,6 +18,7 @@ protected:
     std::unique_ptr<RenderWindow> window;
     VideoMode videoMode;
     Event event;
+    std::string recordS;
 public:
     //Constructor & Destructor
     MainWindow();
@@ -31,6 +32,7 @@ public:
     virtual void run();
     static void centerItem(Text& text, float height);
     virtual void centerItem(Sprite& sprite, float height);
+    void readRecord();
 };
 
 #endif //MAINWINDOW_H

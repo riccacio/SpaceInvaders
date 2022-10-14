@@ -1,12 +1,13 @@
 #include "../include/Game.h"
-
 //#include "../include/GameOver.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
+#include <iostream>
+#include <fstream>
 
 using namespace sf;
 
-Game::Game(): record(6223), lives(3), score(0), leftLimit(0), rightLimit(static_cast<float>(WIDTH-ship->getWidth())){
+Game::Game(): lives(3), score(0), leftLimit(0), rightLimit(static_cast<float>(WIDTH-ship->getWidth())), keyTime(25){
     this->initVariables();
     this->initWindow();
 }
@@ -26,10 +27,13 @@ void Game::pollEvents() {
             case Event::Closed:
                 this->window->close();
                 break;
+                //se metto qui lo spazio funziona
             default:
                 break;
         }
     }
+    if(keyTime <= ship->getShotFrequency())
+        keyTime++;
     checkEvent(event.key.code);
 }
 
@@ -48,9 +52,14 @@ void Game::checkKey(auto &e) {
         case Keyboard::Escape:
             this->window->close();
             break;
+        //FIXME spazio non va
         case Keyboard::Space:
-            //shoot
-            std::cout << "sparo" << std::endl;
+            if(keyTime >= ship->getShotFrequency()){
+                keyTime=0;
+                //shoot
+                std::cout << "sparo" << std::endl;
+                score+=10;
+            }
             break;
         case Keyboard::Left:
             if(ship->getX()>=leftLimit){
@@ -86,13 +95,9 @@ void Game::render() {
     hiscore.setString("HI-SCORE: ");
     scoreText.setString("SCORE: ");
     livesText.setString("LIVES: ");
-    std::stringstream ss1;
     std::stringstream ss2;
-    ss1<<record;
-    std::string s1;
     std::string s2;
-    ss1>>s1;
-    recordText.setString(s1);
+    recordText.setString(recordS);
     ss2<<score;
     ss2>>s2;
     scoreTextNum.setString(s2);
@@ -126,6 +131,8 @@ void Game::render() {
     }
 
     this->window->clear();
+    readRecord();
+    writeRecord();
     this->window->draw(hiscore);
     this->window->draw(recordText);
     this->window->draw(scoreText);
@@ -135,7 +142,6 @@ void Game::render() {
     this->window->draw(ship->getSprShip());
     for(int j=0; j<lives; j++)
         this->window->draw(sprShip[j]);
-
     this->window->display();
 }
 
@@ -161,6 +167,18 @@ void Game::music(){
 }
 void Game::moveShip(){
     ship->getSprShip().move(ship->getSpeed()*static_cast<float>(ship->getDirection()),0.0f);
+}
+
+void Game::writeRecord() {
+    std::ofstream oFile("record.txt");
+    if (oFile.is_open())
+    {
+        std::stringstream ss;
+        ss << score;
+        std::string line = ss.str();
+        oFile << line;
+        oFile.close();
+    }
 }
 
 void Game::centerItem(Sprite& sprite, float height){

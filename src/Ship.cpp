@@ -1,7 +1,7 @@
 #include "../include/Ship.h"
 #include <SFML/Graphics.hpp>
 
-Ship::Ship(): speed(10),y(1160) {}
+Ship::Ship(): speed(10), y(1160), shotFrequency(25) {}
 
 Sprite &Ship::getSprShip() {
     return sprShip;
@@ -10,6 +10,9 @@ void Ship::setTexShip(const Texture &texShip) {
     Ship::texShip = texShip;
 }
 
+int Ship::getShotFrequency() const {
+    return shotFrequency;
+}
 float Ship::getX() const {
     return x;
 }
@@ -26,7 +29,6 @@ void Ship::setX(float x) {
     Ship::x = x;
 }
 
-
 int Ship::getDirection() const {
     return direction;
 }
@@ -42,4 +44,3 @@ const int Ship::getWidth(){
 const int Ship::getHeight() {
     return HEIGHT;
 }
-
