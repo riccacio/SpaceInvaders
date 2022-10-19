@@ -16,18 +16,13 @@ private:
     //Variables
     Font f;
     std::unique_ptr<Ship> ship;
-    //TODO vectorText
-    Text hiscore;
-    Text recordText;
-    Text scoreText;
-    Text scoreTextNum;
-    Text livesText;
+    std::vector<Text> graphicText = {};
+    std::vector<Sprite> sprShip = {};
     Texture texShip;
     RectangleShape line;
-    std::vector<Sprite> sprShip = {};
     SoundBuffer buffer;
     Sound sound;
-    //int record;
+    int record;
     int score;
     int lives;
     float rightLimit;
@@ -47,7 +42,8 @@ public:
     void checkEvent(auto& e);
     void checkKey(auto& e);
     void moveShip();
-    void writeRecord();
+    void readRecord() override;
+    void writeRecord() const;
 };
 
 #endif //GAME_H
