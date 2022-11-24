@@ -25,9 +25,6 @@ private:
     int record;
     int score;
     int lives;
-    float rightLimit;
-    float leftLimit;
-    int keyTime;
 public:
     //Constructor and Destructor
     Game();
@@ -39,9 +36,6 @@ public:
     void run() override;
     void centerItem(Sprite& s, float height) override;
     void music();
-    void checkEvent(auto& e);
-    void checkKey(auto& e);
-    void moveShip();
     void readRecord() override;
     void writeRecord() const;
 };

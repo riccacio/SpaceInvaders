@@ -24,7 +24,8 @@ private:
 
     int direction;// right=1, left=-1
     float speed;
-    int shotFrequency;
+    int reloadTimer;
+    int currentPower;
 
     //Rect hitBox;
     Texture texShip;
@@ -36,7 +37,7 @@ public:
     Sprite &getSprShip();
     void setTexShip(const Texture &texShip);
     float getX() const;
-    int getShotFrequency() const;
+    int getReloadTimer() const;
     float getY() const;
     float getSpeed() const;
     void setX(float x);
@@ -44,6 +45,7 @@ public:
     void setDirection(int direction);
     static const int getWidth();
     static const int getHeight();
+    void reset();
     void update();
 };
 

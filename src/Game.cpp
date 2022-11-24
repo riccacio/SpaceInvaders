@@ -7,8 +7,7 @@
 
 using namespace sf;
 
-Game::Game(): record(0),lives(3), score(0), leftLimit(0),
-            rightLimit(static_cast<float>(WIDTH-ship->getWidth())), keyTime(30){
+Game::Game(): record(0),lives(3), score(0){
     this->initVariables();
     this->initWindow();
 }
@@ -33,45 +32,12 @@ void Game::pollEvents() {
             case Event::Closed:
                 this->window->close();
                 break;
-            case Event::KeyPressed:
-                checkKey(event.key.code);
-                break;
             default:
                 break;
         }
     }
-    //wait to shoot
-    if(keyTime <= ship->getShotFrequency())
-        keyTime++;
-    checkEvent(event.key.code);
 }
 
-void Game::checkEvent(auto& e){
-    switch (this->event.type){
-        case Event::KeyPressed:
-            checkKey(e);
-            break;
-        default:
-            break;
-    }
-}
-
-void Game::checkKey(auto &e) {
-    switch (e){
-        case Keyboard::Escape:
-            this->window->close();
-            break;
-        case Keyboard::Space:
-            if(keyTime >= ship->getShotFrequency()){
-                keyTime=0;
-                //shoot
-                score+=10;
-            }
-            break;
-        default:
-            break;
-    }
-}
 void Game::render() {
     if(!f.loadFromFile("font/arcade.TTF")){
         std::cout << ("ERROR: font not found!") << std::endl;
