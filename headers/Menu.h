@@ -1,6 +1,6 @@
 #ifndef MENU_H
 #define MENU_H
-#include "../include/MainWindow.h"
+#include "../headers/MainWindow.h"
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>

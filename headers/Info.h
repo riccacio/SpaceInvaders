@@ -1,6 +1,6 @@
 #ifndef INFO_H
 #define INFO_H
-#include "../include/MainWindow.h"
+#include "../headers/MainWindow.h"
 #include <SFML/Graphics.hpp>
 
 using namespace sf;

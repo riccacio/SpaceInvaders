@@ -1,4 +1,4 @@
-#include "../include/GameOver.h"
+#include "../headers/GameOver.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 

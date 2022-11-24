@@ -1,5 +1,5 @@
-#include "../include/Game.h"
-//#include "../include/GameOver.h"
+#include "../headers/Game.h"
+//#include "../headers/GameOver.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <iostream>
@@ -26,6 +26,7 @@ void Game::initVariables() {
 }
 
 void Game::pollEvents() {
+    ship->update();
     //Event polling
     while (this->window->pollEvent(this->event)){
         switch (this->event.type){
@@ -65,20 +66,6 @@ void Game::checkKey(auto &e) {
                 keyTime=0;
                 //shoot
                 score+=10;
-            }
-            break;
-        case Keyboard::Left:
-            if(ship->getX()>=leftLimit){
-                ship->setDirection(-1);
-                Game::moveShip();
-                ship->setX(ship->getX()-ship->getSpeed());
-            }
-            break;
-        case Keyboard::Right:
-            if(ship->getX()<=rightLimit){
-                ship->setDirection(1);
-                Game::moveShip();
-                ship->setX(ship->getX()+ship->getSpeed());
             }
             break;
         default:
@@ -161,10 +148,6 @@ void Game::music(){
     sound.setBuffer(buffer);
     sound.play();
     sound.setLoop(true);
-}
-
-void Game::moveShip(){
-    ship->getSprShip().move(ship->getSpeed()*static_cast<float>(ship->getDirection()),0.0f);
 }
 
 void Game::writeRecord() const {

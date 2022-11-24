@@ -1,4 +1,4 @@
-#include "../include/MainWindow.h"
+#include "../headers/MainWindow.h"
 #include <SFML/Graphics.hpp>
 #include <fstream>
 
@@ -12,8 +12,9 @@ void MainWindow::initVariables() {
 void MainWindow::initWindow() {
     this->videoMode.height = HEIGHT;
     this->videoMode.width = WIDTH;
+
     this->window = std::make_unique<RenderWindow>(this->videoMode, "Space Invaders", Style::Titlebar | Style::Close);
-    this->window->setFramerateLimit(60);
+    this->window->setFramerateLimit(250);
 }
 
 //Functions

@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.20)
 project(SpaceInvaders)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++20")
-set(SOURCE_FILES main.cpp src/Menu.cpp include/Menu.h src/Info.cpp include/Info.h src/GameOver.cpp include/GameOver.h src/MainWindow.cpp include/MainWindow.h src/Game.cpp include/Game.h src/Ship.cpp include/Ship.h)
+set(SOURCE_FILES main.cpp src/Menu.cpp "headers/Menu.h" src/Info.cpp "headers/Info.h" src/GameOver.cpp "headers/GameOver.h" src/MainWindow.cpp "headers/MainWindow.h" src/Game.cpp "headers/Game.h" src/Ship.cpp "headers/Ship.h" headers/Animation.h src/Animation.cpp headers/Global.h)
 
 add_executable(SpaceInvaders ${SOURCE_FILES})
 

@@ -1,6 +1,6 @@
 #ifndef GAMEOVER_H
 #define GAMEOVER_H
-#include "../include/MainWindow.h"
+#include "../headers/MainWindow.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 

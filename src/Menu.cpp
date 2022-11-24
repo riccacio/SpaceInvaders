@@ -1,6 +1,6 @@
-#include "../include/Menu.h"
-#include "../include/Info.h"
-#include "../include/Game.h"
+#include "../headers//Menu.h"
+#include "../headers/Info.h"
+#include "../headers/Game.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 

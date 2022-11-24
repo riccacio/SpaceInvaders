@@ -1,7 +1,7 @@
 #ifndef GAME_H
 #define GAME_H
-#include "../include/MainWindow.h"
-#include "../include/Ship.h"
+#include "../headers/MainWindow.h"
+#include "../headers/Ship.h"
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
