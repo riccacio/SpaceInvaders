@@ -6,32 +6,32 @@ MainWindow::MainWindow():event() {}
 
 //Private functions
 void MainWindow::initVariables() {
-    this->window = nullptr;
+    window = nullptr;
 }
 
 void MainWindow::initWindow() {
-    this->videoMode.height = HEIGHT;
-    this->videoMode.width = WIDTH;
+    videoMode.height = HEIGHT;
+    videoMode.width = WIDTH;
 
-    this->window = std::make_unique<RenderWindow>(this->videoMode, "Space Invaders", Style::Titlebar | Style::Close);
-    this->window->setFramerateLimit(275);
+    window = std::make_unique<RenderWindow>(videoMode, "Space Invaders", Style::Titlebar | Style::Close);
+    window->setFramerateLimit(275);
 }
 
 //Functions
 bool MainWindow::running() const {
-    return this->window->isOpen();
+    return window->isOpen();
 }
 
 void MainWindow::pollEvents() {
     //Event polling
-    while (this->window->pollEvent(this->event)){
-        switch (this->event.type){
+    while (window->pollEvent(event)){
+        switch (event.type){
             case Event::Closed:
-                this->window->close();
+                window->close();
                 break;
             case Event::KeyPressed:
                 if(event.key.code == Keyboard::Escape){
-                    this->window->close();
+                    window->close();
                 }
             default:
                 break;
@@ -40,7 +40,7 @@ void MainWindow::pollEvents() {
 }
 
 void MainWindow::update(){
-    this->pollEvents();
+    pollEvents();
 }
 
 void MainWindow::render(){}

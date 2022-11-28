@@ -1,10 +1,10 @@
 #include "../headers/Ship.h"
 #include "../headers/Global.h"
-
 #include <SFML/Graphics.hpp>
 
-Ship::Ship(): speed(2), y(1160) {
+Ship::Ship(): speed(2), y(1160){
     reset();
+    this->bullet = std::make_unique<Bullet>("sprite/ship_shot.png");
 }
 
 Sprite &Ship::getSprShip() {
@@ -52,43 +52,38 @@ const int Ship::getHeight() {
 void Ship::update(){
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
         if(x>50){
-            direction=-1;
-            sprShip.move(speed*static_cast<float>(direction),0.0f);
+            direction = -1;
+            sprShip.move(speed * static_cast<float>(direction),0.0f);
             x = x - speed;
         }
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)){
-        if(x<1230-WIDTH){
-            direction=1;
-            sprShip.move(speed*static_cast<float>(direction),0.0f);
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+        if (x < 1230 - WIDTH) {
+            direction = 1;
+            sprShip.move(speed * static_cast<float>(direction), 0.0f);
             x = x + speed;
         }
     }
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space)){
 
-    }
-
-    if (reloadTimer == 0)
-    {
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-        {
+    if (reloadTimer == 0){
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)){
             if (currentPower == 2)
-            {
                 reloadTimer = FAST_RELOAD_DURATION;
-            }
-            else
-            {
+            else{
                 reloadTimer = RELOAD_DURATION;
+                std::cout << "shoot" <<  std::endl;
             }
-            std::cout << "shoot" << std::endl;
-
+            //draw bullet
+            //move bullet
+            //quando arriva oltre il bordo in alto, deve essere distrutto
         }
     }
     else
-    {
         reloadTimer--;
-    }
+
 }
+
 void Ship::reset(){
     reloadTimer = 0;
+    currentPower = 0;
 }

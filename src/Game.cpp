@@ -8,13 +8,13 @@
 using namespace sf;
 
 Game::Game(): record(0),lives(3), score(0){
-    this->initVariables();
-    this->initWindow();
+    initVariables();
+    initWindow();
 }
 
 //Functions
 void Game::initVariables() {
-    this->window = nullptr;
+    window = nullptr;
     for(int j=0; j<lives; j++)
         sprShip.emplace_back();
     for(int j=0; j<5; j++)
@@ -27,10 +27,10 @@ void Game::initVariables() {
 void Game::pollEvents() {
     ship->update();
     //Event polling
-    while (this->window->pollEvent(this->event)){
-        switch (this->event.type){
+    while (window->pollEvent(event)){
+        switch (event.type){
             case Event::Closed:
-                this->window->close();
+                window->close();
                 break;
             default:
                 break;
@@ -41,11 +41,11 @@ void Game::pollEvents() {
 void Game::render() {
     if(!f.loadFromFile("font/arcade.TTF")){
         std::cout << ("ERROR: font not found!") << std::endl;
-        this->window->close();
+        window->close();
     }
     if(!texShip.loadFromFile("sprite/ship.png")){
         std::cout << ("ERROR: sprite ship not found!") << std::endl;
-        this->window->close();
+        window->close();
     }
     ship->setTexShip(texShip);
     ship->getSprShip().setTexture(texShip);
@@ -84,16 +84,16 @@ void Game::render() {
         p+=120;
     }
 
-    this->window->clear();
+    window->clear();
     if(record<score)
         writeRecord();
     for(int j=0; j<5; j++)
-        this->window->draw(graphicText[j]);
+        window->draw(graphicText[j]);
     for(int j=0; j<lives; j++)
-        this->window->draw(sprShip[j]);
-    this->window->draw(line);
-    this->window->draw(ship->getSprShip());
-    this->window->display();
+        window->draw(sprShip[j]);
+    window->draw(line);
+    window->draw(ship->getSprShip());
+    window->display();
 }
 
 void Game::run(){
@@ -109,7 +109,7 @@ void Game::run(){
 void Game::music(){
     if(!buffer.loadFromFile("sound/menu.wav")){
         std::cout << ("ERROR: sound not found!") << std::endl;
-        this->window->close();
+        window->close();
     }
     sound.setBuffer(buffer);
     sound.play();

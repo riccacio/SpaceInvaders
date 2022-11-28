@@ -7,23 +7,22 @@
 using namespace sf;
 
 Menu::Menu():record(6223), i(0){
-    this->initVariables();
-    this->initWindow();
+    initVariables();
+    initWindow();
 }
 
 //Functions
 void Menu::initVariables() {
-    this->window = nullptr;
+    window = nullptr;
     for (int j = 0; j<=5; j++)
         graphicText.emplace_back();
 }
 
 void Menu::pollEvents() {
     //Event polling
-    while (this->window->pollEvent(this->event)){
-        switch (this->event.type){
-            case Event::Closed:
-                this->window->close();
+    while (window->pollEvent(event)){
+        switch (event.type){
+            case Event::Closed:window->close();
                 break;
             case Event::KeyPressed:
                 checkEvent(event.key.code);
@@ -35,8 +34,7 @@ void Menu::pollEvents() {
 
 void Menu::checkEvent(auto& e){
     switch (e) {
-        case Keyboard::Escape:
-            this->window->close();
+        case Keyboard::Escape:window->close();
             break;
         case Keyboard::H:{
             std::unique_ptr<Info> info(new Info);
@@ -44,7 +42,7 @@ void Menu::checkEvent(auto& e){
             break;
         }
         case Keyboard::Space:{
-            this->window->close();
+            window->close();
             sound.stop();
             std::unique_ptr<Game> game(new Game);
             game->run();
@@ -58,11 +56,11 @@ void Menu::checkEvent(auto& e){
 void Menu::render() {
     if(!f.loadFromFile("font/arcade.TTF")){
         std::cout << ("ERROR: font not found!") << std::endl;
-        this->window->close();
+        window->close();
     }
     if(!texShip.loadFromFile("sprite/ship.png")){
         std::cout << ("ERROR: sprite ship not found!") << std::endl;
-        this->window->close();
+        window->close();
     }
 
     graphicText[0].setString("SPACE INVADERS");
@@ -103,12 +101,12 @@ void Menu::render() {
         graphicText[2].setFillColor(Color::Black);
         i=0;
     }
-    this->window->clear();
+    window->clear();
     readRecord();
     for (int j = 0; j<=5; j++)
-        this->window->draw(graphicText[j]);
-    this->window->draw(sprShip);
-    this->window->display();
+        window->draw(graphicText[j]);
+    window->draw(sprShip);
+    window->display();
 }
 
 void Menu::run(){
@@ -124,7 +122,7 @@ void Menu::run(){
 void Menu::music(){
     if(!buffer.loadFromFile("sound/menu.wav")){
         std::cout << ("ERROR: sound not found!") << std::endl;
-        this->window->close();
+        window->close();
     }
     sound.setBuffer(buffer);
     sound.play();

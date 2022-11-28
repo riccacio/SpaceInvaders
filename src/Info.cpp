@@ -5,13 +5,13 @@
 using namespace sf;
 
 Info::Info(){
-    this->initVariables();
-    this->initWindow();
+    initVariables();
+    initWindow();
 }
 
 //Private functions
 void Info::initVariables() {
-    this->window = nullptr;
+    window = nullptr;
     for (int i = 0; i<=4; i++){
         aliensT.emplace_back();
         aliensS.emplace_back();
@@ -22,15 +22,15 @@ void Info::initVariables() {
 
 void Info::pollEvents() {
     //Event polling
-    while (this->window->pollEvent(this->event)){
-        switch (this->event.type){
+    while (window->pollEvent(event)){
+        switch (event.type){
             case Event::Closed:
-                this->window->close();
+                window->close();
                 break;
             case Event::KeyPressed:
                 if (event.key.code == Keyboard::Escape ||
                         event.key.code == Keyboard::B) {
-                    this->window->close();
+                    window->close();
                 }
                 break;
             default:
@@ -42,23 +42,23 @@ void Info::pollEvents() {
 void Info::render() {
     if (!f.loadFromFile("font/arcade.TTF")) {
         std::cout << ("ERROR: font not found!") << std::endl;
-        this->window->close();
+        window->close();
     }
     if (!aliensT[0].loadFromFile("sprite/mystery.png")) {
         std::cout << ("ERROR: sprite not found!") << std::endl;
-        this->window->close();
+        window->close();
     }
     if (!aliensT[1].loadFromFile("sprite/alien1_0.png")) {
         std::cout << ("ERROR: sprite not found!") << std::endl;
-        this->window->close();
+        window->close();
     }
     if (!aliensT[2].loadFromFile("sprite/alien2_0.png")) {
         std::cout << ("ERROR: sprite not found!") << std::endl;
-        this->window->close();
+        window->close();
     }
     if (!aliensT[3].loadFromFile("sprite/alien3_0.png")) {
         std::cout << ("ERROR: sprite not found!") << std::endl;
-        this->window->close();
+        window->close();
     }
 
     for(int i=0; i<9; i++)
@@ -102,10 +102,10 @@ void Info::render() {
     graphicText[7].setPosition(520, 1010);
     aliensS[3].setPosition(330, 980);
 
-    this->window->clear();
+    window->clear();
     for(int i=0; i<4; i++)
-        this->window->draw(aliensS[i]);
+        window->draw(aliensS[i]);
     for(int i=0; i<9; i++)
         this->window->draw(graphicText[i]);
-    this->window->display();
+    window->display();
 }

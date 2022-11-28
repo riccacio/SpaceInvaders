@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <SFML/Graphics.hpp>
-#include "../headers/Animation.h"
+#include "../headers/Bullet.h"
 
 using namespace sf;
 
@@ -14,8 +14,7 @@ private:
     float x;
     float y;
 
-    //std::vector<Bullet> bullets;
-
+    std::unique_ptr<Bullet> bullet;
     sf::Sprite bullet_sprite;
     sf::Sprite sprite;
 

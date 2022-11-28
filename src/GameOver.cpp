@@ -5,14 +5,14 @@
 using namespace sf;
 
 GameOver::GameOver():i(0){
-    this->initWindow();
+    initWindow();
 }
 
 //Functions
 void GameOver::render(){
     if(!f.loadFromFile("font/arcade.TTF")) {
         std::cout << ("ERROR: font not found!") << std::endl;
-        this->window->close();
+        window->close();
     }
     text.setString("G A M E  O V E R");
     exit.setString("PRESS ESC TO EXIT");
@@ -33,10 +33,9 @@ void GameOver::render(){
     exit.setCharacterSize(30);
     centerItem(text, 570);
     centerItem(exit, 1200);
-    this->window->clear();
-    this->window->draw(text);
-    this->window->draw(exit);
-    this->window->display();
+    window->clear();
+    window->draw(text);window->draw(exit);
+    window->display();
 }
 
 void GameOver::run(){
@@ -51,7 +50,7 @@ void GameOver::run(){
 void GameOver::music(){
     if(!buffer.loadFromFile("sound/game_over.wav")){
         std::cout << ("ERROR: sound not found!") << std::endl;
-        this->window->close();
+        window->close();
     }
     sound.setBuffer(buffer);
     sound.play();
