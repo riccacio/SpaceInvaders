@@ -2,6 +2,7 @@
 #define GAME_H
 #include "../headers/MainWindow.h"
 #include "../headers/Ship.h"
+#include "../headers/Map.h"
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
@@ -14,10 +15,10 @@ private:
     void initVariables() override;
     void initText();
     //Variables
-    std::unique_ptr<Ship> ship;
+    std::shared_ptr<Ship> ship;
+    Map map;
     std::vector<Text> graphicText = {};
-    std::vector<Sprite> sprShip = {};
-    Texture texShip;
+    std::vector<Sprite> sprShipL = {};
     RectangleShape line;
     SoundBuffer buffer;
     Sound sound;
@@ -33,6 +34,7 @@ public:
     //Functions
     void pollEvents() override;
     void render() override;
+    void update() override;
     void run() override;
     void centerItem(Sprite& s, float height) override;
     void music();

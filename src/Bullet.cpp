@@ -1,23 +1,23 @@
 #include "../headers/Bullet.h"
 
-Bullet::Bullet(std::string&& pathTexture){
-
-    this->texture.loadFromFile(pathTexture);
+Bullet::Bullet(std::string path, Vector2f(pos)){
+    texture.loadFromFile(path);
     sprite.setTexture(texture);
-};
-
-float Bullet::getX() const {
-    return x;
+    sprite.setScale(1,4);
+    sprite.setPosition(pos);
 }
 
-void Bullet::setX(float x) {
-    Bullet::x = x;
+void Bullet::draw(RenderTarget &target) {
+    target.draw(sprite);
 }
 
-float Bullet::getY() const {
-    return y;
+void Bullet::update() {
+    sprite.move(0.0f, -SHIP_BULLET_SPEED);
 }
 
-void Bullet::setY(float y) {
-    Bullet::y = y;
+Vector2f Bullet::getPosition() {
+    return sprite.getPosition();
 }
+
+
+

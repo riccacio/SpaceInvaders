@@ -1,23 +1,20 @@
 #ifndef SPACEINVADERS_BULLET_H
 #define SPACEINVADERS_BULLET_H
 #include <SFML/Graphics.hpp>
+#include "../headers/Global.h"
+
+using namespace sf;
 
 class Bullet{
 private:
-    static const int WIDTH;
-    static const int HEIGHT;
-    float x;
-    float y;
-    sf::Sprite sprite;
-    sf::Texture texture;
+    Sprite sprite;
+    Texture texture;
 public:
-    Bullet(std::string&& pathTexture);
+    Bullet(std::string path, Vector2f pos);
     ~Bullet() = default;
-    float getX() const;
-    void setX(float x);
-    float getY() const;
-    void setY(float y);
+    void draw(RenderTarget& target);
+    void update();
+    Vector2f getPosition();
 };
-
 
 #endif //SPACEINVADERS_BULLET_H

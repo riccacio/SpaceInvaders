@@ -26,12 +26,12 @@ constexpr unsigned char EXPLOSION_ANIMATION_SPEED = 2;
 constexpr unsigned char FAST_RELOAD_DURATION = 7;
 //The transition to the next level will last 64 frames or about 1 second.
 constexpr unsigned char NEXT_LEVEL_TRANSITION = 64;
-constexpr unsigned char PLAYER_BULLET_SPEED = 4;
+constexpr unsigned char SHIP_BULLET_SPEED = 4;
 constexpr unsigned char SHIP_MOVE_SPEED = 2;
 constexpr unsigned char POWERUP_ANIMATION_SPEED = 16;
 constexpr unsigned char POWERUP_SPEED = 2;
 constexpr unsigned char POWERUP_TYPES = 4;
-constexpr unsigned char RELOAD_DURATION = 31;
+constexpr unsigned char RELOAD_DURATION = 80;
 constexpr unsigned char SCREEN_RESIZE = 4;
 constexpr unsigned char TOTAL_LEVELS = 8;
 constexpr unsigned char UFO_ANIMATION_SPEED = 8;

@@ -20,39 +20,39 @@ Game::Game(): lives(3), score(0), reloadTimer(0){
 void Game::initVariables() {
     window = nullptr;
     for(int j=0; j<lives; j++)
-        sprShip.emplace_back();
+        sprShipL.emplace_back();
     for(int j=0; j<5; j++)
         graphicText.emplace_back();
-    //spostare in map
-    this->ship = std::make_unique<Ship>(Vector2f (0,0));
+    map.createShip();
+    ship = map.getShip();
     centerItem(ship->getSprShip(), ship->getPosition().y);
     readRecord();
 }
 
 void Game::pollEvents() {
-    //ship->update();
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
+    if (Keyboard::isKeyPressed(Keyboard::Left)){
         if(ship->getPosition().x > ship->getSprShip().getGlobalBounds().width/2.0f + OFFSET){
             ship->getSprShip().move(SHIP_MOVE_SPEED * -1.0f ,0.0f);
-            std::cout << ship->getPosition().x << std::endl;
         }
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+    if (Keyboard::isKeyPressed(Keyboard::Right)) {
         if(ship->getPosition().x < WIDTH - ship->getSprShip().getGlobalBounds().width/2.0f - OFFSET){
             ship->getSprShip().move(SHIP_MOVE_SPEED * 1.0f ,0.0f);
-            std::cout << ship->getPosition().x << std::endl;
         }
     }
 
     if (reloadTimer == 0){
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)){
+        if (Keyboard::isKeyPressed(Keyboard::Space)){
             if (ship->getCurrentPower()== 2)
                 reloadTimer = FAST_RELOAD_DURATION;
             else{
                 reloadTimer = RELOAD_DURATION;
+
+                //map.createBullet();
                 std::cout << "shoot" <<  std::endl;
             }
-            //draw bullet
+            ship->shoot();
+            //draw bullet in render
             //move bullet
             //quando arriva oltre il bordo in alto, deve essere distrutto
         }
@@ -78,10 +78,9 @@ void Game::render() {
     for(int j=0; j<5; j++)
         window->draw(graphicText[j]);
     for(int j=0; j<lives; j++)
-        window->draw(sprShip[j]);
+        window->draw(sprShipL[j]);
     window->draw(line);
-    //map.drawShip(window);
-    window->draw(ship->getSprShip());
+    ship->draw(*window);
     window->display();
 }
 
@@ -123,14 +122,13 @@ void Game::readRecord() {
 
 void Game::centerItem(Sprite& sprite, float height){
     FloatRect textRect = sprite.getLocalBounds();
-    sprite.setOrigin(textRect.left + textRect.width/2.0f,textRect.top  + textRect.height/2.0f);
-    sprite.setPosition(Vector2f((WIDTH/2.0f)-(ship->getWidth()/2.0f), height));
-    ship->setPosition(Vector2f ((WIDTH/2.0f)/*-(ship->getWidth()/2.0f)*/,1160.0f));
+    sprite.setOrigin(textRect.width/2.0f,textRect.height/2.0f);
+    sprite.setPosition(Vector2f((WIDTH/2.0f), height));
+    ship->setPosition(Vector2f ((WIDTH/2.0f),1180.0f));
 }
 
 void Game::initText() {
     ship->getSprShip().setScale(4,4);
-
     graphicText[0].setString("HI-SCORE: ");
     graphicText[1].setString("SCORE: ");
     graphicText[2].setString("LIVES: ");
@@ -158,9 +156,14 @@ void Game::initText() {
 
     float p=215;
     for(int j=0; j<lives; j++){
-        sprShip[j].setTexture(texShip);
-        sprShip[j].setScale(3,3);
-        sprShip[j].setPosition(p,1290);
+        sprShipL[j].setTexture(ship->getTexShip());
+        sprShipL[j].setScale(3, 3);
+        sprShipL[j].setPosition(p, 1290);
         p+=120;
     }
+}
+
+void Game::update() {
+    pollEvents();
+    ship->update();
 }

@@ -9,14 +9,9 @@ using namespace sf;
 
 class Ship{
 private:
-    const float WIDTH = 115;
-    const float HEIGHT = 50;
 
-    std::unique_ptr<Bullet> bullet;
-    Sprite bullet_sprite;
+    std::vector<Bullet> bullet = {};
     Sprite sprBullet;
-
-    Texture bullet_texture;
     Texture texBullet;
 
     int currentPower;
@@ -29,14 +24,16 @@ public:
     Ship(Vector2f pos);
     ~Ship() = default;
     Sprite &getSprShip();
+    Texture &getTexShip();
     void setTexShip(const Texture &texShip);
     Vector2f getPosition();
     void setPosition(Vector2f pos);
-    float getWidth() const;
-    float getHeight() const;
     void reset();
-    void update();
+    void draw(RenderTarget& target);
     int getCurrentPower();
+    void shoot();
+    void update();
+    void updateBullets();
 };
 
 #endif //SHIP_H
