@@ -1,14 +1,8 @@
 #include "../headers/Game.h"
-#include "../headers/Global.h"
-//#include "../headers/GameOver.h"
-#include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
-#include <iostream>
-#include <fstream>
 
 using namespace sf;
 
-Game::Game(): lives(3), score(0), reloadTimer(0){
+Game::Game(): record(0), lives(3), score(0), reloadTimer(0){
     initVariables();
     initFont();
     initWindow();
@@ -30,35 +24,6 @@ void Game::initVariables() {
 }
 
 void Game::pollEvents() {
-    if (Keyboard::isKeyPressed(Keyboard::Left)){
-        if(ship->getPosition().x > ship->getSprShip().getGlobalBounds().width/2.0f + OFFSET){
-            ship->getSprShip().move(SHIP_MOVE_SPEED * -1.0f ,0.0f);
-        }
-    }
-    if (Keyboard::isKeyPressed(Keyboard::Right)) {
-        if(ship->getPosition().x < WIDTH - ship->getSprShip().getGlobalBounds().width/2.0f - OFFSET){
-            ship->getSprShip().move(SHIP_MOVE_SPEED * 1.0f ,0.0f);
-        }
-    }
-
-    if (reloadTimer == 0){
-        if (Keyboard::isKeyPressed(Keyboard::Space)){
-            if (ship->getCurrentPower()== 2)
-                reloadTimer = FAST_RELOAD_DURATION;
-            else{
-                reloadTimer = RELOAD_DURATION;
-
-                //map.createBullet();
-                std::cout << "shoot" <<  std::endl;
-            }
-            ship->shoot();
-            //draw bullet in render
-            //move bullet
-            //quando arriva oltre il bordo in alto, deve essere distrutto
-        }
-    }
-    else
-        reloadTimer--;
     //Event polling
     while (window->pollEvent(event)){
         switch (event.type){
@@ -69,6 +34,29 @@ void Game::pollEvents() {
                 break;
         }
     }
+
+    if (Keyboard::isKeyPressed(Keyboard::Left)){
+        if(ship->getPosition().x > ship->getSprShip().getGlobalBounds().width/2.0f + OFFSET){
+            ship->getSprShip().move(SHIP_MOVE_SPEED * -1.0f ,0.0f);
+        }
+    }
+    if (Keyboard::isKeyPressed(Keyboard::Right)) {
+        if(ship->getPosition().x < WIDTH - ship->getSprShip().getGlobalBounds().width/2.0f - OFFSET){
+            ship->getSprShip().move(SHIP_MOVE_SPEED * 1.0f ,0.0f);
+        }
+    }
+    if (reloadTimer == 0){
+        if (Keyboard::isKeyPressed(Keyboard::Space)){
+            if (ship->getCurrentPower()== 2)
+                reloadTimer = FAST_RELOAD_DURATION;
+            else{
+                reloadTimer = RELOAD_DURATION;
+            }
+            ship->shoot();
+        }
+    }
+    else
+        reloadTimer--;
 }
 
 void Game::render() {
@@ -115,7 +103,7 @@ void Game::readRecord() {
     std::ifstream iFile("record.txt");
     if (iFile.is_open()){
         getline(iFile, recordS);
-        record = std::stoi(recordS);//convert string to int
+        record = std::stoi(recordS); //convert string to int
         iFile.close();
     }
 }

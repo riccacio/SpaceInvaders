@@ -1,8 +1,4 @@
 #include "../headers//Menu.h"
-#include "../headers/Info.h"
-#include "../headers/Game.h"
-#include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
 
 using namespace sf;
 
@@ -46,7 +42,7 @@ void Menu::keyboardEvent(auto& e){
             info->run();
             break;
         }
-        case Keyboard::Space:{
+        case Keyboard::Enter:{
             window->close();
             sound.stop();
             std::unique_ptr<Game> game(new Game);
@@ -81,7 +77,7 @@ void Menu::initText() {
 
     graphicText[0].setString("SPACE INVADERS");
     graphicText[1].setString("HOW TO PLAY (H)");
-    graphicText[2].setString("PRESS SPACE TO START");
+    graphicText[2].setString("PRESS ENTER TO START");
     graphicText[3].setString("HI-SCORE: ");
     graphicText[4].setString(recordS);
 

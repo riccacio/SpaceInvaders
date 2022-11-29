@@ -1,6 +1,4 @@
 #include "../headers/MainWindow.h"
-#include <SFML/Graphics.hpp>
-#include <fstream>
 
 MainWindow::MainWindow():event() {}
 

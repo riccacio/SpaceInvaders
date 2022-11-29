@@ -1,5 +1,4 @@
 #include "../headers/Ship.h"
-#include <SFML/Graphics.hpp>
 
 Ship::Ship(Vector2f pos){
     reset();

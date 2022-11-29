@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include <fstream>
 
 using namespace sf;
 

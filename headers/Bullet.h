@@ -10,7 +10,7 @@ private:
     Sprite sprite;
     Texture texture;
 public:
-    Bullet(std::string path, Vector2f pos);
+    Bullet(const std::string& path, Vector2f pos);
     ~Bullet() = default;
     void draw(RenderTarget& target);
     void update();

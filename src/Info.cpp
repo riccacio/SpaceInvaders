@@ -1,5 +1,4 @@
 #include "../headers/Info.h"
-#include <SFML/Graphics.hpp>
 
 using namespace sf;
 

@@ -1,6 +1,6 @@
 #include "../headers/Bullet.h"
 
-Bullet::Bullet(std::string path, Vector2f(pos)){
+Bullet::Bullet(const std::string& path, Vector2f(pos)){
     texture.loadFromFile(path);
     sprite.setTexture(texture);
     sprite.setScale(1,4);

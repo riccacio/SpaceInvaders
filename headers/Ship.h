@@ -9,17 +9,13 @@ using namespace sf;
 
 class Ship{
 private:
-
     std::vector<Bullet> bullet = {};
-    Sprite sprBullet;
-    Texture texBullet;
-
-    int currentPower;
-
-    //Rect hitBox;
-    Texture texShip;
     Sprite sprShip;
-
+    Sprite sprBullet;
+    Texture texShip;
+    Texture texBullet;
+    //Rect hitBox;
+    int currentPower;
 public:
     Ship(Vector2f pos);
     ~Ship() = default;
