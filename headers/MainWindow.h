@@ -14,11 +14,13 @@ protected:
     //Private functions
     virtual void initVariables();
     virtual void initWindow();
+    virtual void initFont();
 
     std::unique_ptr<RenderWindow> window;
     VideoMode videoMode;
     Event event;
     std::string recordS;
+    Font f;
 public:
     //Constructor & Destructor
     MainWindow();

@@ -73,3 +73,7 @@ void MainWindow::readRecord(){
         iFile.close();
     }
 }
+
+void MainWindow::initFont() {
+    f.loadFromFile("font/arcade.TTF");
+}

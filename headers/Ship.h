@@ -9,21 +9,16 @@ using namespace sf;
 
 class Ship{
 private:
-    static const int WIDTH = 115;
-    static const int HEIGHT = 50;
-    float x;
-    float y;
+    const float WIDTH = 115;
+    const float HEIGHT = 50;
 
     std::unique_ptr<Bullet> bullet;
-    sf::Sprite bullet_sprite;
-    sf::Sprite sprite;
+    Sprite bullet_sprite;
+    Sprite sprBullet;
 
-    sf::Texture bullet_texture;
-    sf::Texture texture;
+    Texture bullet_texture;
+    Texture texBullet;
 
-    int direction;// right=1, left=-1
-    float speed;
-    int reloadTimer;
     int currentPower;
 
     //Rect hitBox;
@@ -31,21 +26,17 @@ private:
     Sprite sprShip;
 
 public:
-    Ship();
+    Ship(Vector2f pos);
     ~Ship() = default;
     Sprite &getSprShip();
     void setTexShip(const Texture &texShip);
-    float getX() const;
-    int getReloadTimer() const;
-    float getY() const;
-    float getSpeed() const;
-    void setX(float x);
-    int getDirection() const;
-    void setDirection(int direction);
-    static const int getWidth();
-    static const int getHeight();
+    Vector2f getPosition();
+    void setPosition(Vector2f pos);
+    float getWidth() const;
+    float getHeight() const;
     void reset();
     void update();
+    int getCurrentPower();
 };
 
 #endif //SHIP_H

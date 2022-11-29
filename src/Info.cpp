@@ -1,12 +1,13 @@
 #include "../headers/Info.h"
 #include <SFML/Graphics.hpp>
-#include <iostream>
 
 using namespace sf;
 
 Info::Info(){
     initVariables();
     initWindow();
+    initFont();
+    initText();
 }
 
 //Private functions
@@ -40,26 +41,19 @@ void Info::pollEvents() {
 }
 
 void Info::render() {
-    if (!f.loadFromFile("font/arcade.TTF")) {
-        std::cout << ("ERROR: font not found!") << std::endl;
-        window->close();
-    }
-    if (!aliensT[0].loadFromFile("sprite/mystery.png")) {
-        std::cout << ("ERROR: sprite not found!") << std::endl;
-        window->close();
-    }
-    if (!aliensT[1].loadFromFile("sprite/alien1_0.png")) {
-        std::cout << ("ERROR: sprite not found!") << std::endl;
-        window->close();
-    }
-    if (!aliensT[2].loadFromFile("sprite/alien2_0.png")) {
-        std::cout << ("ERROR: sprite not found!") << std::endl;
-        window->close();
-    }
-    if (!aliensT[3].loadFromFile("sprite/alien3_0.png")) {
-        std::cout << ("ERROR: sprite not found!") << std::endl;
-        window->close();
-    }
+    window->clear();
+    for(int i=0; i<4; i++)
+        window->draw(aliensS[i]);
+    for(int i=0; i<9; i++)
+        this->window->draw(graphicText[i]);
+    window->display();
+}
+
+void Info::initText() {
+    aliensT[0].loadFromFile("sprite/mystery.png");
+    aliensT[1].loadFromFile("sprite/alien1_0.png");
+    aliensT[2].loadFromFile("sprite/alien2_0.png");
+    aliensT[3].loadFromFile("sprite/alien3_0.png");
 
     for(int i=0; i<9; i++)
         graphicText[i].setFont(f);
@@ -101,11 +95,5 @@ void Info::render() {
     aliensS[2].setPosition(330, 870);
     graphicText[7].setPosition(520, 1010);
     aliensS[3].setPosition(330, 980);
-
-    window->clear();
-    for(int i=0; i<4; i++)
-        window->draw(aliensS[i]);
-    for(int i=0; i<9; i++)
-        this->window->draw(graphicText[i]);
-    window->display();
 }
+

@@ -27,7 +27,7 @@ constexpr unsigned char FAST_RELOAD_DURATION = 7;
 //The transition to the next level will last 64 frames or about 1 second.
 constexpr unsigned char NEXT_LEVEL_TRANSITION = 64;
 constexpr unsigned char PLAYER_BULLET_SPEED = 4;
-constexpr unsigned char PLAYER_MOVE_SPEED = 2;
+constexpr unsigned char SHIP_MOVE_SPEED = 2;
 constexpr unsigned char POWERUP_ANIMATION_SPEED = 16;
 constexpr unsigned char POWERUP_SPEED = 2;
 constexpr unsigned char POWERUP_TYPES = 4;
@@ -36,6 +36,8 @@ constexpr unsigned char SCREEN_RESIZE = 4;
 constexpr unsigned char TOTAL_LEVELS = 8;
 constexpr unsigned char UFO_ANIMATION_SPEED = 8;
 constexpr unsigned char UFO_MOVE_SPEED = 1;
+constexpr unsigned char OFFSET = 20;
+
 
 //There are 64 enemies. So the probability that at least one of them shoots is 1 - (1 - 1 / 4096)^64 = 1.55%
 //Keep in mind that we do this every frame.

@@ -9,9 +9,9 @@ class Info: public MainWindow {
 private:
     //Function
     void initVariables() override;
+    void initText();
 
     //Variables
-    Font f;
     std::vector<Text> graphicText = {};
     std::vector<Texture> aliensT = {};
     std::vector<Sprite> aliensS = {};

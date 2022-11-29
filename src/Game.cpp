@@ -1,4 +1,5 @@
 #include "../headers/Game.h"
+#include "../headers/Global.h"
 //#include "../headers/GameOver.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
@@ -7,9 +8,12 @@
 
 using namespace sf;
 
-Game::Game(): record(0),lives(3), score(0){
+Game::Game(): lives(3), score(0), reloadTimer(0){
     initVariables();
+    initFont();
     initWindow();
+    initText();
+    //music();
 }
 
 //Functions
@@ -19,13 +23,42 @@ void Game::initVariables() {
         sprShip.emplace_back();
     for(int j=0; j<5; j++)
         graphicText.emplace_back();
-    this->ship = std::make_unique<Ship>();
-    centerItem(ship->getSprShip(), ship->getY());
+    //spostare in map
+    this->ship = std::make_unique<Ship>(Vector2f (0,0));
+    centerItem(ship->getSprShip(), ship->getPosition().y);
     readRecord();
 }
 
 void Game::pollEvents() {
-    ship->update();
+    //ship->update();
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
+        if(ship->getPosition().x > ship->getSprShip().getGlobalBounds().width/2.0f + OFFSET){
+            ship->getSprShip().move(SHIP_MOVE_SPEED * -1.0f ,0.0f);
+            std::cout << ship->getPosition().x << std::endl;
+        }
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+        if(ship->getPosition().x < WIDTH - ship->getSprShip().getGlobalBounds().width/2.0f - OFFSET){
+            ship->getSprShip().move(SHIP_MOVE_SPEED * 1.0f ,0.0f);
+            std::cout << ship->getPosition().x << std::endl;
+        }
+    }
+
+    if (reloadTimer == 0){
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)){
+            if (ship->getCurrentPower()== 2)
+                reloadTimer = FAST_RELOAD_DURATION;
+            else{
+                reloadTimer = RELOAD_DURATION;
+                std::cout << "shoot" <<  std::endl;
+            }
+            //draw bullet
+            //move bullet
+            //quando arriva oltre il bordo in alto, deve essere distrutto
+        }
+    }
+    else
+        reloadTimer--;
     //Event polling
     while (window->pollEvent(event)){
         switch (event.type){
@@ -39,16 +72,63 @@ void Game::pollEvents() {
 }
 
 void Game::render() {
-    if(!f.loadFromFile("font/arcade.TTF")){
-        std::cout << ("ERROR: font not found!") << std::endl;
-        window->close();
+    window->clear();
+    if(record<score)
+        writeRecord();
+    for(int j=0; j<5; j++)
+        window->draw(graphicText[j]);
+    for(int j=0; j<lives; j++)
+        window->draw(sprShip[j]);
+    window->draw(line);
+    //map.drawShip(window);
+    window->draw(ship->getSprShip());
+    window->display();
+}
+
+void Game::run(){
+    while(running()){
+        //Update
+        update();
+        //Render
+        render();
     }
-    if(!texShip.loadFromFile("sprite/ship.png")){
-        std::cout << ("ERROR: sprite ship not found!") << std::endl;
-        window->close();
+}
+
+void Game::music(){
+    buffer.loadFromFile("sound/menu.wav");
+    sound.setBuffer(buffer);
+    sound.play();
+    sound.setLoop(true);
+}
+
+void Game::writeRecord() const {
+    std::ofstream oFile("record.txt");
+    if (oFile.is_open()){
+        std::stringstream ss;
+        std::string str;
+        ss << score;
+        str = ss.str();
+        oFile << str;
+        oFile.close();
     }
-    ship->setTexShip(texShip);
-    ship->getSprShip().setTexture(texShip);
+}
+void Game::readRecord() {
+    std::ifstream iFile("record.txt");
+    if (iFile.is_open()){
+        getline(iFile, recordS);
+        record = std::stoi(recordS);//convert string to int
+        iFile.close();
+    }
+}
+
+void Game::centerItem(Sprite& sprite, float height){
+    FloatRect textRect = sprite.getLocalBounds();
+    sprite.setOrigin(textRect.left + textRect.width/2.0f,textRect.top  + textRect.height/2.0f);
+    sprite.setPosition(Vector2f((WIDTH/2.0f)-(ship->getWidth()/2.0f), height));
+    ship->setPosition(Vector2f ((WIDTH/2.0f)/*-(ship->getWidth()/2.0f)*/,1160.0f));
+}
+
+void Game::initText() {
     ship->getSprShip().setScale(4,4);
 
     graphicText[0].setString("HI-SCORE: ");
@@ -83,63 +163,4 @@ void Game::render() {
         sprShip[j].setPosition(p,1290);
         p+=120;
     }
-
-    window->clear();
-    if(record<score)
-        writeRecord();
-    for(int j=0; j<5; j++)
-        window->draw(graphicText[j]);
-    for(int j=0; j<lives; j++)
-        window->draw(sprShip[j]);
-    window->draw(line);
-    window->draw(ship->getSprShip());
-    window->display();
-}
-
-void Game::run(){
-    //music();
-    while(running()){
-        //Update
-        update();
-        //Render
-        render();
-    }
-}
-
-void Game::music(){
-    if(!buffer.loadFromFile("sound/menu.wav")){
-        std::cout << ("ERROR: sound not found!") << std::endl;
-        window->close();
-    }
-    sound.setBuffer(buffer);
-    sound.play();
-    sound.setLoop(true);
-}
-
-void Game::writeRecord() const {
-    std::ofstream oFile("record.txt");
-    if (oFile.is_open())
-    {
-        std::stringstream ss;
-        std::string str;
-        ss << score;
-        str = ss.str();
-        oFile << str;
-        oFile.close();
-    }
-}
-void Game::readRecord() {
-    std::ifstream iFile("record.txt");
-    if (iFile.is_open()){
-        getline(iFile, recordS);
-        record = std::stoi(recordS);//convert string to int
-        iFile.close();
-    }
-}
-
-void Game::centerItem(Sprite& sprite, float height){
-    FloatRect textRect = sprite.getLocalBounds();
-    sprite.setOrigin(textRect.left + textRect.width/2.0f,textRect.top  + textRect.height/2.0f);
-    sprite.setPosition(Vector2f((WIDTH/2.0f)-(static_cast<float>(ship->getWidth())/2.0f), height));
-    ship->setX((WIDTH/2.0f)-(static_cast<float>(ship->getWidth())/2.0f));
 }

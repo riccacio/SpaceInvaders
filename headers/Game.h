@@ -12,9 +12,8 @@ using namespace sf;
 class Game: public MainWindow{
 private:
     void initVariables() override;
-
+    void initText();
     //Variables
-    Font f;
     std::unique_ptr<Ship> ship;
     std::vector<Text> graphicText = {};
     std::vector<Sprite> sprShip = {};
@@ -22,6 +21,7 @@ private:
     RectangleShape line;
     SoundBuffer buffer;
     Sound sound;
+    int reloadTimer;
     int record;
     int score;
     int lives;

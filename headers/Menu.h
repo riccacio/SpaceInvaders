@@ -9,6 +9,17 @@
 using namespace sf;
 
 class Menu: public MainWindow{
+private:
+    void initVariables() override;
+    void initText();
+
+    //Variables
+    std::vector<Text> graphicText = {};
+    Texture texShip;
+    Sprite sprShip;
+    SoundBuffer buffer;
+    Sound sound;
+    int i;
 public:
     //Constructor and Destructor
     Menu();
@@ -17,21 +28,9 @@ public:
     //Functions
     void pollEvents() override;
     void render() override;
-    void run() override;
+    void update() override;
     void music();
-    void checkEvent(auto& e);
-private:
-    void initVariables() override;
-
-    //Variables
-    Font f;
-    std::vector<Text> graphicText = {};
-    Texture texShip;
-    Sprite sprShip;
-    SoundBuffer buffer;
-    Sound sound;
-    int record;
-    int i;
+    void keyboardEvent(auto& e);
 };
 
 #endif // MENU_H

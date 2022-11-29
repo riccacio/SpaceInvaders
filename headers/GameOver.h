@@ -8,8 +8,8 @@ using namespace sf;
 
 class GameOver: public MainWindow {
 private:
+    void initText();
     //Variables
-    Font f;
     Text text;
     Text exit;
     SoundBuffer buffer;
@@ -22,6 +22,7 @@ public:
 
     //Functions
     void render() override;
+    void update() override;
     void run() override;
     void music();
 };
