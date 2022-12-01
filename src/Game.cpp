@@ -46,10 +46,10 @@ void Game::pollEvents() {
         }
     }
     if (reloadTimer == 0){
-        if (Keyboard::isKeyPressed(Keyboard::Space)){
-            if (ship->getCurrentPower()== 2)
+        if (Keyboard::isKeyPressed(Keyboard::Space)) {
+            if (ship->getCurrentPower() == 2)
                 reloadTimer = FAST_RELOAD_DURATION;
-            else{
+            else {
                 reloadTimer = RELOAD_DURATION;
             }
             ship->shoot();

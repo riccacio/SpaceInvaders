@@ -9,7 +9,7 @@ using namespace sf;
 
 class Ship{
 private:
-    std::vector<Bullet> bullet = {};
+    std::vector<Bullet> bullets = {};
     Sprite sprShip;
     Sprite sprBullet;
     Texture texShip;
@@ -27,9 +27,10 @@ public:
     void reset();
     void draw(RenderTarget& target);
     int getCurrentPower();
-    void shoot();
     void update();
     void updateBullets();
+    void setBullets(std::vector<Bullet> &bullets);
+    void shoot();
 };
 
 #endif //SHIP_H

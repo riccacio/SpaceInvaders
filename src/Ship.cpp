@@ -36,24 +36,28 @@ Texture &Ship::getTexShip(){
 
 void Ship::draw(RenderTarget& target) {
     target.draw(sprShip);
-    for(auto& b : bullet){
+    for (auto &b: bullets) {
         b.draw(target);
     }
 }
 
-void Ship::shoot() {
-    bullet.push_back(Bullet("sprite/ship_shot.png", Vector2f (getPosition().x, getPosition().y - sprShip.getGlobalBounds().height/2.0f)));
-}
-
 void Ship::updateBullets() {
-    std::erase_if(bullet, [](auto& b){return b.getPosition().y <=100;});
-    for(auto& b : bullet){
+    std::erase_if(bullets, [](auto& b){return b.getPosition().y <= 100;});
+    for(auto& b : bullets){
             b.update();
     }
 }
 
 void Ship::update() {
     updateBullets();
+}
+
+void Ship::shoot() {
+    bullets.push_back(Bullet("sprite/ship_shot.png", Vector2f(getPosition().x, getPosition().y - sprShip.getGlobalBounds().height/2.0f)));
+}
+
+void Ship::setBullets( std::vector<Bullet> &bullets) {
+    this->bullets = bullets;
 }
 
 
