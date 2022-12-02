@@ -7,7 +7,6 @@ Game::Game(): record(0), lives(3), score(0), reloadTimer(0){
     initFont();
     initWindow();
     initText();
-    //music();
 }
 
 //Functions
@@ -53,6 +52,7 @@ void Game::pollEvents() {
                 reloadTimer = RELOAD_DURATION;
             }
             ship->shoot();
+            shipSoundShoot();
         }
     }
     else
@@ -81,11 +81,10 @@ void Game::run(){
     }
 }
 
-void Game::music(){
-    buffer.loadFromFile("sound/menu.wav");
-    sound.setBuffer(buffer);
-    sound.play();
-    sound.setLoop(true);
+void Game::shipSoundShoot(){
+    shipBuffer.loadFromFile("sound/ship_shoot.wav");
+    shipSound.setBuffer(shipBuffer);
+    shipSound.play();
 }
 
 void Game::writeRecord() const {

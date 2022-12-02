@@ -26,10 +26,7 @@ void GameOver::run(){
     }
 }
 void GameOver::music(){
-    if(!buffer.loadFromFile("sound/game_over.wav")){
-        std::cout << ("ERROR: sound not found!") << std::endl;
-        window->close();
-    }
+    buffer.loadFromFile("sound/game_over.wav");
     sound.setBuffer(buffer);
     sound.play();
 }

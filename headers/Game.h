@@ -22,8 +22,8 @@ private:
     std::vector<Text> graphicText = {};
     std::vector<Sprite> sprShipL = {};
     RectangleShape line;
-    SoundBuffer buffer;
-    Sound sound;
+    SoundBuffer shipBuffer;
+    Sound shipSound;
     int reloadTimer;
     int record;
     int score;
@@ -39,7 +39,7 @@ public:
     void update() override;
     void run() override;
     void centerItem(Sprite& s, float height) override;
-    void music();
+    void shipSoundShoot();
     void readRecord() override;
     void writeRecord() const;
 };

@@ -10,14 +10,3 @@ void Map::createShip() {
 std::shared_ptr<Ship> Map::getShip() {
     return ship;
 }
-
-const std::vector<Bullet> &Map::getBullets() const {
-    return bullets;
-}
-/*
-void Map::creteBullets(Vector2f pos) {
-    bullets.push_back(Bullet("sprite/ship_shot.png", pos));
-    ship->setBullets(bullets);
-    bullets.clear();
-}
-*/

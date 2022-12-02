@@ -10,11 +10,8 @@ Ship::Ship(Vector2f pos){
 Sprite &Ship::getSprShip() {
     return sprShip;
 }
-void Ship::setTexShip(const Texture &texShip) {
-    Ship::texShip = texShip;
-}
 
-int Ship::getCurrentPower() {
+int Ship::getCurrentPower() const {
     return currentPower;
 }
 
@@ -53,11 +50,5 @@ void Ship::update() {
 }
 
 void Ship::shoot() {
-    bullets.push_back(Bullet("sprite/ship_shot.png", Vector2f(getPosition().x, getPosition().y - sprShip.getGlobalBounds().height/2.0f)));
+    bullets.emplace_back(Bullet("sprite/ship_shot.png", Vector2f(getPosition().x, getPosition().y - sprShip.getGlobalBounds().height/2.0f)));
 }
-
-void Ship::setBullets( std::vector<Bullet> &bullets) {
-    this->bullets = bullets;
-}
-
-
