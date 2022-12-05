@@ -1,12 +1,12 @@
 #include "../headers/Alien.h"
 
-Alien::Alien(int type) {
+Alien::Alien(int type, Vector2f (pos)) {
     this->type = type;
     switch (type) {
         case 0:
             texture.loadFromFile("sprite/alien2_0.png");
             sprite0.setTexture(texture);
-            sprite0.setPosition(50,200);
+            sprite0.setPosition(Vector2f (pos));
             sprite0.setScale(4,4);
             break;
         case 1:
@@ -27,6 +27,7 @@ Alien::Alien(int type) {
 }
 
 void Alien::draw(RenderTarget& target) {
+    target.draw(sprite0);
     /*
      * TODO stampare gli sprite 5x8
      * 1 fila sprite0
@@ -35,7 +36,8 @@ void Alien::draw(RenderTarget& target) {
      */
 }
 
-const std::vector<Sprite> &Alien::getSprites() const {
-    return sprites;
+const Sprite &Alien::getSprite0() const {
+    return sprite0;
 }
+
 

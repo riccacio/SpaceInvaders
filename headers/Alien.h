@@ -6,16 +6,16 @@ using namespace sf;
 
 class Alien {
 private:
-    std::vector<Sprite> sprites;
     Sprite sprite0;
     Sprite sprite1;
     Sprite sprite2;
     Texture texture;
     int type;
 public:
-    Alien(int type);
+    Alien(int type, Vector2f (pos));
     ~Alien() = default;
     void draw(RenderTarget& target);
+    const Sprite &getSprite0() const;
     const std::vector<Sprite> &getSprites() const;
 };
 

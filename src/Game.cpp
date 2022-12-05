@@ -19,7 +19,7 @@ void Game::initVariables() {
         graphicText.emplace_back();
     map.createShip();
     ship = map.getShip();
-    map.createAliens(0);
+    map.createAliens(0, Vector2f(50, 100));
     aliens = map.getAliens();
     ship->getSprShip().setPosition(0,0);
     centerItem(ship->getSprShip(), ship->getPosition().y);
@@ -57,6 +57,7 @@ void Game::pollEvents() {
             }
             ship->shoot();
             shipSoundShoot();
+            score+=100;
         }
     }
     else
@@ -128,10 +129,10 @@ void Game::initText() {
     graphicText[2].setString("LIVES: ");
     std::stringstream ss2;
     std::string s2;
-    graphicText[3].setString(recordS);
     ss2<<score;
     ss2>>s2;
     graphicText[4].setString(s2);
+    graphicText[3].setString(recordS);
 
     line.setSize(Vector2f(1240, 10));
     line.setFillColor(Color::Green);
@@ -143,7 +144,7 @@ void Game::initText() {
     }
 
     graphicText[0].setPosition(30,20);//HISCORE
-    graphicText[3].setPosition(310,20);//RECORD
+    graphicText[3].setPosition(310,20);//RECORD NUM
     graphicText[1].setPosition(900,20);//SCORE
     graphicText[4].setPosition(1100,20);//SCORE NUM
     graphicText[2].setPosition(20, 1315);//LIVES
@@ -160,4 +161,17 @@ void Game::initText() {
 void Game::update() {
     pollEvents();
     ship->update();
+    updateScoreRecord();
+}
+
+void Game::updateScoreRecord() {
+    std::stringstream ss2;
+    std::string s2;
+    ss2<<score;
+    ss2>>s2;
+    graphicText[4].setString(s2);
+    if(score>=record){
+        readRecord();
+        graphicText[3].setString(recordS);
+    }
 }

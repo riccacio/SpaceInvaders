@@ -12,9 +12,9 @@ public:
     ~Map() = default;
 
     void createShip();
-    void createAliens(int type);
+    void createAliens(int type, Vector2f(pos));
     std::shared_ptr<Ship> getShip();
-    //const std::vector<Alien> &getAliens() const;
+    void draw(RenderTarget& target);
     const std::vector<std::shared_ptr<Alien>> &getAliens() const;
 };
 

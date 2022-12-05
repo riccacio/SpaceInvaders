@@ -43,6 +43,7 @@ public:
     void shipSoundShoot();
     void readRecord() override;
     void writeRecord() const;
+    void updateScoreRecord();
 };
 
 #endif //GAME_H
