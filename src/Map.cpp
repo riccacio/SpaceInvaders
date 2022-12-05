@@ -10,3 +10,11 @@ void Map::createShip() {
 std::shared_ptr<Ship> Map::getShip() {
     return ship;
 }
+
+void Map::createAliens(int type) {
+    aliens.emplace_back(new Alien(type));
+}
+
+const std::vector<std::shared_ptr<Alien>> &Map::getAliens() const {
+    return aliens;
+}

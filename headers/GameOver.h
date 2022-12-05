@@ -1,10 +1,8 @@
 #ifndef GAMEOVER_H
 #define GAMEOVER_H
 #include "../headers/MainWindow.h"
-#include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 
-using namespace sf;
 
 class GameOver: public MainWindow {
 private:

@@ -2,15 +2,11 @@
 #define GAME_H
 #include "../headers/MainWindow.h"
 #include "../headers/Ship.h"
+#include "../headers/Alien.h"
 #include "../headers/Map.h"
 //#include "../headers/GameOver.h"
-#include <iostream>
-#include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <sstream>
-#include <fstream>
-
-using namespace sf;
 
 class Game: public MainWindow{
 private:
@@ -18,12 +14,17 @@ private:
     void initText();
     //Variables
     std::shared_ptr<Ship> ship;
+    std::vector<std::shared_ptr<Alien>> aliens;
+
+private:
     Map map;
     std::vector<Text> graphicText = {};
     std::vector<Sprite> sprShipL = {};
     RectangleShape line;
     SoundBuffer shipBuffer;
     Sound shipSound;
+    Texture t;
+    Sprite s;
     int reloadTimer;
     int record;
     int score;

@@ -3,12 +3,7 @@
 #include "../headers/MainWindow.h"
 #include "../headers/Info.h"
 #include "../headers/Game.h"
-#include <iostream>
-#include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
-#include <sstream>
-
-using namespace sf;
 
 class Menu: public MainWindow{
 private:

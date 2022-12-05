@@ -1,4 +1,5 @@
 #include "../headers/Game.h"
+#include <iostream>
 
 using namespace sf;
 
@@ -18,6 +19,9 @@ void Game::initVariables() {
         graphicText.emplace_back();
     map.createShip();
     ship = map.getShip();
+    map.createAliens(0);
+    aliens = map.getAliens();
+    ship->getSprShip().setPosition(0,0);
     centerItem(ship->getSprShip(), ship->getPosition().y);
     readRecord();
 }
@@ -69,6 +73,9 @@ void Game::render() {
         window->draw(sprShipL[j]);
     window->draw(line);
     ship->draw(*window);
+    for(auto& a : aliens){
+        a->draw(*window);
+    }
     window->display();
 }
 

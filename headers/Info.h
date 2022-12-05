@@ -1,9 +1,6 @@
 #ifndef INFO_H
 #define INFO_H
 #include "../headers/MainWindow.h"
-#include <SFML/Graphics.hpp>
-
-using namespace sf;
 
 class Info: public MainWindow {
 private:
