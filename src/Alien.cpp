@@ -1,7 +1,7 @@
 #include "../headers/Alien.h"
 
 Alien::Alien(int type, Vector2f (pos), bool startSprite) : change(startSprite){
-
+    shoot_distribution = std::uniform_int_distribution<unsigned short>(0, std::max<short>(ENEMY_SHOOT_CHANCE_MIN, ENEMY_SHOOT_CHANCE - ENEMY_SHOOT_CHANCE_INCREASE));
     switch (type) {
         case 0:
             textureA.loadFromFile("sprite/alien1_0.png");
@@ -47,6 +47,9 @@ Sprite& Alien::getSpriteB(){
 
 void Alien::draw(RenderTarget& target) {
     target.draw((change)?spriteA:spriteB);
+    for (auto &b: bullets) {
+        b.draw(target);
+    }
 }
 
 Vector2f Alien::getPositionA() {
@@ -74,4 +77,24 @@ void Alien::changeSprite() {
 }
 void Alien::setPositionB(Vector2f pos) {
     spriteB.setPosition(pos);
+}
+
+void Alien::updateBullets() {
+    std::erase_if(bullets, [](auto& b){return b.getPosition().y >= 1270;});
+    for(auto& b : bullets){
+        b.update(1);
+    }
+}
+
+void Alien::shoot() {
+    //TODO come in ship non carica l'immagine
+    bullets.emplace_back(Bullet("sprite/alien_shot0.png", "sprite/alien_shot1.png",Vector2f(getPositionA().x + spriteA.getGlobalBounds().width/2.0f, getPositionA().y + spriteA.getGlobalBounds().height/2.0f)));
+}
+
+void Alien::update(std::mt19937_64 &i_random_engine) {
+    updateBullets();
+    //shoot();
+    if (0 == shoot_distribution(i_random_engine)){
+        shoot();
+    }
 }

@@ -4,6 +4,10 @@
 using namespace sf;
 
 Game::Game(): record(0), lives(3), score(0), reloadTimer(0), moveTimer(0), direction(1), timeAliens(0), changeMusic(true){
+    //TODO guardare se è possibile farlo diversamente
+    std::chrono::microseconds lag(0);
+    std::chrono::steady_clock::time_point previous_time;
+    std::mt19937_64 random_engine(std::chrono::system_clock::now().time_since_epoch().count());
     initVariables();
     initFont();
     initItems();
@@ -13,6 +17,7 @@ Game::Game(): record(0), lives(3), score(0), reloadTimer(0), moveTimer(0), direc
 
 //Functions
 void Game::initVariables() {
+
     window = nullptr;
     for(int j=0; j<lives; j++)
         sprShipL.emplace_back();
@@ -173,6 +178,9 @@ void Game::update() {
     else
         timeAliens--;
     ship->update();
+    for(auto& a : aliens){
+        a->update(random_engine);
+    }
     moveAliens();
     updateScoreRecord();
 }

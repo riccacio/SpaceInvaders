@@ -6,10 +6,16 @@
 #include "../headers/Map.h"
 //#include "../headers/GameOver.h"
 #include <SFML/Audio.hpp>
+#include <chrono>
+#include <random>
+#include <array>
 #include <sstream>
 
 class Game: public MainWindow{
 private:
+
+    std::mt19937_64 random_engine;
+
     void initVariables() override;
     void initText();
     void initItems();

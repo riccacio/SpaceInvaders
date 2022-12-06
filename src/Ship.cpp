@@ -42,7 +42,7 @@ void Ship::draw(RenderTarget& target) {
 void Ship::updateBullets() {
     std::erase_if(bullets, [](auto& b){return b.getPosition().y <= 100;});
     for(auto& b : bullets){
-            b.update();
+            b.update(-1);
     }
 }
 
@@ -51,5 +51,6 @@ void Ship::update() {
 }
 
 void Ship::shoot() {
+    //TODO da sistemare il passaggio del percorso dell'immagine
     bullets.emplace_back(Bullet("sprite/ship_shot.png", Vector2f(getPosition().x, getPosition().y - sprShip.getGlobalBounds().height/2.0f)));
 }
