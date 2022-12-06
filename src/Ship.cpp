@@ -5,6 +5,7 @@ Ship::Ship(Vector2f pos){
     texShip.loadFromFile("sprite/ship.png");
     sprShip.setPosition(pos);
     sprShip.setTexture(texShip);
+    sprShip.setScale(4,4);
 }
 
 Sprite &Ship::getSprShip() {

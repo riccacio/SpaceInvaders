@@ -3,9 +3,10 @@
 
 using namespace sf;
 
-Game::Game(): record(0), lives(3), score(0), reloadTimer(0){
+Game::Game(): record(0), lives(3), score(0), reloadTimer(0), timeAliens(0), change(false){
     initVariables();
     initFont();
+    initItems();
     initWindow();
     initText();
 }
@@ -17,12 +18,6 @@ void Game::initVariables() {
         sprShipL.emplace_back();
     for(int j=0; j<5; j++)
         graphicText.emplace_back();
-    map.createShip();
-    ship = map.getShip();
-    map.createAliens(0, Vector2f(50, 100));
-    aliens = map.getAliens();
-    ship->getSprShip().setPosition(0,0);
-    centerItem(ship->getSprShip(), ship->getPosition().y);
     readRecord();
 }
 
@@ -49,6 +44,7 @@ void Game::pollEvents() {
         }
     }
     if (reloadTimer == 0){
+
         if (Keyboard::isKeyPressed(Keyboard::Space)) {
             if (ship->getCurrentPower() == 2)
                 reloadTimer = FAST_RELOAD_DURATION;
@@ -57,11 +53,11 @@ void Game::pollEvents() {
             }
             ship->shoot();
             shipSoundShoot();
-            score+=100;
         }
     }
-    else
+    else{
         reloadTimer--;
+    }
 }
 
 void Game::render() {
@@ -73,10 +69,11 @@ void Game::render() {
     for(int j=0; j<lives; j++)
         window->draw(sprShipL[j]);
     window->draw(line);
-    ship->draw(*window);
+
     for(auto& a : aliens){
         a->draw(*window);
     }
+    ship->draw(*window);
     window->display();
 }
 
@@ -123,7 +120,6 @@ void Game::centerItem(Sprite& sprite, float height){
 }
 
 void Game::initText() {
-    ship->getSprShip().setScale(4,4);
     graphicText[0].setString("HI-SCORE: ");
     graphicText[1].setString("SCORE: ");
     graphicText[2].setString("LIVES: ");
@@ -160,6 +156,18 @@ void Game::initText() {
 
 void Game::update() {
     pollEvents();
+    if(timeAliens==0){
+        timeAliens = ALIEN_CHANGE_SPRITE;
+        for(auto& a : aliens){
+            a->changeSprite();
+        }
+    }
+    else{
+        timeAliens--;
+    }
+    for(auto& a : aliens){
+        a->update();
+    }
     ship->update();
     updateScoreRecord();
 }
@@ -174,4 +182,37 @@ void Game::updateScoreRecord() {
         readRecord();
         graphicText[3].setString(recordS);
     }
+}
+
+void Game::initItems() {
+    map.createShip();
+    ship = map.getShip();
+    int x=55;
+    for(int i=0; i<8; i++){
+        map.createAliens(0, Vector2f(x, 120));
+        x+=150;
+    }
+    x=55;
+    for(int i=0; i<8; i++){
+        map.createAliens(1, Vector2f(x, 220));
+        x+=150;
+    }
+    x=55;
+    for(int i=0; i<8; i++){
+        map.createAliens(1, Vector2f(x, 320), false);
+        x+=150;
+    }
+    x=55;
+    for(int i=0; i<8; i++){
+        map.createAliens(2, Vector2f(x, 420));
+        x+=150;
+    }
+    x=55;
+    for(int i=0; i<8; i++){
+        map.createAliens(2, Vector2f(x, 520), false);
+        x+=150;
+    }
+    aliens = map.getAliens();
+    ship->getSprShip().setPosition(0,0);
+    centerItem(ship->getSprShip(), ship->getPosition().y);
 }

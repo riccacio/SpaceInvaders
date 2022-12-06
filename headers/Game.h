@@ -12,10 +12,12 @@ class Game: public MainWindow{
 private:
     void initVariables() override;
     void initText();
+    void initItems();
     //Variables
     std::shared_ptr<Ship> ship;
     std::vector<std::shared_ptr<Alien>> aliens;
-
+    int timeAliens;
+    bool change;
 private:
     Map map;
     std::vector<Text> graphicText = {};

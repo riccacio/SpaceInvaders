@@ -1,22 +1,31 @@
 #ifndef SPACEINVADERS_ALIEN_H
 #define SPACEINVADERS_ALIEN_H
+#include "../headers/Global.h"
 #include <SFML/Graphics.hpp>
 
 using namespace sf;
 
 class Alien {
 private:
-    Sprite sprite0;
-    Sprite sprite1;
-    Sprite sprite2;
-    Texture texture;
-    int type;
+    Sprite spriteA;
+    Sprite spriteB;
+    Texture textureA;
+    Texture textureB;
+    bool change;
+    int moveTimer;
+    int direction;
 public:
-    Alien(int type, Vector2f (pos));
+    Alien(int type, Vector2f (pos), bool startSprite=true);
     ~Alien() = default;
     void draw(RenderTarget& target);
+    const Sprite &getSpriteA() const;
+    void setSpriteA(const Sprite &spriteA);
+    const Sprite &getSpriteB() const;
+    void setSpriteB(const Sprite &spriteB);
     const Sprite &getSprite0() const;
-    const std::vector<Sprite> &getSprites() const;
+    void changeSprite();
+    void update();
+
 };
 
 

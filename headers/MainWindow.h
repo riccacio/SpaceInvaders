@@ -1,5 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
+
+#include "../headers/Global.h"
 #include <SFML/Graphics.hpp>
 #include <fstream>
 
@@ -7,10 +9,6 @@ using namespace sf;
 
 class MainWindow {
 protected:
-    //Constants
-    static const int WIDTH = 1280;
-    static const int HEIGHT = 1400;
-
     //Private functions
     virtual void initVariables();
     virtual void initWindow();

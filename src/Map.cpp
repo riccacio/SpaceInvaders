@@ -11,17 +11,11 @@ std::shared_ptr<Ship> Map::getShip() {
     return ship;
 }
 
-void Map::createAliens(int type, Vector2f(pos)) {
-    aliens.emplace_back(new Alien(type, pos));
+void Map::createAliens(int type, Vector2f(pos), bool startSprite) {
+    aliens.emplace_back(new Alien(type, pos, startSprite));
 }
 
 const std::vector<std::shared_ptr<Alien>> &Map::getAliens() const {
     return aliens;
-}
-
-void Map::draw(RenderTarget &target) {
-    for(auto& a : aliens){
-        target.draw(a->getSprite0());
-    }
 }
 

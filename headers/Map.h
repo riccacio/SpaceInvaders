@@ -12,9 +12,8 @@ public:
     ~Map() = default;
 
     void createShip();
-    void createAliens(int type, Vector2f(pos));
+    void createAliens(int type, Vector2f(pos), bool startSprite=true);
     std::shared_ptr<Ship> getShip();
-    void draw(RenderTarget& target);
     const std::vector<std::shared_ptr<Alien>> &getAliens() const;
 };
 
