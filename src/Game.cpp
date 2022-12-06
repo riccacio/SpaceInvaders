@@ -3,7 +3,7 @@
 
 using namespace sf;
 
-Game::Game(): record(0), lives(3), score(0), reloadTimer(0), timeAliens(0), change(false){
+Game::Game(): record(0), lives(3), score(0), reloadTimer(0), moveTimer(0), direction(1), timeAliens(0){
     initVariables();
     initFont();
     initItems();
@@ -44,7 +44,6 @@ void Game::pollEvents() {
         }
     }
     if (reloadTimer == 0){
-
         if (Keyboard::isKeyPressed(Keyboard::Space)) {
             if (ship->getCurrentPower() == 2)
                 reloadTimer = FAST_RELOAD_DURATION;
@@ -157,18 +156,15 @@ void Game::initText() {
 void Game::update() {
     pollEvents();
     if(timeAliens==0){
-        timeAliens = ALIEN_CHANGE_SPRITE;
+        timeAliens = ALIEN_CHANGE;
         for(auto& a : aliens){
             a->changeSprite();
         }
     }
-    else{
+    else
         timeAliens--;
-    }
-    for(auto& a : aliens){
-        a->update();
-    }
     ship->update();
+    moveAliens();
     updateScoreRecord();
 }
 
@@ -215,4 +211,30 @@ void Game::initItems() {
     aliens = map.getAliens();
     ship->getSprShip().setPosition(0,0);
     centerItem(ship->getSprShip(), ship->getPosition().y);
+}
+
+void Game::moveAliens() {
+    if(moveTimer==0) {
+        moveTimer = ALIEN_CHANGE;
+        for (auto &a: aliens) {
+            if ((a->getPositionA().x + a->getSpriteA().getGlobalBounds().width) >= WIDTH) {
+                for (auto &b: aliens) {
+                    b->getSpriteA().setPosition(b->getPositionA().x, b->getPositionA().y + OFFSET);
+                    b->getSpriteB().setPosition(b->getPositionB().x, b->getPositionB().y + OFFSET);
+                }
+                direction = -1;
+            }
+            if (a->getPositionA().x <= 0) {
+                for (auto &b: aliens) {
+                    b->getSpriteA().setPosition(b->getPositionA().x, b->getPositionA().y + OFFSET);
+                    b->getSpriteB().setPosition(b->getPositionB().x, b->getPositionB().y + OFFSET);
+                }
+                direction = 1;
+            }
+            a->getSpriteA().setPosition(a->getPositionA().x + ALIEN_SPEED * direction, a->getPositionA().y);
+            a->getSpriteB().setPosition(a->getPositionB().x + ALIEN_SPEED * direction, a->getPositionB().y);
+        }
+    }
+    else
+        moveTimer --;
 }

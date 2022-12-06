@@ -12,21 +12,17 @@ private:
     Texture textureA;
     Texture textureB;
     bool change;
-    int moveTimer;
-    int direction;
 public:
     Alien(int type, Vector2f (pos), bool startSprite=true);
     ~Alien() = default;
     void draw(RenderTarget& target);
-    const Sprite &getSpriteA() const;
+    Vector2f getPositionA();
+    Sprite& getSpriteA();
+    Sprite& getSpriteB();
     void setSpriteA(const Sprite &spriteA);
-    const Sprite &getSpriteB() const;
+    Vector2f getPositionB() ;
     void setSpriteB(const Sprite &spriteB);
-    const Sprite &getSprite0() const;
     void changeSprite();
-    void update();
-
 };
-
 
 #endif //SPACEINVADERS_ALIEN_H

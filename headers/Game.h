@@ -16,9 +16,6 @@ private:
     //Variables
     std::shared_ptr<Ship> ship;
     std::vector<std::shared_ptr<Alien>> aliens;
-    int timeAliens;
-    bool change;
-private:
     Map map;
     std::vector<Text> graphicText = {};
     std::vector<Sprite> sprShipL = {};
@@ -31,6 +28,9 @@ private:
     int record;
     int score;
     int lives;
+    int moveTimer;
+    int timeAliens;
+    int direction;
 public:
     //Constructor and Destructor
     Game();
@@ -46,6 +46,7 @@ public:
     void readRecord() override;
     void writeRecord() const;
     void updateScoreRecord();
+    void moveAliens();
 };
 
 #endif //GAME_H

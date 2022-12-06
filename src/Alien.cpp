@@ -1,6 +1,7 @@
 #include "../headers/Alien.h"
 
-Alien::Alien(int type, Vector2f (pos), bool startSprite) : change(startSprite), direction(1), moveTimer(0) {
+Alien::Alien(int type, Vector2f (pos), bool startSprite) : change(startSprite){
+
     switch (type) {
         case 0:
             textureA.loadFromFile("sprite/alien1_0.png");
@@ -37,24 +38,27 @@ Alien::Alien(int type, Vector2f (pos), bool startSprite) : change(startSprite), 
     }
 }
 
+Sprite& Alien::getSpriteA(){
+    return spriteA;
+}
+Sprite& Alien::getSpriteB(){
+    return spriteA;
+}
+
 void Alien::draw(RenderTarget& target) {
     target.draw((change)?spriteA:spriteB);
 }
 
-const Sprite &Alien::getSprite0() const {
-    return spriteA;
-}
-
-const Sprite &Alien::getSpriteA() const {
-    return spriteA;
+Vector2f Alien::getPositionA() {
+    return spriteA.getPosition();
 }
 
 void Alien::setSpriteA(const Sprite &spriteA) {
     Alien::spriteA = spriteA;
 }
 
-const Sprite &Alien::getSpriteB() const {
-    return spriteB;
+Vector2f Alien::getPositionB()  {
+    return spriteB.getPosition();
 }
 
 void Alien::setSpriteB(const Sprite &spriteB) {
@@ -64,22 +68,3 @@ void Alien::setSpriteB(const Sprite &spriteB) {
 void Alien::changeSprite() {
     change = !change;
 }
-
-void Alien::update() {
-    if(moveTimer){
-        moveTimer = ALIEN_MOVE_PAUSE;
-        if(spriteA.getPosition().x + spriteA.getGlobalBounds().width <= WIDTH && spriteB.getPosition().x + spriteB.getGlobalBounds().width){
-                spriteA.setPosition(spriteA.getPosition().x + ALIEN_SPEED, spriteA.getPosition().y);
-                spriteB.setPosition(spriteB.getPosition().x + ALIEN_SPEED, spriteB.getPosition().y);
-        }
-        else if(spriteA.getPosition().x > 0 && spriteB.getPosition().x > 0){
-            spriteA.setPosition(spriteA.getPosition().x, spriteA.getPosition().y + 1);
-            spriteB.setPosition(spriteB.getPosition().x , spriteB.getPosition().y + 1);
-            spriteA.setPosition(spriteA.getPosition().x - ALIEN_SPEED, spriteA.getPosition().y);
-            spriteB.setPosition(spriteB.getPosition().x - ALIEN_SPEED, spriteB.getPosition().y);
-        }
-    }
-    else
-        moveTimer --;
-}
-
