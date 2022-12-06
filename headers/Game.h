@@ -21,7 +21,11 @@ private:
     std::vector<Sprite> sprShipL = {};
     RectangleShape line;
     SoundBuffer shipBuffer;
+    SoundBuffer alienBuffer1;
+    SoundBuffer alienBuffer2;
     Sound shipSound;
+    Sound alienSound1;
+    Sound alienSound2;
     Texture t;
     Sprite s;
     int reloadTimer;
@@ -30,7 +34,8 @@ private:
     int lives;
     int moveTimer;
     int timeAliens;
-    int direction;
+    float direction;
+    bool changeMusic;
 public:
     //Constructor and Destructor
     Game();
@@ -42,7 +47,6 @@ public:
     void update() override;
     void run() override;
     void centerItem(Sprite& s, float height) override;
-    void shipSoundShoot();
     void readRecord() override;
     void writeRecord() const;
     void updateScoreRecord();

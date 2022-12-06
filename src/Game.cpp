@@ -3,7 +3,7 @@
 
 using namespace sf;
 
-Game::Game(): record(0), lives(3), score(0), reloadTimer(0), moveTimer(0), direction(1), timeAliens(0){
+Game::Game(): record(0), lives(3), score(0), reloadTimer(0), moveTimer(0), direction(1), timeAliens(0), changeMusic(true){
     initVariables();
     initFont();
     initItems();
@@ -19,6 +19,12 @@ void Game::initVariables() {
     for(int j=0; j<5; j++)
         graphicText.emplace_back();
     readRecord();
+    shipBuffer.loadFromFile("sound/ship_shoot.wav");
+    shipSound.setBuffer(shipBuffer);
+    alienBuffer1.loadFromFile("sound/fastinvader1.wav");
+    alienSound1.setBuffer(alienBuffer1);
+    alienBuffer2.loadFromFile("sound/fastinvader2.wav");
+    alienSound2.setBuffer(alienBuffer2);
 }
 
 void Game::pollEvents() {
@@ -51,7 +57,7 @@ void Game::pollEvents() {
                 reloadTimer = RELOAD_DURATION;
             }
             ship->shoot();
-            shipSoundShoot();
+            shipSound.play();
         }
     }
     else{
@@ -83,12 +89,6 @@ void Game::run(){
         //Render
         render();
     }
-}
-
-void Game::shipSoundShoot(){
-    shipBuffer.loadFromFile("sound/ship_shoot.wav");
-    shipSound.setBuffer(shipBuffer);
-    shipSound.play();
 }
 
 void Game::writeRecord() const {
@@ -157,9 +157,18 @@ void Game::update() {
     pollEvents();
     if(timeAliens==0){
         timeAliens = ALIEN_CHANGE;
+        if(changeMusic){
+            alienSound1.play();
+            changeMusic = !changeMusic;
+        }
+        else{
+            alienSound2.play();
+            changeMusic = !changeMusic;
+        }
         for(auto& a : aliens){
             a->changeSprite();
         }
+
     }
     else
         timeAliens--;
@@ -183,7 +192,7 @@ void Game::updateScoreRecord() {
 void Game::initItems() {
     map.createShip();
     ship = map.getShip();
-    int x=55;
+    float x=55;
     for(int i=0; i<8; i++){
         map.createAliens(0, Vector2f(x, 120));
         x+=150;
@@ -219,15 +228,15 @@ void Game::moveAliens() {
         for (auto &a: aliens) {
             if ((a->getPositionA().x + a->getSpriteA().getGlobalBounds().width) >= WIDTH) {
                 for (auto &b: aliens) {
-                    b->getSpriteA().setPosition(b->getPositionA().x, b->getPositionA().y + OFFSET);
-                    b->getSpriteB().setPosition(b->getPositionB().x, b->getPositionB().y + OFFSET);
+                    b->setPositionA(Vector2f (b->getPositionA().x, b->getPositionA().y + OFFSET));
+                    b->setPositionB(Vector2f (b->getPositionB().x, b->getPositionB().y + OFFSET));
                 }
                 direction = -1;
             }
             if (a->getPositionA().x <= 0) {
                 for (auto &b: aliens) {
-                    b->getSpriteA().setPosition(b->getPositionA().x, b->getPositionA().y + OFFSET);
-                    b->getSpriteB().setPosition(b->getPositionB().x, b->getPositionB().y + OFFSET);
+                    b->setPositionA(Vector2f (b->getPositionA().x, b->getPositionA().y + OFFSET));
+                    b->setPositionB(Vector2f (b->getPositionB().x, b->getPositionB().y + OFFSET));
                 }
                 direction = 1;
             }

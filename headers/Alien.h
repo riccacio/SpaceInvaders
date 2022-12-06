@@ -19,6 +19,8 @@ public:
     Vector2f getPositionA();
     Sprite& getSpriteA();
     Sprite& getSpriteB();
+    void setPositionA(Vector2f pos);
+    void setPositionB(Vector2f pos);
     void setSpriteA(const Sprite &spriteA);
     Vector2f getPositionB() ;
     void setSpriteB(const Sprite &spriteB);

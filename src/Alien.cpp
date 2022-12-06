@@ -42,7 +42,7 @@ Sprite& Alien::getSpriteA(){
     return spriteA;
 }
 Sprite& Alien::getSpriteB(){
-    return spriteA;
+    return spriteB;
 }
 
 void Alien::draw(RenderTarget& target) {
@@ -65,6 +65,13 @@ void Alien::setSpriteB(const Sprite &spriteB) {
     Alien::spriteB = spriteB;
 }
 
+void Alien::setPositionA(Vector2f pos) {
+    spriteA.setPosition(pos);
+;}
+
 void Alien::changeSprite() {
     change = !change;
+}
+void Alien::setPositionB(Vector2f pos) {
+    spriteB.setPosition(pos);
 }
