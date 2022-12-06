@@ -67,7 +67,7 @@ void Alien::setSpriteB(const Sprite &spriteB) {
 
 void Alien::setPositionA(Vector2f pos) {
     spriteA.setPosition(pos);
-;}
+}
 
 void Alien::changeSprite() {
     change = !change;
