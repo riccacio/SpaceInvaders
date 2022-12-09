@@ -14,6 +14,7 @@ private:
     Sprite spriteB;
     Texture textureA;
     Texture textureB;
+    Texture texShot;
     std::vector<Bullet> bullets = {};
     bool change;
     std::uniform_int_distribution<unsigned short> shoot_distribution;

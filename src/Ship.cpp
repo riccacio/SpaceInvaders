@@ -3,6 +3,7 @@
 Ship::Ship(Vector2f pos){
     reset();
     texShip.loadFromFile("sprite/ship.png");
+    texShipShot.loadFromFile("sprite/ship_shot.png");
     sprShip.setPosition(pos);
     sprShip.setTexture(texShip);
     sprShip.setScale(4,4);
@@ -51,6 +52,5 @@ void Ship::update() {
 }
 
 void Ship::shoot() {
-    //TODO da sistemare il passaggio del percorso dell'immagine
-    bullets.emplace_back(Bullet("sprite/ship_shot.png", Vector2f(getPosition().x, getPosition().y - sprShip.getGlobalBounds().height/2.0f)));
+    bullets.emplace_back(Bullet(texShipShot, Vector2f(getPosition().x, getPosition().y - sprShip.getGlobalBounds().height / 2.0f)));
 }

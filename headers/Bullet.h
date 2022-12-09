@@ -9,12 +9,9 @@ using namespace sf;
 class Bullet{
 private:
     Sprite sprite;
-    Texture textureS;
-    Texture textureA1;
-    Texture textureA2;
+    Sprite spriteA; //sprite 2nd bullet alien
 public:
-    Bullet(std::string path, Vector2f pos);
-    Bullet(std::string path1, std::string path2, Vector2f pos);
+    Bullet(Texture& texShipShot, Vector2f pos);
     ~Bullet() = default;
     void draw(RenderTarget& target);
     void update(int direction);

@@ -10,6 +10,7 @@ private:
     std::vector<Bullet> bullets = {};
     Sprite sprShip;
     Texture texShip;
+    Texture texShipShot;
     //Rect hitBox;
     int currentPower;
 public:

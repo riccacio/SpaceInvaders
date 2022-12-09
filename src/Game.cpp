@@ -79,7 +79,6 @@ void Game::render() {
     for(int j=0; j<lives; j++)
         window->draw(sprShipL[j]);
     window->draw(line);
-
     for(auto& a : aliens){
         a->draw(*window);
     }
@@ -173,15 +172,15 @@ void Game::update() {
         for(auto& a : aliens){
             a->changeSprite();
         }
-
     }
     else
         timeAliens--;
-    ship->update();
     for(auto& a : aliens){
         a->update(random_engine);
     }
     moveAliens();
+    ship->update();
+
     updateScoreRecord();
 }
 
@@ -236,20 +235,20 @@ void Game::moveAliens() {
         for (auto &a: aliens) {
             if ((a->getPositionA().x + a->getSpriteA().getGlobalBounds().width) >= WIDTH) {
                 for (auto &b: aliens) {
-                    b->setPositionA(Vector2f (b->getPositionA().x, b->getPositionA().y + OFFSET));
-                    b->setPositionB(Vector2f (b->getPositionB().x, b->getPositionB().y + OFFSET));
+                    b->getSpriteA().move(0.0f, OFFSET);
+                    b->getSpriteB().move(0.0f, OFFSET);
                 }
                 direction = -1;
             }
             if (a->getPositionA().x <= 0) {
                 for (auto &b: aliens) {
-                    b->setPositionA(Vector2f (b->getPositionA().x, b->getPositionA().y + OFFSET));
-                    b->setPositionB(Vector2f (b->getPositionB().x, b->getPositionB().y + OFFSET));
+                    b->getSpriteA().move(0.0f, OFFSET);
+                    b->getSpriteB().move(0.0f, OFFSET);
                 }
                 direction = 1;
             }
-            a->getSpriteA().setPosition(a->getPositionA().x + ALIEN_SPEED * direction, a->getPositionA().y);
-            a->getSpriteB().setPosition(a->getPositionB().x + ALIEN_SPEED * direction, a->getPositionB().y);
+            a->getSpriteA().move(ALIEN_SPEED*direction, 0.0f);
+            a->getSpriteB().move(ALIEN_SPEED*direction, 0.0f);
         }
     }
     else
