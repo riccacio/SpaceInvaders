@@ -17,3 +17,8 @@ void Bullet::update(int direction) {
 Vector2f Bullet::getPosition() {
     return sprite.getPosition();
 }
+
+const Sprite &Bullet::getSprite() const {
+    return sprite;
+}
+

@@ -1,6 +1,6 @@
 #include "../headers/Ship.h"
 
-Ship::Ship(Vector2f pos){
+Ship::Ship(Vector2f pos) : ship_hitBox(sprShip.getGlobalBounds()){
     reset();
     texShip.loadFromFile("sprite/ship.png");
     texShipShot.loadFromFile("sprite/ship_shot.png");
@@ -54,3 +54,8 @@ void Ship::update() {
 void Ship::shoot() {
     bullets.emplace_back(Bullet(texShipShot, Vector2f(getPosition().x, getPosition().y - sprShip.getGlobalBounds().height / 2.0f)));
 }
+
+const std::vector<Bullet> &Ship::getBullets() const {
+    return bullets;
+}
+

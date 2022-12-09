@@ -9,12 +9,12 @@ using namespace sf;
 class Bullet{
 private:
     Sprite sprite;
-    Sprite spriteA; //sprite 2nd bullet alien
 public:
     Bullet(Texture& texShipShot, Vector2f pos);
     ~Bullet() = default;
     void draw(RenderTarget& target);
     void update(int direction);
+    const Sprite &getSprite() const;
     Vector2f getPosition();
 };
 

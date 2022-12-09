@@ -36,6 +36,7 @@ public:
 
     void updateBullets();
     void shoot();
+    bool checkCollision(Sprite& spr);
 };
 
 #endif //SPACEINVADERS_ALIEN_H

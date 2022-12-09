@@ -8,10 +8,14 @@ using namespace sf;
 class Ship{
 private:
     std::vector<Bullet> bullets = {};
+public:
+    const std::vector<Bullet> &getBullets() const;
+
+private:
     Sprite sprShip;
     Texture texShip;
     Texture texShipShot;
-    //Rect hitBox;
+    FloatRect ship_hitBox;
     int currentPower;
 public:
     Ship(Vector2f pos);

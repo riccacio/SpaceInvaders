@@ -32,8 +32,6 @@ private:
     Sound shipSound;
     Sound alienSound1;
     Sound alienSound2;
-    Texture t;
-    Sprite s;
     int reloadTimer;
     int record;
     int score;

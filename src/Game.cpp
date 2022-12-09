@@ -32,6 +32,74 @@ void Game::initVariables() {
     alienSound2.setBuffer(alienBuffer2);
 }
 
+void Game::initItems() {
+    map.createShip();
+    ship = map.getShip();
+    float x=55;
+    for(int i=0; i<8; i++){
+        map.createAliens(0, Vector2f(x, 120));
+        x+=150;
+    }
+    x=55;
+    for(int i=0; i<8; i++){
+        map.createAliens(1, Vector2f(x, 220));
+        x+=150;
+    }
+    x=55;
+    for(int i=0; i<8; i++){
+        map.createAliens(1, Vector2f(x, 320), false);
+        x+=150;
+    }
+    x=55;
+    for(int i=0; i<8; i++){
+        map.createAliens(2, Vector2f(x, 420));
+        x+=150;
+    }
+    x=55;
+    for(int i=0; i<8; i++){
+        map.createAliens(2, Vector2f(x, 520), false);
+        x+=150;
+    }
+    aliens = map.getAliens();
+    ship->getSprShip().setPosition(0,0);
+    centerItem(ship->getSprShip(), ship->getPosition().y);
+}
+
+void Game::initText() {
+    graphicText[0].setString("HI-SCORE: ");
+    graphicText[1].setString("SCORE: ");
+    graphicText[2].setString("LIVES: ");
+    std::stringstream ss2;
+    std::string s2;
+    ss2<<score;
+    ss2>>s2;
+    graphicText[4].setString(s2);
+    graphicText[3].setString(recordS);
+
+    line.setSize(Vector2f(1240, 10));
+    line.setFillColor(Color::Green);
+    line.setPosition(20, 1270);
+
+    for(int j=0; j<5; j++){
+        graphicText[j].setFont(f);
+        graphicText[j].setCharacterSize(32);
+    }
+
+    graphicText[0].setPosition(30,20);//HISCORE
+    graphicText[3].setPosition(310,20);//RECORD NUM
+    graphicText[1].setPosition(900,20);//SCORE
+    graphicText[4].setPosition(1100,20);//SCORE NUM
+    graphicText[2].setPosition(20, 1315);//LIVES
+
+    float p=215;
+    for(int j=0; j<lives; j++){
+        sprShipL[j].setTexture(ship->getTexShip());
+        sprShipL[j].setScale(3, 3);
+        sprShipL[j].setPosition(p, 1290);
+        p+=120;
+    }
+}
+
 void Game::pollEvents() {
     //Event polling
     while (window->pollEvent(event)){
@@ -62,6 +130,18 @@ void Game::pollEvents() {
                 reloadTimer = RELOAD_DURATION;
             }
             ship->shoot();
+            //TODO rivedere le collisioni
+            for(auto& b : ship->getBullets()){
+                for(auto& a : aliens){
+                    if(a->getSpriteA().getGlobalBounds().intersects(b.getSprite().getGlobalBounds())){
+                        std::cout << "hit alien" << std::endl;
+
+                    }
+                    else if(a->getSpriteB().getGlobalBounds().intersects(b.getSprite().getGlobalBounds())){
+                        std::cout << "hit alien" << std::endl;
+                    }
+                }
+            }
             shipSound.play();
         }
     }
@@ -122,41 +202,6 @@ void Game::centerItem(Sprite& sprite, float height){
     ship->setPosition(Vector2f ((WIDTH/2.0f),1180.0f));
 }
 
-void Game::initText() {
-    graphicText[0].setString("HI-SCORE: ");
-    graphicText[1].setString("SCORE: ");
-    graphicText[2].setString("LIVES: ");
-    std::stringstream ss2;
-    std::string s2;
-    ss2<<score;
-    ss2>>s2;
-    graphicText[4].setString(s2);
-    graphicText[3].setString(recordS);
-
-    line.setSize(Vector2f(1240, 10));
-    line.setFillColor(Color::Green);
-    line.setPosition(20, 1270);
-
-    for(int j=0; j<5; j++){
-        graphicText[j].setFont(f);
-        graphicText[j].setCharacterSize(32);
-    }
-
-    graphicText[0].setPosition(30,20);//HISCORE
-    graphicText[3].setPosition(310,20);//RECORD NUM
-    graphicText[1].setPosition(900,20);//SCORE
-    graphicText[4].setPosition(1100,20);//SCORE NUM
-    graphicText[2].setPosition(20, 1315);//LIVES
-
-    float p=215;
-    for(int j=0; j<lives; j++){
-        sprShipL[j].setTexture(ship->getTexShip());
-        sprShipL[j].setScale(3, 3);
-        sprShipL[j].setPosition(p, 1290);
-        p+=120;
-    }
-}
-
 void Game::update() {
     pollEvents();
     if(timeAliens==0){
@@ -177,10 +222,13 @@ void Game::update() {
         timeAliens--;
     for(auto& a : aliens){
         a->update(random_engine);
+        //TODO rivedere le collisioni
+        if(a->checkCollision(ship->getSprShip())){
+            std::cout << "hit" << std::endl;
+        }
     }
     moveAliens();
     ship->update();
-
     updateScoreRecord();
 }
 
@@ -194,39 +242,6 @@ void Game::updateScoreRecord() {
         readRecord();
         graphicText[3].setString(recordS);
     }
-}
-
-void Game::initItems() {
-    map.createShip();
-    ship = map.getShip();
-    float x=55;
-    for(int i=0; i<8; i++){
-        map.createAliens(0, Vector2f(x, 120));
-        x+=150;
-    }
-    x=55;
-    for(int i=0; i<8; i++){
-        map.createAliens(1, Vector2f(x, 220));
-        x+=150;
-    }
-    x=55;
-    for(int i=0; i<8; i++){
-        map.createAliens(1, Vector2f(x, 320), false);
-        x+=150;
-    }
-    x=55;
-    for(int i=0; i<8; i++){
-        map.createAliens(2, Vector2f(x, 420));
-        x+=150;
-    }
-    x=55;
-    for(int i=0; i<8; i++){
-        map.createAliens(2, Vector2f(x, 520), false);
-        x+=150;
-    }
-    aliens = map.getAliens();
-    ship->getSprShip().setPosition(0,0);
-    centerItem(ship->getSprShip(), ship->getPosition().y);
 }
 
 void Game::moveAliens() {
