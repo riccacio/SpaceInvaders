@@ -40,6 +40,7 @@ private:
     int timeAliens;
     float direction;
     bool changeMusic;
+    bool hitted;
 public:
     //Constructor and Destructor
     Game();

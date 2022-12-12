@@ -14,8 +14,9 @@ public:
     ~Bullet() = default;
     void draw(RenderTarget& target);
     void update(int direction);
-    const Sprite &getSprite() const;
+    Sprite &getSprite();
     Vector2f getPosition();
+    IntRect getHitBox() const;
 };
 
 #endif //SPACEINVADERS_BULLET_H

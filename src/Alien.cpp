@@ -99,12 +99,18 @@ void Alien::update(std::mt19937_64 &i_random_engine) {
     }
 }
 
-bool Alien::checkCollision(Sprite& spr) {
-    for(auto& b : bullets){
-        if(spr.getGlobalBounds().intersects(b.getSprite().getGlobalBounds())){
-            std::cout << "hit" << std::endl;
-            return true;
+void Alien::checkCollision(IntRect shipHB) {
+    bullets.erase(std::remove_if(bullets.begin(), bullets.end(),
+                                 [&](Bullet const& b){ return b.getHitBox().intersects(shipHB); }), bullets.end());
+    /*for(auto& b : bullets){
+        if(shipHB.intersects(b.getHitBox())){
+
+            // bullets.erase(bullets.begin(), bullets.end());
         }
-    }
-    return false;
+    }*/
+
+}
+
+IntRect Alien::getHitBox() const {
+    return IntRect(spriteA.getPosition().x, spriteA.getPosition().y, spriteA.getGlobalBounds().width, spriteA.getGlobalBounds().height);
 }

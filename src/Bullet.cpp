@@ -18,7 +18,11 @@ Vector2f Bullet::getPosition() {
     return sprite.getPosition();
 }
 
-const Sprite &Bullet::getSprite() const {
+Sprite &Bullet::getSprite(){
     return sprite;
+}
+
+IntRect Bullet::getHitBox() const{
+    return IntRect (sprite.getPosition().x, sprite.getPosition().y, sprite.getGlobalBounds().width, sprite.getGlobalBounds().height);
 }
 

@@ -1,6 +1,6 @@
 #include "../headers/Ship.h"
 
-Ship::Ship(Vector2f pos) : ship_hitBox(sprShip.getGlobalBounds()){
+Ship::Ship(Vector2f pos){
     reset();
     texShip.loadFromFile("sprite/ship.png");
     texShipShot.loadFromFile("sprite/ship_shot.png");
@@ -55,7 +55,16 @@ void Ship::shoot() {
     bullets.emplace_back(Bullet(texShipShot, Vector2f(getPosition().x, getPosition().y - sprShip.getGlobalBounds().height / 2.0f)));
 }
 
-const std::vector<Bullet> &Ship::getBullets() const {
+std::vector<Bullet> &Ship::getBullets() {
     return bullets;
+}
+
+IntRect Ship::getHitBox() const{
+    return IntRect(sprShip.getPosition().x, sprShip.getPosition().y,sprShip.getGlobalBounds().width, sprShip.getGlobalBounds().height);
+}
+template <typename T>
+void Ship::checkCollision(const std::vector<T>&aliens, T a, Bullet b) {
+    aliens.erase(std::remove_if(aliens.begin(), aliens.end(),
+                                [&]{ return b.getHitBox().intersects(a.getHitBox()); }), aliens.end());
 }
 

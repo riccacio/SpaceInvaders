@@ -36,7 +36,8 @@ public:
 
     void updateBullets();
     void shoot();
-    bool checkCollision(Sprite& spr);
+    void checkCollision(IntRect shipHB);
+    IntRect getHitBox() const;
 };
 
 #endif //SPACEINVADERS_ALIEN_H

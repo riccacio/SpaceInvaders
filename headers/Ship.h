@@ -8,14 +8,9 @@ using namespace sf;
 class Ship{
 private:
     std::vector<Bullet> bullets = {};
-public:
-    const std::vector<Bullet> &getBullets() const;
-
-private:
     Sprite sprShip;
     Texture texShip;
     Texture texShipShot;
-    FloatRect ship_hitBox;
     int currentPower;
 public:
     Ship(Vector2f pos);
@@ -23,6 +18,7 @@ public:
     Sprite &getSprShip();
     Texture &getTexShip();
     Vector2f getPosition();
+    std::vector<Bullet> &getBullets() ;
     void setPosition(Vector2f pos);
     void reset();
     void draw(RenderTarget& target);
@@ -30,6 +26,9 @@ public:
     void update();
     void updateBullets();
     void shoot();
+    template <typename T>
+    void checkCollision(const std::vector<T>& aliens, T a, Bullet b);
+    IntRect getHitBox() const;
 };
 
 #endif //SHIP_H

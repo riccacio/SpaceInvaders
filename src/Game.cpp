@@ -3,7 +3,7 @@
 
 using namespace sf;
 
-Game::Game(): record(0), lives(3), score(0), reloadTimer(0), moveTimer(0), direction(1), timeAliens(0), changeMusic(true){
+Game::Game(): record(0), lives(3), score(0), reloadTimer(0), moveTimer(0), direction(1), timeAliens(0), changeMusic(true), hitted(false){
     //TODO guardare se è possibile farlo diversamente
     std::chrono::microseconds lag(0);
     std::chrono::steady_clock::time_point previous_time;
@@ -131,17 +131,30 @@ void Game::pollEvents() {
             }
             ship->shoot();
             //TODO rivedere le collisioni
+            for(auto& a : aliens){
+                for(auto& b : ship->getBullets()){
+                    ship->checkCollision(aliens, a, b);
+                }
+            }
+
+            /*
+            for(auto& a : aliens){
+                if(ship->checkCollision(a->getSpriteA()))
+                    aliens.erase(std::remove(aliens.begin(), aliens.end(), a));
+            }
+
             for(auto& b : ship->getBullets()){
                 for(auto& a : aliens){
-                    if(a->getSpriteA().getGlobalBounds().intersects(b.getSprite().getGlobalBounds())){
+                    if(b.getSprite().getGlobalBounds().intersects(a->getSpriteA().getGlobalBounds())){
                         std::cout << "hit alien" << std::endl;
-
+                        //aliens.erase(aliens.begin(), aliens.end());
+                        ship->getBullets().erase(ship->getBullets().begin(), ship->getBullets().end());
                     }
-                    else if(a->getSpriteB().getGlobalBounds().intersects(b.getSprite().getGlobalBounds())){
+                    if(a->getSpriteB().getGlobalBounds().intersects(b.getSprite().getGlobalBounds())){
                         std::cout << "hit alien" << std::endl;
                     }
                 }
-            }
+            }*/
             shipSound.play();
         }
     }
@@ -223,9 +236,7 @@ void Game::update() {
     for(auto& a : aliens){
         a->update(random_engine);
         //TODO rivedere le collisioni
-        if(a->checkCollision(ship->getSprShip())){
-            std::cout << "hit" << std::endl;
-        }
+        a->checkCollision(ship->getHitBox());
     }
     moveAliens();
     ship->update();
