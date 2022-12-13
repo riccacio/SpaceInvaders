@@ -4,7 +4,7 @@
 #include "../headers/Ship.h"
 #include "../headers/Alien.h"
 #include "../headers/Map.h"
-//#include "../headers/GameOver.h"
+#include "../headers/GameOver.h"
 #include <SFML/Audio.hpp>
 #include <chrono>
 #include <random>
@@ -44,6 +44,7 @@ private:
     bool changeMusic;
     bool hitted;
     int c;
+    float speedAlien;
 public:
     //Constructor and Destructor
     Game();

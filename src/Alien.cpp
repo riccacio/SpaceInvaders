@@ -1,13 +1,15 @@
 #include "../headers/Alien.h"
 
-Alien::Alien(int type, Vector2f (pos), bool startSprite) : change(startSprite), dead(false){
+Alien::Alien(int type, Vector2f (pos), bool startSprite) : change(startSprite), dead(false), changeBulletTimer(0){
     shoot_distribution = std::uniform_int_distribution <unsigned short> (0, std::max<short>(ENEMY_SHOOT_CHANCE_MIN, ENEMY_SHOOT_CHANCE - ENEMY_SHOOT_CHANCE_INCREASE));
-    texShot.loadFromFile("sprite/alien_shot.png");
+    texShot1.loadFromFile("sprite/alien_shot0.png");
+    texShot2.loadFromFile("sprite/alien_shot1.png");
     textureExp.loadFromFile("sprite/alien_destroyed.png");
     spriteExp.setTexture(textureExp);
     spriteExp.setScale(4,4);
     switch (type) {
         case 0:
+            this->type = type;
             textureA.loadFromFile("sprite/alien1_0.png");
             spriteA.setTexture(textureA);
             spriteA.setPosition(Vector2f (pos));
@@ -18,6 +20,7 @@ Alien::Alien(int type, Vector2f (pos), bool startSprite) : change(startSprite), 
             spriteB.setScale(4, 4);
             break;
         case 1:
+            this->type = type;
             textureA.loadFromFile("sprite/alien2_0.png");
             spriteA.setTexture(textureA);
             spriteA.setPosition(pos);
@@ -28,6 +31,7 @@ Alien::Alien(int type, Vector2f (pos), bool startSprite) : change(startSprite), 
             spriteB.setScale(4, 4);
             break;
         case 2:
+            this->type = type;
             textureA.loadFromFile("sprite/alien3_0.png");
             spriteA.setTexture(textureA);
             spriteA.setPosition(pos);
@@ -94,7 +98,7 @@ void Alien::updateBullets() {
 }
 
 void Alien::shoot() {
-    bullets.emplace_back(Bullet(texShot, Vector2f(getPositionA().x + spriteA.getGlobalBounds().width/2.0f, getPositionA().y + spriteA.getGlobalBounds().height/2.0f)));
+    bullets.emplace_back(Bullet(texShot1, texShot2, Vector2f(getPositionA().x + spriteA.getGlobalBounds().width/2.0f, getPositionA().y + spriteA.getGlobalBounds().height/2.0f)));
 }
 
 void Alien::update(std::mt19937_64 &i_random_engine) {
@@ -102,6 +106,14 @@ void Alien::update(std::mt19937_64 &i_random_engine) {
     if (0 == shoot_distribution(i_random_engine)){
         shoot();
     }
+    if(changeBulletTimer == 0){
+        changeBulletTimer = 80;
+        for(auto& b : bullets){
+            b.changeSprite();
+        }
+    }
+    else
+        changeBulletTimer--;
 }
 
 void Alien::checkCollision(IntRect shipHB) {
@@ -132,5 +144,13 @@ void Alien::setPositionSpriteExp(Vector2f pos) {
 
 Sprite &Alien::getSpriteExp() {
     return spriteExp;
+}
+
+std::vector<Bullet> &Alien::getBullets() {
+    return bullets;
+}
+
+int Alien::getType(){
+    return type;
 }
 

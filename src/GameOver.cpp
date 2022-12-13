@@ -2,7 +2,7 @@
 
 using namespace sf;
 
-GameOver::GameOver():i(0){
+GameOver::GameOver() : i(0){
     initWindow();
     initFont();
     initText();
@@ -44,7 +44,7 @@ void GameOver::initText() {
 }
 void GameOver::update() {
     MainWindow::update();
-    sleep(milliseconds(250)); // 0.25sec
+    sleep(milliseconds(200)); // 0.2sec
     if(i==0){
         exit.setFillColor(Color::Green);
         i=1;

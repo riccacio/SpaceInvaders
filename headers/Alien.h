@@ -15,10 +15,13 @@ private:
     Texture textureA;
     Texture textureB;
     Texture textureExp;
-    Texture texShot;
+    Texture texShot1;
+    Texture texShot2;
     std::vector<Bullet> bullets = {};
     bool change;
     bool dead;
+    int changeBulletTimer;
+    int type;
     std::uniform_int_distribution<unsigned short> shoot_distribution;
 public:
     Alien(int type, Vector2f (pos), bool startSprite=true);
@@ -34,8 +37,9 @@ public:
     Vector2f getPositionB();
     void setSpriteB(const Sprite &spriteB);
     Sprite &getSpriteExp();
+    std::vector<Bullet> &getBullets();
     void changeSprite();
-
+    int getType();
     void update(std::mt19937_64& i_random_engine);
     bool isDead() const;
     void setDead(bool dead);

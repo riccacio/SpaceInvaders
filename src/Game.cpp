@@ -3,7 +3,7 @@
 
 using namespace sf;
 
-Game::Game(): record(0), lives(3), score(0), reloadTimer(0),c(), moveTimer(0), direction(1), timeAliens(0), changeMusic(true), hitted(false){
+Game::Game(): record(0), lives(3), score(0), reloadTimer(0),c(), moveTimer(0), direction(1), timeAliens(0), changeMusic(true), hitted(false), speedAlien(ALIEN_CHANGE){
     //TODO guardare se è possibile farlo diversamente
     std::chrono::microseconds lag(0);
     std::chrono::steady_clock::time_point previous_time;
@@ -195,14 +195,18 @@ void Game::centerItem(Sprite& sprite, float height){
 void Game::update() {
     pollEvents();
     if(timeAliens==0){
-        timeAliens = ALIEN_CHANGE;
+        timeAliens = speedAlien;
         if(changeMusic){
-            alienSound1.play();
-            changeMusic = !changeMusic;
+            if(!aliens->empty()){
+                alienSound1.play();
+                changeMusic = !changeMusic;
+            }
         }
         else{
-            alienSound2.play();
-            changeMusic = !changeMusic;
+            if(!aliens->empty()){
+                alienSound2.play();
+                changeMusic = !changeMusic;
+            }
         }
         for(auto& a : aliens){
             a->changeSprite();
@@ -213,6 +217,13 @@ void Game::update() {
     for(auto& a : aliens){
         a->update(random_engine);
         a->checkCollision(ship->getHitBox());
+    }
+    for(auto& a : *aliens){
+        if(a->checkCollisionAlienShip(ship->getHitBox())){
+            window->close();
+            std::unique_ptr<GameOver> go(new GameOver);
+            go->run();
+        }
     }
     checkDeadAliens();
     moveAliens();
@@ -252,9 +263,9 @@ void Game::moveAliens() {
                 }
                 direction = 1;
             }
-            a->getSpriteA().move(ALIEN_SPEED*direction, 0.0f);
-            a->getSpriteB().move(ALIEN_SPEED*direction, 0.0f);
-            a->getSpriteExp().move(ALIEN_SPEED*direction, 0.0f);
+            a->getSpriteA().move(ALIEN_SPEED * direction, 0.0f);
+            a->getSpriteB().move(ALIEN_SPEED * direction, 0.0f);
+            a->getSpriteExp().move(ALIEN_SPEED * direction, 0.0f);
         }
     }
     else

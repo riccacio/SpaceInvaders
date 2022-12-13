@@ -1,28 +1,40 @@
 #include "../headers/Bullet.h"
 
-Bullet::Bullet(Texture& texShot, Vector2f(pos)){
-    sprite.setTexture(texShot);
-    sprite.setScale(3,3);
-    sprite.setPosition(pos);
+Bullet::Bullet(Texture& texShot1, Texture& texShot2, Vector2f(pos)) : change(true){
+    sprite1.setTexture(texShot1);
+    sprite2.setTexture(texShot2);
+    sprite1.setScale(3.5,3.5);
+    sprite2.setScale(3.5,3.5);
+    sprite1.setPosition(pos);
+    sprite2.setPosition(pos);
 }
 
 void Bullet::draw(RenderTarget &target) {
-    target.draw(sprite);
+    target.draw((change)?sprite1:sprite2);
 }
 
 void Bullet::update(int direction) {
-    sprite.move(0.0f, BULLET_SPEED * direction);
+    sprite1.move(0.0f, BULLET_SPEED * direction);
+    sprite2.move(0.0f, BULLET_SPEED * direction);
 }
 
 Vector2f Bullet::getPosition() {
-    return sprite.getPosition();
+    if(change)
+        return sprite1.getPosition();
+    else
+        return sprite2.getPosition();
 }
 
 Sprite &Bullet::getSprite(){
-    return sprite;
+    return sprite1;
 }
-
+void Bullet::changeSprite() {
+    change = !change;
+}
+bool Bullet::isChange() {
+    return change;
+}
 IntRect Bullet::getHitBox() const{
-    return IntRect (sprite.getPosition().x, sprite.getPosition().y, sprite.getGlobalBounds().width, sprite.getGlobalBounds().height);
+    return IntRect (sprite1.getPosition().x, sprite1.getPosition().y, sprite1.getGlobalBounds().width, sprite1.getGlobalBounds().height);
 }
 
