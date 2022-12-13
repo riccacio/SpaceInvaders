@@ -62,9 +62,11 @@ std::vector<Bullet> &Ship::getBullets() {
 IntRect Ship::getHitBox() const{
     return IntRect(sprShip.getPosition().x, sprShip.getPosition().y,sprShip.getGlobalBounds().width, sprShip.getGlobalBounds().height);
 }
-template <typename T>
-void Ship::checkCollision(const std::vector<T>&aliens, T a, Bullet b) {
-    aliens.erase(std::remove_if(aliens.begin(), aliens.end(),
-                                [&]{ return b.getHitBox().intersects(a.getHitBox()); }), aliens.end());
+
+bool Ship::checkCollision(std::shared_ptr<Alien> a, Bullet b) {
+    if(a->getHitBox().intersects(b.getHitBox())){
+        return true;
+    }
+    return false;
 }
 

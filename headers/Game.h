@@ -29,9 +29,11 @@ private:
     SoundBuffer shipBuffer;
     SoundBuffer alienBuffer1;
     SoundBuffer alienBuffer2;
+    SoundBuffer alienExpBuffer;
     Sound shipSound;
     Sound alienSound1;
     Sound alienSound2;
+    Sound alienExpSound;
     int reloadTimer;
     int record;
     int score;
@@ -41,6 +43,7 @@ private:
     float direction;
     bool changeMusic;
     bool hitted;
+    int c;
 public:
     //Constructor and Destructor
     Game();

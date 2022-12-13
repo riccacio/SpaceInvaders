@@ -3,7 +3,7 @@
 
 using namespace sf;
 
-Game::Game(): record(0), lives(3), score(0), reloadTimer(0), moveTimer(0), direction(1), timeAliens(0), changeMusic(true), hitted(false){
+Game::Game(): record(0), lives(3), score(0), reloadTimer(0),c(), moveTimer(0), direction(1), timeAliens(0), changeMusic(true), hitted(false){
     //TODO guardare se è possibile farlo diversamente
     std::chrono::microseconds lag(0);
     std::chrono::steady_clock::time_point previous_time;
@@ -30,6 +30,8 @@ void Game::initVariables() {
     alienSound1.setBuffer(alienBuffer1);
     alienBuffer2.loadFromFile("sound/fastinvader2.wav");
     alienSound2.setBuffer(alienBuffer2);
+    alienExpBuffer.loadFromFile("sound/alien_death.wav");
+    alienExpSound.setBuffer(alienExpBuffer);
 }
 
 void Game::initItems() {
@@ -130,31 +132,6 @@ void Game::pollEvents() {
                 reloadTimer = RELOAD_DURATION;
             }
             ship->shoot();
-            //TODO rivedere le collisioni
-            for(auto& a : aliens){
-                for(auto& b : ship->getBullets()){
-                    ship->checkCollision(aliens, a, b);
-                }
-            }
-
-            /*
-            for(auto& a : aliens){
-                if(ship->checkCollision(a->getSpriteA()))
-                    aliens.erase(std::remove(aliens.begin(), aliens.end(), a));
-            }
-
-            for(auto& b : ship->getBullets()){
-                for(auto& a : aliens){
-                    if(b.getSprite().getGlobalBounds().intersects(a->getSpriteA().getGlobalBounds())){
-                        std::cout << "hit alien" << std::endl;
-                        //aliens.erase(aliens.begin(), aliens.end());
-                        ship->getBullets().erase(ship->getBullets().begin(), ship->getBullets().end());
-                    }
-                    if(a->getSpriteB().getGlobalBounds().intersects(b.getSprite().getGlobalBounds())){
-                        std::cout << "hit alien" << std::endl;
-                    }
-                }
-            }*/
             shipSound.play();
         }
     }
@@ -235,9 +212,9 @@ void Game::update() {
         timeAliens--;
     for(auto& a : aliens){
         a->update(random_engine);
-        //TODO rivedere le collisioni
         a->checkCollision(ship->getHitBox());
     }
+    checkDeadAliens();
     moveAliens();
     ship->update();
     updateScoreRecord();
@@ -263,6 +240,7 @@ void Game::moveAliens() {
                 for (auto &b: aliens) {
                     b->getSpriteA().move(0.0f, OFFSET);
                     b->getSpriteB().move(0.0f, OFFSET);
+                    b->getSpriteExp().move(0.0f, OFFSET);
                 }
                 direction = -1;
             }
@@ -270,11 +248,13 @@ void Game::moveAliens() {
                 for (auto &b: aliens) {
                     b->getSpriteA().move(0.0f, OFFSET);
                     b->getSpriteB().move(0.0f, OFFSET);
+                    b->getSpriteExp().move(0.0f, OFFSET);
                 }
                 direction = 1;
             }
             a->getSpriteA().move(ALIEN_SPEED*direction, 0.0f);
             a->getSpriteB().move(ALIEN_SPEED*direction, 0.0f);
+            a->getSpriteExp().move(ALIEN_SPEED*direction, 0.0f);
         }
     }
     else

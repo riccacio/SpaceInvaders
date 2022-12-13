@@ -1,8 +1,11 @@
 #include "../headers/Alien.h"
 
-Alien::Alien(int type, Vector2f (pos), bool startSprite) : change(startSprite){
+Alien::Alien(int type, Vector2f (pos), bool startSprite) : change(startSprite), dead(false){
     shoot_distribution = std::uniform_int_distribution <unsigned short> (0, std::max<short>(ENEMY_SHOOT_CHANCE_MIN, ENEMY_SHOOT_CHANCE - ENEMY_SHOOT_CHANCE_INCREASE));
     texShot.loadFromFile("sprite/alien_shot.png");
+    textureExp.loadFromFile("sprite/alien_destroyed.png");
+    spriteExp.setTexture(textureExp);
+    spriteExp.setScale(4,4);
     switch (type) {
         case 0:
             textureA.loadFromFile("sprite/alien1_0.png");
@@ -47,7 +50,10 @@ Sprite& Alien::getSpriteB(){
 }
 
 void Alien::draw(RenderTarget& target) {
-    target.draw((change)?spriteA:spriteB);
+    if(dead)
+        target.draw(spriteExp);
+    else
+        target.draw((change)?spriteA:spriteB);
     for (auto &b: bullets) {
         b.draw(target);
     }
@@ -93,24 +99,38 @@ void Alien::shoot() {
 
 void Alien::update(std::mt19937_64 &i_random_engine) {
     updateBullets();
-    //shoot();
     if (0 == shoot_distribution(i_random_engine)){
         shoot();
     }
 }
 
 void Alien::checkCollision(IntRect shipHB) {
-    bullets.erase(std::remove_if(bullets.begin(), bullets.end(),
-                                 [&](Bullet const& b){ return b.getHitBox().intersects(shipHB); }), bullets.end());
-    /*for(auto& b : bullets){
-        if(shipHB.intersects(b.getHitBox())){
-
-            // bullets.erase(bullets.begin(), bullets.end());
+    int i=0;
+    for(auto b : bullets){
+        if(b.getHitBox().intersects(shipHB)){
+            bullets.erase(bullets.begin() + i);
         }
-    }*/
-
+        i++;
+    }
 }
 
 IntRect Alien::getHitBox() const {
     return IntRect(spriteA.getPosition().x, spriteA.getPosition().y, spriteA.getGlobalBounds().width, spriteA.getGlobalBounds().height);
 }
+
+bool Alien::isDead() const {
+    return dead;
+}
+
+void Alien::setDead(bool dead) {
+    Alien::dead = dead;
+}
+
+void Alien::setPositionSpriteExp(Vector2f pos) {
+    spriteExp.setPosition(pos);
+}
+
+Sprite &Alien::getSpriteExp() {
+    return spriteExp;
+}
+

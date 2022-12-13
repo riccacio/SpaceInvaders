@@ -2,6 +2,7 @@
 #define SHIP_H
 #include <SFML/Graphics.hpp>
 #include "../headers/Bullet.h"
+#include "../headers/Alien.h"
 
 using namespace sf;
 
@@ -11,6 +12,7 @@ private:
     Sprite sprShip;
     Texture texShip;
     Texture texShipShot;
+
     int currentPower;
 public:
     Ship(Vector2f pos);
@@ -26,8 +28,7 @@ public:
     void update();
     void updateBullets();
     void shoot();
-    template <typename T>
-    void checkCollision(const std::vector<T>& aliens, T a, Bullet b);
+    bool checkCollision(std::shared_ptr<Alien> a, Bullet b);
     IntRect getHitBox() const;
 };
 
