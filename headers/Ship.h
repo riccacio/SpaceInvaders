@@ -21,6 +21,8 @@ private:
     int currentPower;
     bool change;
     bool dead;
+    bool hitted;
+    bool invincible;
 public:
     //constructor & destructor
     Ship(Vector2f pos);
@@ -44,6 +46,8 @@ public:
     void setTime();
     void setTimeRestart();
     void setDead(bool dead);
+    void setHitted(bool hitted);
+    void setInvincible(bool invincible);
 };
 
 #endif //SHIP_H

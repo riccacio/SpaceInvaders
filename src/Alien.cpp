@@ -1,6 +1,6 @@
 #include "../headers/Alien.h"
 
-Alien::Alien(int type, Vector2f (pos), bool startSprite) : change(startSprite), dead(false), changeBulletTimer(0){
+Alien::Alien(int type, Vector2f (pos), bool startSprite) : change(startSprite), hitted(false), dead(false), changeBulletTimer(0){
     shoot_distribution = std::uniform_int_distribution <unsigned short> (0, std::max<short>(ENEMY_SHOOT_CHANCE_MIN, ENEMY_SHOOT_CHANCE - ENEMY_SHOOT_CHANCE_INCREASE));
 
     texShot1.loadFromFile("sprite/alien_shot0.png");
@@ -57,7 +57,7 @@ Alien::Alien(int type, Vector2f (pos), bool startSprite) : change(startSprite), 
 
 //functions
 void Alien::draw(RenderTarget& target) {
-    if(dead)
+    if(hitted)
         target.draw(spriteExp);
     else
         target.draw((change)?spriteA:spriteB);
@@ -68,6 +68,7 @@ void Alien::draw(RenderTarget& target) {
 }
 
 void Alien::update(std::mt19937_64 &i_random_engine) {
+    time = clock.getElapsedTime();
     updateBullets();
     if (0 == shoot_distribution(i_random_engine)){
         shoot();
@@ -124,7 +125,6 @@ bool Alien::checkCollisionAlienShip(IntRect shipHB) {
 }
 
 //getter and setter
-
 Sprite& Alien::getSpriteA(){
     return spriteA;
 }
@@ -145,8 +145,24 @@ Sprite &Alien::getSpriteExp() {
     return spriteExp;
 }
 
+Time &Alien::getTime(){
+    return time;
+}
+
+bool Alien::isDead() {
+    return dead;
+}
+
+bool Alien::isHitted() {
+    return hitted;
+}
+
 int Alien::getType(){
     return type;
+}
+
+int Alien::getIndex() {
+    return index;
 }
 
 void Alien::setPositionSpriteExp(Vector2f pos) {
@@ -155,4 +171,14 @@ void Alien::setPositionSpriteExp(Vector2f pos) {
 
 void Alien::setDead(bool dead) {
     Alien::dead = dead;
+}
+void Alien::setHitted(bool hitted) {
+    Alien::hitted = hitted;
+}
+void Alien::setTimeRestart() {
+    time = clock.restart();
+}
+
+void Alien::setIndex(int index) {
+    Alien::index = index;
 }

@@ -42,8 +42,6 @@ private:
     float direction;
     bool changeMusic;
     float speedAlien;
-    bool hitted;
-    bool invincible;
 
     void initVariables() override;
     void initItems();

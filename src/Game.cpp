@@ -1,7 +1,7 @@
 #include "../headers/Game.h"
 #include <iostream>
 
-Game::Game(): record(0), lives(30), score(0), reloadTimer(0), moveTimer(0), direction(1), timeAliens(0), changeMusic(true), speedAlien(ALIEN_CHANGE), hitted(false), invincible(false) {
+Game::Game(): record(0), lives(3), score(0), reloadTimer(0), moveTimer(0), direction(1), timeAliens(0), changeMusic(true), speedAlien(ALIEN_CHANGE){
     std::chrono::microseconds lag(0);
     std::chrono::steady_clock::time_point previous_time;
     initVariables();
@@ -117,7 +117,7 @@ void Game::pollEvents() {
         }
     }
 
-    if(!hitted){
+    if(!ship->isHitted()){
         if (Keyboard::isKeyPressed(Keyboard::Left)){
             if(ship->getPosition().x > ship->getSprShip().getGlobalBounds().width/2.0f + OFFSET){
                 ship->getSprShip().move(SHIP_MOVE_SPEED * -1.0f ,0.0f);
@@ -170,45 +170,54 @@ void Game::update() {
     else
         timeAliens--;
 
-    //FIXME
     for(auto& a : *aliens){
         a->update(random_engine);
-        if(!invincible && !hitted){
+        if(!ship->isInvincible()){
             if (a->checkCollision(ship->getHitBox())) {
                 ship->setDead(true);
-                invincible = true;
-                hitted=true;
+                ship->setInvincible(true);
+                ship->setHitted(true);
                 ship->setTimeRestart(); //time animation
                 invincibilityTime = clock.restart(); //time invincibility
-                ship->setPositionExp1(ship->getPosition());
-                ship->setPositionExp2(ship->getPosition());
+                ship->setPositionExp1(Vector2f(ship->getSprShip().getPosition().x - ship->getSprShip().getGlobalBounds().width/2, 1150));
+                ship->setPositionExp2(Vector2f(ship->getSprShip().getPosition().x - ship->getSprShip().getGlobalBounds().width/2, 1150));
                 lives--;
                 shipExpSound.play();
             }
         }
-        else{
-            if(invincible && invincibilityTime.asSeconds() > 5.0f){
-                invincible = false;
-            }
+    }
+    //invincibility
+    if(ship->isInvincible()){
+        if(invincibilityTime.asSeconds() > 5.0f){
+            invincibilityTime = clock.restart();
+            ship->setInvincible(false);
         }
     }
-
+    //ship animation
     if (ship->getTime().asSeconds() > 1.f) {
         ship->setTimeRestart();
         ship->setDead(false);
-        hitted=false;
+        ship->setHitted(false);
     }
     else
         ship->changeSprite();
 
     ship->update();
     checkDeadAliens();
+    //FIXME
+    for(auto &a : *aliens){
+        if(a != nullptr && a->getTime().asSeconds() > 1.0f){
+            if(a->isHitted()){
+                if(!a->isDead()){
+                    aliens->erase(aliens->begin() + a->getIndex());
+                    a->setDead(true);
+                }
+            }
+        }
+    }
     moveAliens();
     updateScoreRecord();
     checkGameOver();
-
-    std::cout << invincibilityTime.asSeconds() << std::endl;
-    std::cout << invincible << std::endl;
 }
 
 void Game::render() {
@@ -310,6 +319,11 @@ void Game::moveAliens() {
         moveTimer --;
 }
 
+void Game::killAlien(Alien &a, int index) {
+    //if (a.getTime().asSeconds() > 1.0f)
+
+}
+
 void Game::checkGameOver() {
     for(auto& a : *aliens){
         if(a->checkCollisionAlienShip(ship->getHitBox())){
@@ -318,7 +332,7 @@ void Game::checkGameOver() {
             go->run();
         }
     }
-    if(lives == 0){
+    if(lives == 0 && ship->getTime().asSeconds() > 1.0f){
         window->close();
         std::unique_ptr<GameOver> go(new GameOver);
         go->run();
