@@ -1,7 +1,5 @@
 #include "../headers/Info.h"
 
-using namespace sf;
-
 Info::Info(){
     initVariables();
     initWindow();
@@ -9,7 +7,6 @@ Info::Info(){
     initText();
 }
 
-//Private functions
 void Info::initVariables() {
     window = nullptr;
     for (int i = 0; i<=4; i++){
@@ -20,33 +17,6 @@ void Info::initVariables() {
         graphicText.emplace_back();
 }
 
-void Info::pollEvents() {
-    //Event polling
-    while (window->pollEvent(event)){
-        switch (event.type){
-            case Event::Closed:
-                window->close();
-                break;
-            case Event::KeyPressed:
-                if (event.key.code == Keyboard::Escape ||
-                        event.key.code == Keyboard::B) {
-                    window->close();
-                }
-                break;
-            default:
-                break;
-        }
-    }
-}
-
-void Info::render() {
-    window->clear();
-    for(int i=0; i<4; i++)
-        window->draw(aliensS[i]);
-    for(int i=0; i<9; i++)
-        this->window->draw(graphicText[i]);
-    window->display();
-}
 
 void Info::initText() {
     aliensT[0].loadFromFile("sprite/mystery.png");
@@ -96,3 +66,29 @@ void Info::initText() {
     aliensS[3].setPosition(330, 980);
 }
 
+void Info::pollEvents() {
+    while (window->pollEvent(event)){
+        switch (event.type){
+            case Event::Closed:
+                window->close();
+                break;
+            case Event::KeyPressed:
+                if (event.key.code == Keyboard::Escape ||
+                        event.key.code == Keyboard::B) {
+                    window->close();
+                }
+                break;
+            default:
+                break;
+        }
+    }
+}
+
+void Info::render() {
+    window->clear();
+    for(int i=0; i<4; i++)
+        window->draw(aliensS[i]);
+    for(int i=0; i<9; i++)
+        window->draw(graphicText[i]);
+    window->display();
+}

@@ -7,6 +7,7 @@
 #include <SFML/Graphics.hpp>
 
 using namespace sf;
+
 class Alien {
 private:
     Sprite spriteA;
@@ -18,35 +19,37 @@ private:
     Texture texShot1;
     Texture texShot2;
     std::vector<Bullet> bullets = {};
+    std::uniform_int_distribution<unsigned short> shoot_distribution;
+
     bool change;
     bool dead;
     int changeBulletTimer;
     int type;
-    std::uniform_int_distribution<unsigned short> shoot_distribution;
 public:
+    //constructor & destructor
     Alien(int type, Vector2f (pos), bool startSprite=true);
     ~Alien() = default;
+
+    //functions
     void draw(RenderTarget& target);
-    Vector2f getPositionA();
+    void update(std::mt19937_64& i_random_engine);
+    void updateBullets();
+    void changeSprite();
+    void shoot();
+    bool checkCollision(IntRect shipHB);
+    bool checkCollision(Bullet &b);
+    bool checkCollisionAlienShip(IntRect shipHB);
+
+    //getter & setter
     Sprite& getSpriteA();
     Sprite& getSpriteB();
-    void setPositionA(Vector2f pos);
-    void setPositionB(Vector2f pos);
-    void setPositionSpriteExp(Vector2f pos);
-    void setSpriteA(const Sprite &spriteA);
-    Vector2f getPositionB();
-    void setSpriteB(const Sprite &spriteB);
-    Sprite &getSpriteExp();
-    std::vector<Bullet> &getBullets();
-    void changeSprite();
-    int getType();
-    void update(std::mt19937_64& i_random_engine);
-    bool isDead() const;
-    void setDead(bool dead);
-    void updateBullets();
-    void shoot();
-    void checkCollision(IntRect shipHB);
+    Vector2f getPositionA();
     IntRect getHitBox() const;
+    Sprite& getSpriteExp();
+    int getType();
+
+    void setPositionSpriteExp(Vector2f pos);
+    void setDead(bool dead);
 };
 
 #endif //SPACEINVADERS_ALIEN_H

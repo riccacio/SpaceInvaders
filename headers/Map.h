@@ -8,9 +8,11 @@ private:
     std::shared_ptr<Ship> ship;
     std::vector<std::shared_ptr<Alien>> aliens;
 public:
+    //constructor & destructor
     Map();
     ~Map() = default;
 
+    //functions
     void createShip();
     void createAliens(int type, Vector2f(pos), bool startSprite=true);
     std::shared_ptr<Ship> getShip();

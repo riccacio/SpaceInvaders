@@ -9,6 +9,7 @@ Bullet::Bullet(Texture& texShot1, Texture& texShot2, Vector2f(pos)) : change(tru
     sprite2.setPosition(pos);
 }
 
+//functions
 void Bullet::draw(RenderTarget &target) {
     target.draw((change)?sprite1:sprite2);
 }
@@ -18,6 +19,11 @@ void Bullet::update(int direction) {
     sprite2.move(0.0f, BULLET_SPEED * direction);
 }
 
+void Bullet::changeSprite() {
+    change = !change;
+}
+
+//getter
 Vector2f Bullet::getPosition() {
     if(change)
         return sprite1.getPosition();
@@ -25,15 +31,6 @@ Vector2f Bullet::getPosition() {
         return sprite2.getPosition();
 }
 
-Sprite &Bullet::getSprite(){
-    return sprite1;
-}
-void Bullet::changeSprite() {
-    change = !change;
-}
-bool Bullet::isChange() {
-    return change;
-}
 IntRect Bullet::getHitBox() const{
     return IntRect (sprite1.getPosition().x, sprite1.getPosition().y, sprite1.getGlobalBounds().width, sprite1.getGlobalBounds().height);
 }

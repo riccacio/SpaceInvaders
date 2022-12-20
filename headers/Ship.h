@@ -2,7 +2,6 @@
 #define SHIP_H
 #include <SFML/Graphics.hpp>
 #include "../headers/Bullet.h"
-#include "../headers/Alien.h"
 
 using namespace sf;
 
@@ -10,26 +9,41 @@ class Ship{
 private:
     std::vector<Bullet> bullets = {};
     Sprite sprShip;
+    Sprite sprExpShip1;
+    Sprite sprExpShip2;
     Texture texShip;
+    Texture texExpShip1;
+    Texture texExpShip2;
     Texture texShipShot;
+    Clock clock;
+    Time time;
 
     int currentPower;
+    bool change;
+    bool dead;
 public:
+    //constructor & destructor
     Ship(Vector2f pos);
     ~Ship() = default;
-    Sprite &getSprShip();
-    Texture &getTexShip();
-    Vector2f getPosition();
-    std::vector<Bullet> &getBullets() ;
-    void setPosition(Vector2f pos);
-    void reset();
+
+    //functions
     void draw(RenderTarget& target);
-    int getCurrentPower() const;
     void update();
     void updateBullets();
     void shoot();
-    bool checkCollision(std::shared_ptr<Alien> a, Bullet b);
-    IntRect getHitBox() const;
+    void changeSprite();
+
+    //getter & setter
+    Sprite& getSprShip();
+    Texture& getTexShip();
+    Vector2f getPosition();
+    std::vector<Bullet> &getBullets() ;
+    void setPosition(Vector2f pos);
+    void setPositionExp1(Vector2f pos);
+    void setPositionExp2(Vector2f pos);
+    void setTime();
+    void setTimeRestart();
+    void setDead(bool dead);
 };
 
 #endif //SHIP_H

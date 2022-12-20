@@ -1,7 +1,5 @@
 #include "../headers//Menu.h"
 
-using namespace sf;
-
 Menu::Menu(): i(0){
     initVariables();
     initWindow();
@@ -11,62 +9,11 @@ Menu::Menu(): i(0){
     music();
 }
 
-//Functions
+//Ffunctions
 void Menu::initVariables() {
     window = nullptr;
     for (int j = 0; j<=5; j++)
         graphicText.emplace_back();
-}
-
-void Menu::pollEvents() {
-    //Event polling
-    while (window->pollEvent(event)){
-        switch (event.type){
-            case Event::Closed:window->close();
-                break;
-            case Event::KeyPressed:
-                keyboardEvent(event.key.code);
-            default:
-                break;
-        }
-    }
-}
-
-void Menu::keyboardEvent(auto& e){
-    switch (e) {
-        case Keyboard::Escape:
-            window->close();
-            break;
-        case Keyboard::H:{
-            std::unique_ptr<Info> info(new Info);
-            info->run();
-            break;
-        }
-        case Keyboard::Enter:{
-            window->close();
-            sound.stop();
-            std::unique_ptr<Game> game(new Game);
-            game->run();
-            break;
-        }
-        default:
-            break;
-    }
-}
-
-void Menu::render() {
-    window->clear();
-    for (int j = 0; j<=5; j++)
-        window->draw(graphicText[j]);
-    window->draw(sprShip);
-    window->display();
-}
-
-void Menu::music(){
-    buffer.loadFromFile("sound/menu.wav");
-    sound.setBuffer(buffer);
-    sound.play();
-    sound.setLoop(true);
 }
 
 void Menu::initText() {
@@ -101,16 +48,67 @@ void Menu::initText() {
     graphicText[4].setPosition(310,20);
 }
 
+void Menu::pollEvents() {
+    while (window->pollEvent(event)){
+        switch (event.type){
+            case Event::Closed:window->close();
+                break;
+            case Event::KeyPressed:
+                keyboardEvent(event.key.code);
+            default:
+                break;
+        }
+    }
+}
+
+void Menu::keyboardEvent(auto& e){
+    switch (e) {
+        case Keyboard::Escape:
+            window->close();
+            break;
+        case Keyboard::H:{
+            std::unique_ptr<Info> info(new Info);
+            info->run();
+            break;
+        }
+        case Keyboard::Enter:{
+            window->close();
+            sound.stop();
+            std::unique_ptr<Game> game(new Game);
+            game->run();
+            break;
+        }
+        default:
+            break;
+    }
+}
+
+
 void Menu::update() {
     pollEvents();
     //flashing text
     sleep(milliseconds(100)); // 0.1sec
-    if(i==0){
+    if(i == 0){
         graphicText[2].setFillColor(Color::White);
-        i=1;
+        i = 1;
     }
     else{
         graphicText[2].setFillColor(Color::Black);
-        i=0;
+        i = 0;
     }
+}
+
+void Menu::render() {
+    window->clear();
+    for (int j = 0; j<=5; j++)
+        window->draw(graphicText[j]);
+    window->draw(sprShip);
+    window->display();
+}
+
+void Menu::music(){
+    buffer.loadFromFile("sound/menu.wav");
+    sound.setBuffer(buffer);
+    sound.play();
+    sound.setLoop(true);
 }

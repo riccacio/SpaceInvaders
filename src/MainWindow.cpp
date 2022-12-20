@@ -2,7 +2,7 @@
 
 MainWindow::MainWindow():event() {}
 
-//Private functions
+//functions
 void MainWindow::initVariables() {
     window = nullptr;
 }
@@ -15,13 +15,15 @@ void MainWindow::initWindow() {
     window->setFramerateLimit(275);
 }
 
-//Functions
+void MainWindow::initFont() {
+    f.loadFromFile("font/arcade.TTF");
+}
+
 bool MainWindow::running() const {
     return window->isOpen();
 }
 
 void MainWindow::pollEvents() {
-    //Event polling
     while (window->pollEvent(event)){
         switch (event.type){
             case Event::Closed:
@@ -45,9 +47,7 @@ void MainWindow::render(){}
 
 void MainWindow::run(){
     while(running()){
-        //Update
         update();
-        //Render
         render();
     }
 }
@@ -70,8 +70,4 @@ void MainWindow::readRecord(){
         getline(iFile, recordS);
         iFile.close();
     }
-}
-
-void MainWindow::initFont() {
-    f.loadFromFile("font/arcade.TTF");
 }

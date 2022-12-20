@@ -3,25 +3,25 @@
 #include "../headers/MainWindow.h"
 #include <SFML/Audio.hpp>
 
-
 class GameOver: public MainWindow {
 private:
-    void initText();
-    //Variables
     Text text;
     Text exit;
     SoundBuffer buffer;
     Sound sound;
+
     int i;
+
+    void initText();
 public:
-    //Constructor & Destructor
+    //constructor & destructor
     GameOver();
     ~GameOver() = default;
 
-    //Functions
-    void render() override;
-    void update() override;
+    //functions
     void run() override;
+    void update() override;
+    void render() override;
     void music();
 };
 

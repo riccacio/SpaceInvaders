@@ -5,35 +5,34 @@
 #include "../headers/Alien.h"
 #include "../headers/Map.h"
 #include "../headers/GameOver.h"
-#include <SFML/Audio.hpp>
 #include <chrono>
 #include <random>
 #include <array>
 #include <sstream>
+#include <SFML/Audio.hpp>
 
 class Game: public MainWindow{
 private:
-
-    std::mt19937_64 random_engine;
-
-    void initVariables() override;
-    void initText();
-    void initItems();
-    //Variables
     std::shared_ptr<Ship> ship;
     std::vector<std::shared_ptr<Alien>> aliens;
     Map map;
     std::vector<Text> graphicText = {};
     std::vector<Sprite> sprShipL = {};
+    std::mt19937_64 random_engine;
     RectangleShape line;
     SoundBuffer shipBuffer;
+    SoundBuffer shipExpBuffer;
     SoundBuffer alienBuffer1;
     SoundBuffer alienBuffer2;
     SoundBuffer alienExpBuffer;
     Sound shipSound;
+    Sound shipExpSound;
     Sound alienSound1;
     Sound alienSound2;
     Sound alienExpSound;
+    Clock clock;
+    Time invincibilityTime;
+
     int reloadTimer;
     int record;
     int score;
@@ -42,22 +41,25 @@ private:
     int timeAliens;
     float direction;
     bool changeMusic;
-    bool hitted;
-    int c;
     float speedAlien;
+    bool hitted;
+    bool invincible;
+
+    void initVariables() override;
+    void initItems();
+    void initText();
 public:
-    //Constructor and Destructor
+    //constructor & destructor
     Game();
     ~Game() = default;
 
-    //Functions
-    void pollEvents() override;
-    void render() override;
-    void update() override;
+    //functions
     void run() override;
+    void pollEvents() override;
+    void update() override;
+    void render() override;
+    void createShip();
     void centerItem(Sprite& s, float height) override;
-    void readRecord() override;
-    void writeRecord() const;
     void updateScoreRecord();
     void moveAliens();
 };

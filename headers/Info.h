@@ -4,20 +4,18 @@
 
 class Info: public MainWindow {
 private:
-    //Function
-    void initVariables() override;
-    void initText();
-
-    //Variables
     std::vector<Text> graphicText = {};
     std::vector<Texture> aliensT = {};
     std::vector<Sprite> aliensS = {};
+
+    void initVariables() override;
+    void initText();
 public:
-    //Constructor & Destructor
+    //constructor & destructor
     Info();
     ~Info() = default;
 
-    //Functions
+    //functions
     void pollEvents() override;
     void render() override;
 };

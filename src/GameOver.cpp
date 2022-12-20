@@ -1,7 +1,5 @@
 #include "../headers/GameOver.h"
 
-using namespace sf;
-
 GameOver::GameOver() : i(0){
     initWindow();
     initFont();
@@ -9,28 +7,7 @@ GameOver::GameOver() : i(0){
     music();
 }
 
-//Functions
-void GameOver::render(){
-    window->clear();
-    window->draw(text);
-    window->draw(exit);
-    window->display();
-}
-
-void GameOver::run(){
-    while(running()){
-        //Update
-        update();
-        //Render
-        render();
-    }
-}
-void GameOver::music(){
-    buffer.loadFromFile("sound/game_over.wav");
-    sound.setBuffer(buffer);
-    sound.play();
-}
-
+//functions
 void GameOver::initText() {
     text.setString("G A M E  O V E R");
     exit.setString("PRESS ESC TO EXIT");
@@ -42,6 +19,14 @@ void GameOver::initText() {
     centerItem(text, 570);
     centerItem(exit, 1200);
 }
+
+void GameOver::run(){
+    while(running()){
+        update();
+        render();
+    }
+}
+
 void GameOver::update() {
     MainWindow::update();
     sleep(milliseconds(200)); // 0.2sec
@@ -54,3 +39,16 @@ void GameOver::update() {
         i=0;
     }
 }
+void GameOver::render(){
+    window->clear();
+    window->draw(text);
+    window->draw(exit);
+    window->display();
+}
+
+void GameOver::music(){
+    buffer.loadFromFile("sound/game_over.wav");
+    sound.setBuffer(buffer);
+    sound.play();
+}
+

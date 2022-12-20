@@ -7,27 +7,27 @@
 
 class Menu: public MainWindow{
 private:
-    void initVariables() override;
-    void initText();
-
-    //Variables
     std::vector<Text> graphicText = {};
     Texture texShip;
     Sprite sprShip;
     SoundBuffer buffer;
     Sound sound;
+
     int i;
+
+    void initVariables() override;
+    void initText();
 public:
-    //Constructor and Destructor
+    //constructor & destructor
     Menu();
     ~Menu() = default;
 
-    //Functions
+    //functions
     void pollEvents() override;
-    void render() override;
-    void update() override;
-    void music();
     void keyboardEvent(auto& e);
+    void update() override;
+    void render() override;
+    void music();
 };
 
 #endif // MENU_H
