@@ -6,22 +6,25 @@ Ship::Ship(Vector2f pos) : change(true), dead(false), hitted(false), invincible(
     texExpShip1.loadFromFile("sprite/ship_destroyed_0.png");
     texExpShip2.loadFromFile("sprite/ship_destroyed_1.png");
     texShipShot.loadFromFile("sprite/ship_shot.png");
-    sprShip.setPosition(pos);
-    sprExpShip1.setPosition(pos);
-    sprExpShip2.setPosition(pos);
     sprShip.setTexture(texShip);
     sprExpShip1.setTexture(texExpShip1);
     sprExpShip2.setTexture(texExpShip2);
+    sprShip.setPosition(pos);
+    sprExpShip1.setPosition(pos);
+    sprExpShip2.setPosition(pos);
     sprShip.setScale(4,4);
+    sprExpShip1.setScale(4,4);
+    sprExpShip2.setScale(4,4);
+    bullets = std::make_shared<std::vector<Bullet>>();
 }
 
 //functions
 void Ship::draw(RenderTarget& target) {
-    if(dead){
+    if(dead)
         target.draw((change)?sprExpShip1:sprExpShip2);
-    }
     else
         target.draw(sprShip);
+
     for (auto &b: *bullets) {
         b.draw(target);
     }
@@ -63,9 +66,8 @@ Vector2f Ship::getPosition() {
 Time &Ship::getTime() {
     return time;
 }
-
 IntRect Ship::getHitBox(){
-    return IntRect(sprShip.getPosition().x, sprShip.getPosition().y,sprShip.getGlobalBounds().width, sprShip.getGlobalBounds().height);
+    return IntRect(sprShip.getPosition().x-sprShip.getGlobalBounds().width/2, (sprShip.getPosition().y-sprShip.getGlobalBounds().height/2)+PADDING,sprShip.getGlobalBounds().width, sprShip.getGlobalBounds().height);
 }
 
 std::shared_ptr<std::vector<Bullet>> Ship::getBullets() {
@@ -83,6 +85,7 @@ bool Ship::isHitted() {
 bool Ship::isInvincible() {
     return invincible;
 }
+
 
 void Ship::setPosition(Vector2f pos) {
     sprShip.setPosition(pos);

@@ -15,6 +15,7 @@ Game::Game(): record(0), lives(3), score(0), reloadTimer(0), moveTimer(0), direc
 void Game::initVariables() {
 
     window = nullptr;
+
     for(int j=0; j<lives; j++)
         sprShipL.emplace_back();
     for(int j=0; j<5; j++)
@@ -62,6 +63,9 @@ void Game::initItems() {
     aliens = map.getAliens();
     ship->getSprShip().setPosition(0,0);
     centerItem(ship->getSprShip(), ship->getPosition().y);
+    map.createUFO();
+    ufo = map.getUFO();
+    ufo->getSprite().setPosition(WIDTH-ufo->getSprite().getGlobalBounds().width, 150);
 }
 
 void Game::initText() {
@@ -148,6 +152,7 @@ void Game::pollEvents() {
 void Game::update() {
     pollEvents();
     invincibilityTime = clock.getElapsedTime();
+    spawnUfoTime = clockUFO.getElapsedTime();
 
     if(timeAliens==0){
         timeAliens = speedAlien;
@@ -172,7 +177,7 @@ void Game::update() {
 
     for(auto& a : *aliens){
         a->update(random_engine);
-        if(!ship->isInvincible()){
+        if(a != nullptr && !ship->isInvincible()){
             if (a->checkCollision(ship->getHitBox())) {
                 ship->setDead(true);
                 ship->setInvincible(true);
@@ -204,20 +209,17 @@ void Game::update() {
 
     ship->update();
     checkDeadAliens();
-    //FIXME
-    for(auto &a : *aliens){
-        if(a != nullptr && a->getTime().asSeconds() > 1.0f){
-            if(a->isHitted()){
-                if(!a->isDead()){
-                    aliens->erase(aliens->begin() + a->getIndex());
-                    a->setDead(true);
-                }
-            }
-        }
-    }
     moveAliens();
+    if(spawnUfoTime.asSeconds() > 12){
+        ufo->update();
+    }
+    if(ufo->getSprite().getPosition().x+ufo->getSprite().getGlobalBounds().width <= 0){
+        clockUFO.restart();
+        ufo->getSprite().setPosition(WIDTH-ufo->getSprite().getGlobalBounds().width, 150);
+    }
     updateScoreRecord();
     checkGameOver();
+    std::cout << spawnUfoTime.asSeconds() << std::endl;
 }
 
 void Game::render() {
@@ -233,6 +235,9 @@ void Game::render() {
         a->draw(*window);
     }
     ship->draw(*window);
+    if(spawnUfoTime.asSeconds() > 12){
+        ufo->draw(*window);
+    }
     window->display();
 }
 
@@ -269,7 +274,6 @@ void Game::moveAliens() {
                 for (auto &b: *aliens) {
                     b->getSpriteA().move(0.0f, OFFSET);
                     b->getSpriteB().move(0.0f, OFFSET);
-                    b->getSpriteExp().move(0.0f, OFFSET);
                 }
                 direction = -1;
             }
@@ -277,13 +281,11 @@ void Game::moveAliens() {
                 for (auto &b: *aliens) {
                     b->getSpriteA().move(0.0f, OFFSET);
                     b->getSpriteB().move(0.0f, OFFSET);
-                    b->getSpriteExp().move(0.0f, OFFSET);
                 }
                 direction = 1;
             }
             a->getSpriteA().move(ALIEN_SPEED * direction, 0.0f);
             a->getSpriteB().move(ALIEN_SPEED * direction, 0.0f);
-            a->getSpriteExp().move(ALIEN_SPEED * direction, 0.0f);
         }
     }
     else
@@ -319,14 +321,9 @@ void Game::moveAliens() {
         moveTimer --;
 }
 
-void Game::killAlien(Alien &a, int index) {
-    //if (a.getTime().asSeconds() > 1.0f)
-
-}
-
 void Game::checkGameOver() {
     for(auto& a : *aliens){
-        if(a->checkCollisionAlienShip(ship->getHitBox())){
+        if(a != nullptr && a->checkCollisionAlienShip(ship->getHitBox())){
             window->close();
             std::unique_ptr<GameOver> go(new GameOver);
             go->run();

@@ -15,5 +15,6 @@ constexpr unsigned short ENEMY_SHOOT_CHANCE_INCREASE = 64;
 constexpr unsigned short ENEMY_SHOOT_CHANCE_MIN = 1024;
 constexpr unsigned char ALIEN_BULLET_DURATION = 80;
 constexpr unsigned char OFFSET = 20;
+constexpr unsigned char PADDING = 10; //ship padding hitbox
 
 #endif //SPACEINVADERS_GLOBAL_H

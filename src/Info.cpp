@@ -19,7 +19,7 @@ void Info::initVariables() {
 
 
 void Info::initText() {
-    aliensT[0].loadFromFile("sprite/mystery.png");
+    aliensT[0].loadFromFile("sprite/ufo.png");
     aliensT[1].loadFromFile("sprite/alien1_0.png");
     aliensT[2].loadFromFile("sprite/alien2_0.png");
     aliensT[3].loadFromFile("sprite/alien3_0.png");

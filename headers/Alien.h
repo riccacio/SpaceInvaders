@@ -12,23 +12,17 @@ class Alien {
 private:
     Sprite spriteA;
     Sprite spriteB;
-    Sprite spriteExp;
     Texture textureA;
     Texture textureB;
-    Texture textureExp;
     Texture texShot1;
     Texture texShot2;
     std::vector<Bullet> bullets = {};
     std::uniform_int_distribution<unsigned short> shoot_distribution;
-    Clock clock;
-    Time time;
 
     bool change;
     bool hitted;
-    bool dead;
     int changeBulletTimer;
     int type;
-    int index;
 public:
     //constructor & destructor
     Alien(int type, Vector2f (pos), bool startSprite=true);
@@ -48,20 +42,10 @@ public:
     Sprite& getSpriteA();
     Sprite& getSpriteB();
     Vector2f getPositionA();
-    IntRect getHitBox() const;
-    Sprite& getSpriteExp();
-    Time& getTime();
-    bool isDead();
-    bool isHitted();
+    IntRect getHitBox();
     int getType();
-    int getIndex();
 
-    void setPositionSpriteExp(Vector2f pos);
-    void setDead(bool dead);
     void setHitted(bool hitted);
-    void setTimeRestart();
-    void setIndex(int index);
-
 };
 
 #endif //SPACEINVADERS_ALIEN_H

@@ -2,6 +2,7 @@
 #define SPACEINVADERS_MAP_H
 #include "../headers/Ship.h"
 #include "../headers/Alien.h"
+#include "../headers/UFO.h"
 
 class Map {
 private:

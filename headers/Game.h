@@ -8,6 +8,7 @@
 #include <chrono>
 #include <random>
 #include <array>
+#include <iostream>
 #include <sstream>
 #include <SFML/Audio.hpp>
 
@@ -31,7 +32,9 @@ private:
     Sound alienSound2;
     Sound alienExpSound;
     Clock clock;
+    Clock clockUFO;
     Time invincibilityTime;
+    Time spawnUfoTime;
 
     int reloadTimer;
     int record;
