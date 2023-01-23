@@ -15,6 +15,17 @@ void UFO::update(){
     sprite.move(-1.f,0.f);
 }
 
+bool UFO::checkCollision(IntRect b){
+    if(getHitBox().intersects(b))
+        return true;
+    else
+        return false;
+}
+
 Sprite &UFO::getSprite() {
     return sprite;
+}
+
+IntRect UFO::getHitBox() {
+    return IntRect(sprite.getPosition().x, sprite.getPosition().y, sprite.getGlobalBounds().width, sprite.getGlobalBounds().height);
 }

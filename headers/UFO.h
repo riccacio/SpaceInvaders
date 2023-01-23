@@ -17,10 +17,11 @@ public:
     //functions
     void draw(RenderTarget& target);
     void update();
+    bool checkCollision(IntRect hitBox);
 
     //getter
     Sprite& getSprite();
-
+    IntRect getHitBox();
 };
 
 

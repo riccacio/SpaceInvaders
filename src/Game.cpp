@@ -1,7 +1,7 @@
 #include "../headers/Game.h"
 #include <iostream>
 
-Game::Game(): record(0), lives(3), score(0), reloadTimer(0), moveTimer(0), direction(1), timeAliens(0), changeMusic(true), speedAlien(ALIEN_CHANGE){
+Game::Game(): record(0), lives(3), score(0), reloadTimer(0), moveTimer(0), direction(1), timeAliens(0), changeMusic(true), ufoPlayingMusic(0), speedAlien(ALIEN_CHANGE){
     std::chrono::microseconds lag(0);
     std::chrono::steady_clock::time_point previous_time;
     initVariables();
@@ -31,6 +31,10 @@ void Game::initVariables() {
     alienSound2.setBuffer(alienBuffer2);
     alienExpBuffer.loadFromFile("sound/alien_death.wav");
     alienExpSound.setBuffer(alienExpBuffer);
+    ufoBuffer.loadFromFile("sound/ufo_lowpitch.wav");
+    ufoSound.setBuffer(ufoBuffer);
+    ufoExpBuffer.loadFromFile("sound/ufo_highpitch.wav");
+    ufoExpSound.setBuffer(ufoExpBuffer);
 }
 
 void Game::initItems() {
@@ -210,16 +214,38 @@ void Game::update() {
     ship->update();
     checkDeadAliens();
     moveAliens();
+
     if(spawnUfoTime.asSeconds() > 12){
         ufo->update();
+        ufoPlayingMusic++;
     }
+
+    if(ufoPlayingMusic == 1){
+        ufoSound.play();
+    }
+
+    //ufo check collision
+    int i=0;
+    for(auto& b: *ship->getBullets()){
+            if(ufo->checkCollision(b.getHitBox())) {
+                clockUFO.restart();
+                ufoSound.stop();
+                ufoPlayingMusic = 0;
+                ufo->getSprite().setPosition(WIDTH-ufo->getSprite().getGlobalBounds().width, 150);
+                ship->getBullets()->erase(ship->getBullets()->begin() + i);
+                ufoExpSound.play();
+                score+=200;
+            }
+            i++;
+    }
+
     if(ufo->getSprite().getPosition().x+ufo->getSprite().getGlobalBounds().width <= 0){
         clockUFO.restart();
+        ufoPlayingMusic = 0;
         ufo->getSprite().setPosition(WIDTH-ufo->getSprite().getGlobalBounds().width, 150);
     }
     updateScoreRecord();
     checkGameOver();
-    std::cout << spawnUfoTime.asSeconds() << std::endl;
 }
 
 void Game::render() {
