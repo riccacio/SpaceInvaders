@@ -126,21 +126,42 @@ void Game::pollEvents() {
 
     if(!ship->isHitted()){
         if (Keyboard::isKeyPressed(Keyboard::Left)){
-            if(ship->getPosition().x > ship->getSprShip().getGlobalBounds().width/2.0f + OFFSET){
-                ship->getSprShip().move(SHIP_MOVE_SPEED * -1.0f ,0.0f);
+            if(ship->getCurrentPower() == 3){
+                if(ship->getPosition().x < WIDTH - ship->getSprShip().getGlobalBounds().width/2.0f - OFFSET){
+                    ship->getSprShip().move(SHIP_MOVE_SPEED * 1.0f ,0.0f);
+                    ship->getSprShip3().move(SHIP_MOVE_SPEED * 1.0f ,0.0f);
+                    ship->getSprShipShield().move(SHIP_MOVE_SPEED * 1.0f ,0.0f);
+                }
+            }else{
+                if(ship->getPosition().x > ship->getSprShip().getGlobalBounds().width/2.0f + OFFSET){
+                    ship->getSprShip().move(SHIP_MOVE_SPEED * -1.0f ,0.0f);
+                    ship->getSprShip3().move(SHIP_MOVE_SPEED * -1.0f ,0.0f);
+                    ship->getSprShipShield().move(SHIP_MOVE_SPEED * -1.0f ,0.0f);
+                }
             }
+
         }
         if (Keyboard::isKeyPressed(Keyboard::Right)) {
-            if(ship->getPosition().x < WIDTH - ship->getSprShip().getGlobalBounds().width/2.0f - OFFSET){
-                ship->getSprShip().move(SHIP_MOVE_SPEED * 1.0f ,0.0f);
+            if(ship->getCurrentPower() == 3){
+                if(ship->getPosition().x > ship->getSprShip().getGlobalBounds().width/2.0f + OFFSET){
+                    ship->getSprShip().move(SHIP_MOVE_SPEED * -1.0f ,0.0f);
+                    ship->getSprShip3().move(SHIP_MOVE_SPEED * -1.0f ,0.0f);
+                    ship->getSprShipShield().move(SHIP_MOVE_SPEED * -1.0f ,0.0f);
+                }
+            }else{
+                if(ship->getPosition().x < WIDTH - ship->getSprShip().getGlobalBounds().width/2.0f - OFFSET){
+                    ship->getSprShip().move(SHIP_MOVE_SPEED * 1.0f ,0.0f);
+                    ship->getSprShip3().move(SHIP_MOVE_SPEED * 1.0f ,0.0f);
+                    ship->getSprShipShield().move(SHIP_MOVE_SPEED * 1.0f ,0.0f);
+                }
             }
         }
         if (reloadTimer == 0){
             if (Keyboard::isKeyPressed(Keyboard::Space)) {
-                if (ship->getCurrentPower() == 2)
+                if (ship->getCurrentPower() == 1)
                     reloadTimer = FAST_RELOAD_DURATION;
                 else {
-                    reloadTimer = FAST_RELOAD_DURATION;
+                    reloadTimer = RELOAD_DURATION;
                 }
                 ship->shoot();
                 shipSound.play();
@@ -156,6 +177,7 @@ void Game::update() {
     pollEvents();
     invincibilityTime = clock.getElapsedTime();
     spawnUfoTime = clockUFO.getElapsedTime();
+    powerUpDuration = clockPowerUp.getElapsedTime();
 
     if(timeAliens==0){
         timeAliens = speedAlien;
@@ -182,6 +204,7 @@ void Game::update() {
         a->update(random_engine);
         if(a != nullptr && !ship->isInvincible()){
             if (a->checkCollision(ship->getHitBox())) {
+                //TODO da mettere lo scudo
                 ship->setDead(true);
                 ship->setInvincible(true);
                 ship->setHitted(true);
@@ -199,7 +222,7 @@ void Game::update() {
     if(ship->isInvincible()){
         if(invincibilityTime.asSeconds() > 5.0f){
             invincibilityTime = clock.restart();
-            //ship->setInvincible(false);
+            //TODO rimettere (ship->setInvincible(false);)
         }
     }
     //ship animation
@@ -212,9 +235,13 @@ void Game::update() {
         ship->changeSprite();
 
     ship->update();
+    if(powerUpDuration.asSeconds() >= 10.f){
+        ship->setCurrentPower(-1);
+    }
     checkDeadAliens();
     moveAliens();
 
+    //TODO >12
     if(spawnUfoTime.asSeconds() > 6){
         ufo->setDead(false);
         ufo->update();
@@ -223,10 +250,6 @@ void Game::update() {
 
     if(ufoPlayingMusic == 1){
         ufoSound.play();
-    }
-
-    if(ufo->isDead()){
-        ufo->updatePowerUp();
     }
 
     //ufo check collision
@@ -240,11 +263,21 @@ void Game::update() {
                 ufoExpSound.play();
                 ship->getBullets()->erase(ship->getBullets()->begin() + i);
                 score+=200;
-                ufo->setType(rand()%4);
+                ufo->setType(/*rand()%4*/0);
                 ufo->dropPowerUp(Vector2f(ufo->getSprite().getPosition().x + ufo->getSprite().getGlobalBounds().width/2.f, ufo->getSprite().getPosition().y+ufo->getSprite().getGlobalBounds().height));
                 ufo->getSprite().setPosition(WIDTH+ufo->getSprite().getGlobalBounds().width, 150);
             }
             i++;
+    }
+
+    if(ufo->isDead()){
+        ufo->updatePowerUp();
+        if(ufo->checkCollisionPU(ship->getHitBox())){
+            clockPowerUp.restart();
+            ship->setCurrentPower(ufo->getType());
+            ship->setPosition3(Vector2f(ship->getSprShip().getPosition().x-ship->getSprShip().getGlobalBounds().width/2.f, ship->getSprShip().getPosition().y-ship->getSprShip().getGlobalBounds().height/2));
+            ship->setPositionShield(Vector2f(ship->getSprShip().getPosition().x-ship->getSprShip().getGlobalBounds().width/2.f, ship->getSprShip().getPosition().y-ship->getSprShip().getGlobalBounds().height/2));
+        }
     }
 
     if(ufo->getSprite().getPosition().x+ufo->getSprite().getGlobalBounds().width <= 0){
@@ -270,6 +303,7 @@ void Game::render() {
         a->draw(*window);
     }
     ship->draw(*window);
+    //TODO >12
     if(spawnUfoTime.asSeconds() > 6){
         ufo->draw(*window);
     }

@@ -72,7 +72,7 @@ void Alien::update(std::mt19937_64 &i_random_engine) {
 }
 
 void Alien::updateBullets() {
-    std::erase_if(bullets, [](auto& b){return b.getPosition().y >= 1265;});
+    std::erase_if(bullets, [](auto& b){return b.getPosition().y >= BOTTOM_LIMIT-b.getSprite().getGlobalBounds().height;});
     for(auto& b : bullets){
         b.update(1);
     }

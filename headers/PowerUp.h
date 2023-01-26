@@ -8,7 +8,6 @@ using namespace sf;
 
 class PowerUp {
 private:
-    Sprite sprite;
     Sprite sprite0;
     Sprite sprite1;
     int type;
@@ -26,6 +25,7 @@ public:
     //getter
     Vector2f getPosition();
     IntRect getHitBox() const;
+    Sprite getSprite();
 };
 
 

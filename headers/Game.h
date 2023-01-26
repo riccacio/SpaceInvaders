@@ -22,6 +22,7 @@ private:
     std::vector<Sprite> sprShipL = {};
     std::mt19937_64 random_engine;
     RectangleShape line;
+    //TODO vector
     SoundBuffer shipBuffer;
     SoundBuffer ufoBuffer;
     SoundBuffer ufoExpBuffer;
@@ -29,6 +30,7 @@ private:
     SoundBuffer alienBuffer1;
     SoundBuffer alienBuffer2;
     SoundBuffer alienExpBuffer;
+    //TODO vector
     Sound shipSound;
     Sound shipExpSound;
     Sound alienSound1;
@@ -36,10 +38,13 @@ private:
     Sound alienExpSound;
     Sound ufoSound;
     Sound ufoExpSound;
+
     Clock clock;
     Clock clockUFO;
+    Clock clockPowerUp;
     Time invincibilityTime;
     Time spawnUfoTime;
+    Time powerUpDuration;
 
     int reloadTimer;
     int record;

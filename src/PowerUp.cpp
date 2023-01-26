@@ -5,8 +5,8 @@ PowerUp::PowerUp(Texture &texture0, Texture &texture1, Vector2f pos, int type): 
     sprite1.setTexture(texture1);
     sprite0.setScale(4,4);
     sprite1.setScale(4,4);
-    sprite0.setPosition(pos.x-sprite.getGlobalBounds().width/2.f, pos.y);
-    sprite1.setPosition(pos.x-sprite.getGlobalBounds().width/2.f, pos.y);
+    sprite0.setPosition(pos.x-sprite0.getGlobalBounds().width/2.f, pos.y);
+    sprite1.setPosition(pos.x-sprite1.getGlobalBounds().width/2.f, pos.y);
 }
 
 void PowerUp::draw(RenderTarget &target) {
@@ -14,10 +14,8 @@ void PowerUp::draw(RenderTarget &target) {
 }
 
 void PowerUp::update(){
-    if(change)
-        sprite0.move(0.f, POWERUP_SPEED);
-    else
-        sprite1.move(0.f, POWERUP_SPEED);
+    sprite0.move(0.f, POWERUP_SPEED);
+    sprite1.move(0.f, POWERUP_SPEED);
 }
 
 void PowerUp::changeSprite() {
@@ -36,4 +34,8 @@ IntRect PowerUp::getHitBox() const{
         return IntRect (sprite0.getPosition().x, sprite0.getPosition().y, sprite0.getGlobalBounds().width, sprite0.getGlobalBounds().height);
     else
         return IntRect (sprite1.getPosition().x, sprite1.getPosition().y, sprite1.getGlobalBounds().width, sprite1.getGlobalBounds().height);
+}
+
+Sprite PowerUp::getSprite() {
+    return sprite0;
 }

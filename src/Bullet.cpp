@@ -5,8 +5,8 @@ Bullet::Bullet(Texture& texShot1, Texture& texShot2, Vector2f(pos)) : change(tru
     sprite2.setTexture(texShot2);
     sprite1.setScale(3.5,3.5);
     sprite2.setScale(3.5,3.5);
-    sprite1.setPosition(pos);
-    sprite2.setPosition(pos);
+    sprite1.setPosition(pos.x-sprite1.getGlobalBounds().width/2.f, pos.y);
+    sprite2.setPosition(pos.x-sprite2.getGlobalBounds().width/2.f, pos.y);
 }
 
 //functions
@@ -35,3 +35,6 @@ IntRect Bullet::getHitBox() const{
     return IntRect (sprite1.getPosition().x, sprite1.getPosition().y, sprite1.getGlobalBounds().width, sprite1.getGlobalBounds().height);
 }
 
+Sprite Bullet::getSprite() {
+    return sprite1;
+}

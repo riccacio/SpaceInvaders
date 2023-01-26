@@ -25,6 +25,7 @@ public:
     //getter
     Vector2f getPosition();
     IntRect getHitBox() const;
+    Sprite getSprite();
 };
 
 #endif //SPACEINVADERS_BULLET_H

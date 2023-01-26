@@ -1,17 +1,19 @@
 #include "../headers/UFO.h"
 
-UFO::UFO(Vector2f pos): dead(false){
+UFO::UFO(Vector2f pos): dead(false), timePowerUp(0){
     srand(time(NULL));
-    texture.loadFromFile("sprite/ufo.png");
-    texturePowerUp00.loadFromFile("sprite/powerup00.png");
-    texturePowerUp01.loadFromFile("sprite/powerup01.png");
-    texturePowerUp10.loadFromFile("sprite/powerup10.png");
-    texturePowerUp11.loadFromFile("sprite/powerup11.png");
-    texturePowerUp20.loadFromFile("sprite/powerup20.png");
-    texturePowerUp21.loadFromFile("sprite/powerup21.png");
-    texturePowerUp30.loadFromFile("sprite/powerup30.png");
-    texturePowerUp31.loadFromFile("sprite/powerup31.png");
-    sprite.setTexture(texture);
+    for (int i = 0; i<=9; i++)
+        textures.emplace_back();
+
+    textures[0].loadFromFile("sprite/ufo.png");
+    int i=1;
+    for(int j = 0; j<4; j++){
+        for(int k = 0; k<2; k++){
+            textures[i].loadFromFile("sprite/powerup" + std::to_string(j) + std::to_string(k) + ".png");
+            i++;
+        }
+    }
+    sprite.setTexture(textures[0]);
     sprite.setPosition(pos);
     sprite.setScale(4,4);
     powerUp = std::make_shared<std::vector<PowerUp>>();
@@ -32,11 +34,19 @@ void UFO::update(){
 }
 
 void UFO::updatePowerUp(){
-    std::erase_if(*powerUp, [](auto& p){return p.getPosition().y >= 1265;});
-    for(auto& p : *powerUp){
-        p.changeSprite();
+    std::erase_if(*powerUp, [](auto& p){return p.getPosition().y >= BOTTOM_LIMIT-p.getSprite().getGlobalBounds().height;});
+    for(auto& p : *powerUp) {
         p.update();
+
     }
+    if(timePowerUp == 0){
+        timePowerUp = POWERUP_DURATION;
+        for(auto& p : *powerUp){
+            p.changeSprite();
+        }
+    }
+    else
+        timePowerUp--;
 }
 
 bool UFO::checkCollision(IntRect b){
@@ -48,17 +58,30 @@ bool UFO::checkCollision(IntRect b){
 
 void UFO::dropPowerUp(Vector2f pos){
     if(type == 0){
-        powerUp->emplace_back(PowerUp(texturePowerUp00, texturePowerUp01, pos, type));
+        powerUp->emplace_back(PowerUp(textures[1], textures[2], pos, type));
     }
     else if(type == 1){
-        powerUp->emplace_back(PowerUp(texturePowerUp10,texturePowerUp11, pos, type));
+        powerUp->emplace_back(PowerUp(textures[3], textures[4], pos, type));
     }
     else if(type == 2){
-        powerUp->emplace_back(PowerUp(texturePowerUp20, texturePowerUp21, pos, type));
+        powerUp->emplace_back(PowerUp(textures[5], textures[6], pos, type));
     }
     else if(type == 3){
-        powerUp->emplace_back(PowerUp(texturePowerUp30, texturePowerUp31, pos, type));
+        powerUp->emplace_back(PowerUp(textures[7], textures[8], pos, type));
     }
+}
+
+bool UFO::checkCollisionPU(IntRect shipHB) {
+    int i=0;
+    for(auto p : *powerUp){
+        if(p.getHitBox().intersects(shipHB)){
+            powerUp->erase(powerUp->begin() + i);
+            return true;
+        }
+        i++;
+    }
+    return false;
+
 }
 
 Sprite &UFO::getSprite() {
@@ -71,6 +94,10 @@ IntRect UFO::getHitBox() {
 
 void UFO::setType(int type) {
     UFO::type = type;
+}
+
+int UFO::getType() {
+    return type;
 }
 
 void UFO::setDead(bool dead) {
