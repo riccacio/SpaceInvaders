@@ -13,7 +13,6 @@ Game::Game(): record(0), lives(3), score(0), reloadTimer(0), moveTimer(0), direc
 
 //functions
 void Game::initVariables() {
-
     window = nullptr;
 
     for(int j=0; j<lives; j++)
@@ -141,7 +140,7 @@ void Game::pollEvents() {
                 if (ship->getCurrentPower() == 2)
                     reloadTimer = FAST_RELOAD_DURATION;
                 else {
-                    reloadTimer = RELOAD_DURATION;
+                    reloadTimer = FAST_RELOAD_DURATION;
                 }
                 ship->shoot();
                 shipSound.play();
@@ -195,11 +194,12 @@ void Game::update() {
             }
         }
     }
+
     //invincibility
     if(ship->isInvincible()){
         if(invincibilityTime.asSeconds() > 5.0f){
             invincibilityTime = clock.restart();
-            ship->setInvincible(false);
+            //ship->setInvincible(false);
         }
     }
     //ship animation
@@ -215,7 +215,8 @@ void Game::update() {
     checkDeadAliens();
     moveAliens();
 
-    if(spawnUfoTime.asSeconds() > 12){
+    if(spawnUfoTime.asSeconds() > 6){
+        ufo->setDead(false);
         ufo->update();
         ufoPlayingMusic++;
     }
@@ -224,17 +225,24 @@ void Game::update() {
         ufoSound.play();
     }
 
+    if(ufo->isDead()){
+        ufo->updatePowerUp();
+    }
+
     //ufo check collision
     int i=0;
     for(auto& b: *ship->getBullets()){
             if(ufo->checkCollision(b.getHitBox())) {
                 clockUFO.restart();
+                ufo->setDead(true);
                 ufoSound.stop();
                 ufoPlayingMusic = 0;
-                ufo->getSprite().setPosition(WIDTH-ufo->getSprite().getGlobalBounds().width, 150);
-                ship->getBullets()->erase(ship->getBullets()->begin() + i);
                 ufoExpSound.play();
+                ship->getBullets()->erase(ship->getBullets()->begin() + i);
                 score+=200;
+                ufo->setType(rand()%4);
+                ufo->dropPowerUp(Vector2f(ufo->getSprite().getPosition().x + ufo->getSprite().getGlobalBounds().width/2.f, ufo->getSprite().getPosition().y+ufo->getSprite().getGlobalBounds().height));
+                ufo->getSprite().setPosition(WIDTH+ufo->getSprite().getGlobalBounds().width, 150);
             }
             i++;
     }
@@ -242,7 +250,8 @@ void Game::update() {
     if(ufo->getSprite().getPosition().x+ufo->getSprite().getGlobalBounds().width <= 0){
         clockUFO.restart();
         ufoPlayingMusic = 0;
-        ufo->getSprite().setPosition(WIDTH-ufo->getSprite().getGlobalBounds().width, 150);
+        ufo->getSprite().setPosition(WIDTH+ufo->getSprite().getGlobalBounds().width, 150);
+        ufo->setDead(false);
     }
     updateScoreRecord();
     checkGameOver();
@@ -257,12 +266,15 @@ void Game::render() {
     for(int j=0; j<lives; j++)
         window->draw(sprShipL[j]);
     window->draw(line);
-    for(auto& a : aliens){
+    for(auto& a : *aliens){
         a->draw(*window);
     }
     ship->draw(*window);
-    if(spawnUfoTime.asSeconds() > 12){
+    if(spawnUfoTime.asSeconds() > 6){
         ufo->draw(*window);
+    }
+    if(ufo->isDead()){
+        ufo->drawPowerUp(*window);
     }
     window->display();
 }
@@ -318,33 +330,35 @@ void Game::moveAliens() {
         moveTimer --;
 }
 
-void Game::moveAliens() {
-    if(moveTimer==0) {
-        moveTimer = ALIEN_CHANGE;
-        for (auto &a: aliens) {
-            if ((a->getPositionA().x + a->getSpriteA().getGlobalBounds().width) >= WIDTH) {
-                for (auto &b: aliens) {
-                    b->getSpriteA().move(0.0f, OFFSET);
-                    b->getSpriteB().move(0.0f, OFFSET);
-                    b->getSpriteExp().move(0.0f, OFFSET);
+void Game::checkDeadAliens(){
+    int i, j=0;
+    for(auto& b: *ship->getBullets()){
+        i=0;
+        for(auto& a:*aliens){
+            if(a != nullptr && a->checkCollision(b)){
+                a->setHitted(true);
+                switch (a->getType()){
+                    case 0:
+                        score += 30;
+                        break;
+                    case 1:
+                        score += 20;
+                        break;
+                    case 2:
+                        score += 10;
+                        break;
+                    default:
+                        break;
                 }
-                direction = -1;
+                speedAlien = speedAlien - SPAN;
+                ship->getBullets()->erase(ship->getBullets()->begin() + j);
+                alienExpSound.play();
+                aliens->erase(aliens->begin() + i);
             }
-            if (a->getPositionA().x <= 0) {
-                for (auto &b: aliens) {
-                    b->getSpriteA().move(0.0f, OFFSET);
-                    b->getSpriteB().move(0.0f, OFFSET);
-                    b->getSpriteExp().move(0.0f, OFFSET);
-                }
-                direction = 1;
-            }
-            a->getSpriteA().move(ALIEN_SPEED * direction, 0.0f);
-            a->getSpriteB().move(ALIEN_SPEED * direction, 0.0f);
-            a->getSpriteExp().move(ALIEN_SPEED * direction, 0.0f);
+            i++;
         }
+        j++;
     }
-    else
-        moveTimer --;
 }
 
 void Game::checkGameOver() {

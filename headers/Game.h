@@ -15,7 +15,8 @@
 class Game: public MainWindow{
 private:
     std::shared_ptr<Ship> ship;
-    std::vector<std::shared_ptr<Alien>> aliens;
+    std::shared_ptr<std::vector<std::shared_ptr<Alien>>> aliens;
+    std::shared_ptr<UFO> ufo;
     Map map;
     std::vector<Text> graphicText = {};
     std::vector<Sprite> sprShipL = {};
@@ -68,6 +69,10 @@ public:
     void centerItem(Sprite& s, float height) override;
     void updateScoreRecord();
     void moveAliens();
+    void checkDeadAliens();
+    void checkGameOver();
+    void readRecord() override;
+    void writeRecord() const;
 };
 
 #endif //GAME_H

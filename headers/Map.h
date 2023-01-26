@@ -7,7 +7,8 @@
 class Map {
 private:
     std::shared_ptr<Ship> ship;
-    std::vector<std::shared_ptr<Alien>> aliens;
+    std::shared_ptr<std::vector<std::shared_ptr<Alien>>> aliens;
+    std::shared_ptr<UFO> ufo;
 public:
     //constructor & destructor
     Map();
@@ -15,9 +16,13 @@ public:
 
     //functions
     void createShip();
-    void createAliens(int type, Vector2f(pos), bool startSprite=true);
+    void createAliens(int type, Vector2f pos, bool startSprite=true);
+    void createUFO();
+
+    //getter
     std::shared_ptr<Ship> getShip();
-    const std::vector<std::shared_ptr<Alien>> &getAliens() const;
+    std::shared_ptr<std::vector<std::shared_ptr<Alien>>> getAliens();
+    std::shared_ptr<UFO> getUFO();
 };
 
 #endif //SPACEINVADERS_MAP_H

@@ -10,6 +10,7 @@ constexpr unsigned char RELOAD_DURATION = 75;
 constexpr unsigned int ALIEN_CHANGE = 200;
 constexpr unsigned int SPAN = 4;
 constexpr float ALIEN_SPEED = 15;
+constexpr unsigned char POWERUP_SPEED = 1;
 constexpr unsigned short ENEMY_SHOOT_CHANCE = 4096;
 constexpr unsigned short ENEMY_SHOOT_CHANCE_INCREASE = 64;
 constexpr unsigned short ENEMY_SHOOT_CHANCE_MIN = 1024;

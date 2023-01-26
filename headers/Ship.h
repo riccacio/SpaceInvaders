@@ -7,7 +7,7 @@ using namespace sf;
 
 class Ship{
 private:
-    std::vector<Bullet> bullets = {};
+    std::shared_ptr<std::vector<Bullet>> bullets;
     Sprite sprShip;
     Sprite sprExpShip1;
     Sprite sprExpShip2;
@@ -39,7 +39,13 @@ public:
     Sprite& getSprShip();
     Texture& getTexShip();
     Vector2f getPosition();
-    std::vector<Bullet> &getBullets() ;
+    Time& getTime();
+    IntRect getHitBox();
+    std::shared_ptr<std::vector<Bullet>> getBullets();
+    int getCurrentPower();
+    bool isHitted();
+    bool isInvincible();
+
     void setPosition(Vector2f pos);
     void setPositionExp1(Vector2f pos);
     void setPositionExp2(Vector2f pos);
