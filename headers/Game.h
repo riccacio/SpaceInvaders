@@ -20,24 +20,10 @@ private:
     Map map;
     std::vector<Text> graphicText = {};
     std::vector<Sprite> sprShipL = {};
+    std::vector<SoundBuffer> soundBuffers = {};
+    std::vector<Sound> sounds = {};
     std::mt19937_64 random_engine;
     RectangleShape line;
-    //TODO vector
-    SoundBuffer shipBuffer;
-    SoundBuffer ufoBuffer;
-    SoundBuffer ufoExpBuffer;
-    SoundBuffer shipExpBuffer;
-    SoundBuffer alienBuffer1;
-    SoundBuffer alienBuffer2;
-    SoundBuffer alienExpBuffer;
-    //TODO vector
-    Sound shipSound;
-    Sound shipExpSound;
-    Sound alienSound1;
-    Sound alienSound2;
-    Sound alienExpSound;
-    Sound ufoSound;
-    Sound ufoExpSound;
 
     Clock clock;
     Clock clockUFO;
@@ -78,6 +64,7 @@ public:
     void checkGameOver();
     void readRecord() override;
     void writeRecord() const;
+    void stopMusic();
 };
 
 #endif //GAME_H

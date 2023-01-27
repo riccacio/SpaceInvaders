@@ -1,6 +1,6 @@
 #include "../headers/Ship.h"
 
-Ship::Ship(Vector2f pos) : change(true), dead(false), hitted(false), /*TODO mettere false */ invincible(true){
+Ship::Ship(Vector2f pos) : change(true), dead(false), hitted(false), invincible(false){
     currentPower = -1;
     texShip.loadFromFile("sprite/ship.png");
     texShip3.loadFromFile("sprite/ship3.png");
