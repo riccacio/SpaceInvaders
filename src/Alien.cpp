@@ -1,10 +1,11 @@
 #include "../headers/Alien.h"
 
-Alien::Alien(int type, Vector2f (pos), bool startSprite) : change(startSprite), hitted(false), changeBulletTimer(0){
+Alien::Alien(int type, Vector2f (pos), bool startSprite) : change(startSprite), changeBulletTimer(0){
     shoot_distribution = std::uniform_int_distribution <unsigned short> (0, std::max<short>(ENEMY_SHOOT_CHANCE_MIN, ENEMY_SHOOT_CHANCE - ENEMY_SHOOT_CHANCE_INCREASE));
 
     texShot1.loadFromFile("sprite/alien_shot0.png");
     texShot2.loadFromFile("sprite/alien_shot1.png");
+
     this->type = type;
     switch (type) {
         case 0:
@@ -51,6 +52,7 @@ Alien::Alien(int type, Vector2f (pos), bool startSprite) : change(startSprite), 
 //functions
 void Alien::draw(RenderTarget& target) {
     target.draw((change)?spriteA:spriteB);
+
     for (auto &b: bullets) {
         b.draw(target);
     }
@@ -61,6 +63,7 @@ void Alien::update(std::mt19937_64 &i_random_engine) {
     if (0 == shoot_distribution(i_random_engine)){
         shoot();
     }
+    //bullet animation
     if(changeBulletTimer == 0){
         changeBulletTimer = ALIEN_BULLET_DURATION;
         for(auto& b : bullets){
@@ -73,6 +76,7 @@ void Alien::update(std::mt19937_64 &i_random_engine) {
 
 void Alien::updateBullets() {
     std::erase_if(bullets, [](auto& b){return b.getPosition().y >= BOTTOM_LIMIT-b.getSprite().getGlobalBounds().height;});
+    //bullet movement
     for(auto& b : bullets){
         b.update(1);
     }
@@ -86,6 +90,7 @@ void Alien::shoot() {
     bullets.emplace_back(Bullet(texShot1, texShot2, Vector2f(getPositionA().x + spriteA.getGlobalBounds().width/2.0f, getPositionA().y + spriteA.getGlobalBounds().height/2.0f)));
 }
 
+//ufo bullet vs ship
 bool Alien::checkCollision(IntRect shipHB) {
     int i=0;
     for(auto b : bullets){
@@ -98,6 +103,7 @@ bool Alien::checkCollision(IntRect shipHB) {
     return false;
 }
 
+//ufo vs ship bullet
 bool Alien::checkCollision(Bullet& b){
     if(getHitBox().intersects(b.getHitBox()))
         return true;
@@ -105,6 +111,7 @@ bool Alien::checkCollision(Bullet& b){
         return false;
 }
 
+//ufo vs ship
 bool Alien::checkCollisionAlienShip(IntRect shipHB) {
     if(shipHB.intersects(getHitBox()))
         return true;
@@ -131,8 +138,4 @@ IntRect Alien::getHitBox() {
 
 int Alien::getType(){
     return type;
-}
-
-void Alien::setHitted(bool hitted) {
-    Alien::hitted = hitted;
 }

@@ -1,6 +1,6 @@
 #include "../headers/Ship.h"
 
-Ship::Ship(Vector2f pos) : change(true), dead(false), hitted(false), invincible(false){
+Ship::Ship(Vector2f pos) : change(true), dead(false), hitted(false), invincible(false), powerUpHitted(false){
     currentPower = -1;
     texShip.loadFromFile("sprite/ship.png");
     texShip3.loadFromFile("sprite/ship3.png");
@@ -157,4 +157,12 @@ void Ship::setInvincible(bool invincible) {
 
 void Ship::setCurrentPower(int currentPower) {
     Ship::currentPower = currentPower;
+}
+
+bool Ship::isPowerUpHitted() const {
+    return powerUpHitted;
+}
+
+void Ship::setPowerUpHitted(bool powerUpHitted) {
+    Ship::powerUpHitted = powerUpHitted;
 }

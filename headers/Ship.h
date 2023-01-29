@@ -34,6 +34,12 @@ private:
     bool dead;
     bool hitted;
     bool invincible;
+    bool powerUpHitted;
+public:
+    bool isPowerUpHitted() const;
+
+    void setPowerUpHitted(bool powerUpHitted);
+
 public:
     //constructor & destructor
     Ship(Vector2f pos);

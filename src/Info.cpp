@@ -19,6 +19,7 @@ void Info::initVariables() {
 
 
 void Info::initText() {
+    //TODO inserire la lista dei power-up
     aliensT[0].loadFromFile("sprite/ufo.png");
     aliensT[1].loadFromFile("sprite/alien1_0.png");
     aliensT[2].loadFromFile("sprite/alien2_0.png");

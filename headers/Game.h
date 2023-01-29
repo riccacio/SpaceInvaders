@@ -24,13 +24,12 @@ private:
     std::vector<Sound> sounds = {};
     std::mt19937_64 random_engine;
     RectangleShape line;
+    RectangleShape powerUpBar;
 
     Clock clock;
     Clock clockUFO;
-    Clock clockPowerUp;
     Time invincibilityTime;
     Time spawnUfoTime;
-    Time powerUpDuration;
 
     int reloadTimer;
     int record;
@@ -42,6 +41,7 @@ private:
     bool changeMusic;
     int ufoPlayingMusic;
     float speedAlien;
+    float powerupDuration;
 
     void initVariables() override;
     void initItems();

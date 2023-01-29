@@ -27,13 +27,13 @@ public:
     void updatePowerUp();
     bool checkCollisionPU(IntRect shipHB);
 
-    //getter
+    //getter and setter
     Sprite& getSprite();
     IntRect getHitBox();
-    void setType(int type);
-    int getType();
-    void setDead(bool dead);
     bool isDead();
+    int getType();
+    void setType(int type);
+    void setDead(bool dead);
 };
 
 

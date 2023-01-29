@@ -1,7 +1,7 @@
 #include "../headers/Game.h"
 #include <iostream>
 
-Game::Game(): record(0), lives(3), score(0), reloadTimer(0), moveTimer(0), direction(1), timeAliens(0), changeMusic(true), ufoPlayingMusic(0), speedAlien(ALIEN_CHANGE){
+Game::Game(): record(0), lives(3), score(0), reloadTimer(0), moveTimer(0), direction(1), timeAliens(0), changeMusic(true), ufoPlayingMusic(0), speedAlien(ALIEN_CHANGE), powerupDuration(300){
     std::chrono::microseconds lag(0);
     std::chrono::steady_clock::time_point previous_time;
     initVariables();
@@ -15,6 +15,8 @@ Game::Game(): record(0), lives(3), score(0), reloadTimer(0), moveTimer(0), direc
 void Game::initVariables() {
     window = nullptr;
     srand(time(NULL));
+
+    //init arrays
     for(int j=0; j<lives; j++)
         sprShipL.emplace_back();
     for(int j=0; j<5; j++)
@@ -23,7 +25,10 @@ void Game::initVariables() {
         soundBuffers.emplace_back();
     for(int j=0; j<7; j++)
         sounds.emplace_back();
+
     readRecord();
+
+    //sounds loading
     soundBuffers[0].loadFromFile("sound/ship_shoot.wav"); //ship shot
     soundBuffers[1].loadFromFile("sound/explosion.wav"); //ship explosion
     soundBuffers[2].loadFromFile("sound/fastinvader1.wav"); //alien sound 1
@@ -31,6 +36,7 @@ void Game::initVariables() {
     soundBuffers[4].loadFromFile("sound/alien_death.wav"); //alien death
     soundBuffers[5].loadFromFile("sound/ufo_lowpitch.wav"); //ufo sound
     soundBuffers[6].loadFromFile("sound/ufo_highpitch.wav"); //ufo death
+
     for(int j=0; j<7; j++){
         sounds[j].setBuffer(soundBuffers[j]);
     }
@@ -38,37 +44,50 @@ void Game::initVariables() {
 
 void Game::initItems() {
     createShip();
-    float x=55;
+
+    //aliens creation
+    int alienX=55;
+    int alienY=120;
     for(int i=0; i<8; i++){
-        map.createAliens(0, Vector2f(x, 120));
-        x+=150;
+        map.createAliens(0, Vector2f (alienX, alienY));
+        alienX+=150;
     }
-    x=55;
+    alienX=55;
+    alienY+=100;
     for(int i=0; i<8; i++){
-        map.createAliens(1, Vector2f(x, 220));
-        x+=150;
+        map.createAliens(1, Vector2f(alienX, alienY));
+        alienX+=150;
     }
-    x=55;
+    alienX=55;
+    alienY+=100;
     for(int i=0; i<8; i++){
-        map.createAliens(1, Vector2f(x, 320), false);
-        x+=150;
+        map.createAliens(1, Vector2f(alienX, alienY), false);
+        alienX+=150;
     }
-    x=55;
+    alienX=55;
+    alienY+=100;
     for(int i=0; i<8; i++){
-        map.createAliens(2, Vector2f(x, 420));
-        x+=150;
+        map.createAliens(2, Vector2f(alienX, alienY));
+        alienX+=150;
     }
-    x=55;
+    alienX=55;
+    alienY+=100;
     for(int i=0; i<8; i++){
-        map.createAliens(2, Vector2f(x, 520), false);
-        x+=150;
+        map.createAliens(2, Vector2f(alienX, alienY), false);
+        alienX+=150;
     }
     aliens = map.getAliens();
-    ship->getSprShip().setPosition(0,0);
-    centerItem(ship->getSprShip(), ship->getPosition().y);
+
+    centerItem(ship->getSprShip(), 1180.f);
+
     map.createUFO();
     ufo = map.getUFO();
     ufo->getSprite().setPosition(WIDTH-ufo->getSprite().getGlobalBounds().width, 150);
+
+    powerUpBar.setOutlineThickness(2);
+    powerUpBar.setOutlineColor(Color::White);
+    powerUpBar.setPosition(900, 1315);
+    powerUpBar.setSize(Vector2f(300,30));
 }
 
 void Game::initText() {
@@ -84,7 +103,7 @@ void Game::initText() {
 
     line.setSize(Vector2f(1240, 10));
     line.setFillColor(Color::Green);
-    line.setPosition(20, 1270);
+    line.setPosition(20, BOTTOM_LIMIT);
 
     for(int j=0; j<5; j++){
         graphicText[j].setFont(f);
@@ -97,12 +116,12 @@ void Game::initText() {
     graphicText[4].setPosition(1100,20);//SCORE NUM
     graphicText[2].setPosition(20, 1315);//LIVES
 
-    float p=215;
+    int offset=215;
     for(int j=0; j<lives; j++){
         sprShipL[j].setTexture(ship->getTexShip());
         sprShipL[j].setScale(3, 3);
-        sprShipL[j].setPosition(p, 1290);
-        p+=120;
+        sprShipL[j].setPosition(offset, 1290);
+        offset+=120;
     }
 }
 
@@ -132,7 +151,8 @@ void Game::pollEvents() {
                     ship->getSprShip3().move(SHIP_MOVE_SPEED * 1.0f ,0.0f);
                     ship->getSprShipShield().move(SHIP_MOVE_SPEED * 1.0f ,0.0f);
                 }
-            }else{
+            }
+            else{
                 if(ship->getPosition().x > ship->getSprShip().getGlobalBounds().width/2.0f + OFFSET){
                     ship->getSprShip().move(SHIP_MOVE_SPEED * -1.0f ,0.0f);
                     ship->getSprShip3().move(SHIP_MOVE_SPEED * -1.0f ,0.0f);
@@ -148,7 +168,8 @@ void Game::pollEvents() {
                     ship->getSprShip3().move(SHIP_MOVE_SPEED * -1.0f ,0.0f);
                     ship->getSprShipShield().move(SHIP_MOVE_SPEED * -1.0f ,0.0f);
                 }
-            }else{
+            }
+            else{
                 if(ship->getPosition().x < WIDTH - ship->getSprShip().getGlobalBounds().width/2.0f - OFFSET){
                     ship->getSprShip().move(SHIP_MOVE_SPEED * 1.0f ,0.0f);
                     ship->getSprShip3().move(SHIP_MOVE_SPEED * 1.0f ,0.0f);
@@ -177,8 +198,8 @@ void Game::update() {
     pollEvents();
     invincibilityTime = clock.getElapsedTime();
     spawnUfoTime = clockUFO.getElapsedTime();
-    powerUpDuration = clockPowerUp.getElapsedTime();
 
+    //aliens animation
     if(timeAliens==0){
         timeAliens = speedAlien;
         if(changeMusic){
@@ -202,12 +223,15 @@ void Game::update() {
 
     for(auto& a : *aliens){
         a->update(random_engine);
+        //alien bullet collision check alien bullet vs ship
         if(a != nullptr){
             if(!ship->isInvincible()){
                 if (a->checkCollision(ship->getHitBox())) {
                     if(ship->getCurrentPower() == 0){
+                        powerupDuration = 0;
                         ship->setCurrentPower(-1);
-                    }else{
+                    }
+                    else{
                         ship->setDead(true);
                         ship->setInvincible(true);
                         ship->setHitted(true);
@@ -223,13 +247,14 @@ void Game::update() {
         }
     }
 
-    //invincibility
+    //5 sec invincibility after being hit
     if(ship->isInvincible()){
         if(invincibilityTime.asSeconds() > 5.0f){
             invincibilityTime = clock.restart();
             ship->setInvincible(false);
         }
     }
+
     //ship animation
     if (ship->getTime().asSeconds() > 1.f) {
         ship->setTimeRestart();
@@ -240,13 +265,27 @@ void Game::update() {
         ship->changeSprite();
 
     ship->update();
-    if(powerUpDuration.asSeconds() >= 10.f){
-        ship->setCurrentPower(-1);
-    }
-    checkDeadAliens();
     moveAliens();
 
-    if(spawnUfoTime.asSeconds() > 12){
+    //ship bullets collision check vs aliens
+    checkDeadAliens();
+
+    //end of effects power-up
+    if(powerupDuration == 0){
+        ship->setCurrentPower(-1);
+        ship->setPowerUpHitted(false);
+        powerUpBar.setSize(Vector2f(300,30));
+        powerupDuration = 300;
+    }
+
+    //power-up bar decrease
+    if(ship->isPowerUpHitted()){
+        powerupDuration-=0.125f;
+        powerUpBar.setSize(Vector2f(powerupDuration, 30));
+    }
+
+    //every 15 sec spawns ufo
+    if(spawnUfoTime.asSeconds() > 15){
         ufo->setDead(false);
         ufo->update();
         ufoPlayingMusic++;
@@ -256,7 +295,7 @@ void Game::update() {
         sounds[5].play();
     }
 
-    //ufo check collision
+    //ship collision check ship bullet vs ufo
     int i=0;
     for(auto& b: *ship->getBullets()){
             if(ufo->checkCollision(b.getHitBox())) {
@@ -274,46 +313,81 @@ void Game::update() {
             i++;
     }
 
+    //power-up update
     if(ufo->isDead()){
         ufo->updatePowerUp();
         if(ufo->checkCollisionPU(ship->getHitBox())){
-            clockPowerUp.restart();
+            ship->setPowerUpHitted(true);
             ship->setCurrentPower(ufo->getType());
+            switch(ufo->getType()){
+                case 0:
+                    powerUpBar.setFillColor(Color(64,144,247)); // shield
+                    break;
+                case 1:
+                    powerUpBar.setFillColor(Color(234,51,35)); // fast reloading
+                    break;
+                case 2:
+                    powerUpBar.setFillColor(Color(249,220,74)); // 3 bullets
+                    break;
+                case 3:
+                    powerUpBar.setFillColor(Color(201,42,246)); // mirrored controls
+                    break;
+                default:
+                    break;
+            }
             ship->setPosition3(Vector2f(ship->getSprShip().getPosition().x-ship->getSprShip().getGlobalBounds().width/2.f, ship->getSprShip().getPosition().y-ship->getSprShip().getGlobalBounds().height/2));
             ship->setPositionShield(Vector2f(ship->getSprShip().getPosition().x-ship->getSprShip().getGlobalBounds().width/2.f, ship->getSprShip().getPosition().y-ship->getSprShip().getGlobalBounds().height/2));
         }
     }
 
+    //ufo collision check vs left border
     if(ufo->getSprite().getPosition().x+ufo->getSprite().getGlobalBounds().width <= 0){
         clockUFO.restart();
         ufoPlayingMusic = 0;
         ufo->getSprite().setPosition(WIDTH+ufo->getSprite().getGlobalBounds().width, 150);
         ufo->setDead(false);
     }
+
     updateScoreRecord();
     checkGameOver();
-    //std::cout << powerUpDuration.asSeconds() << std::endl;
 }
 
 void Game::render() {
     window->clear();
-    if(record<score)
+    //record
+    if(record < score)
         writeRecord();
+
+    //texts
     for(int j=0; j<5; j++)
         window->draw(graphicText[j]);
+
+    //life sprites
     for(int j=0; j<lives; j++)
         window->draw(sprShipL[j]);
+
+    //bottom green line
     window->draw(line);
-    for(auto& a : *aliens){
+
+    //aliens
+    for(auto& a : *aliens)
         a->draw(*window);
-    }
+
+    //ship
     ship->draw(*window);
-    if(spawnUfoTime.asSeconds() > 12){
+
+    //ufo after 15 sec
+    if(spawnUfoTime.asSeconds() > 15)
         ufo->draw(*window);
-    }
-    if(ufo->isDead()){
+
+    //power-up
+    if(ufo->isDead())
         ufo->drawPowerUp(*window);
-    }
+
+    //power-up bar duration
+    if(ship->isPowerUpHitted())
+        window->draw(powerUpBar);
+
     window->display();
 }
 
@@ -327,19 +401,6 @@ void Game::centerItem(Sprite& sprite, float height){
     FloatRect textRect = sprite.getLocalBounds();
     sprite.setOrigin(textRect.width/2.0f,textRect.height/2.0f);
     sprite.setPosition(Vector2f((WIDTH/2.0f), height));
-    ship->setPosition(Vector2f ((WIDTH/2.0f),1180.0f));
-}
-
-void Game::updateScoreRecord() {
-    std::stringstream ss2;
-    std::string s2;
-    ss2<<score;
-    ss2>>s2;
-    graphicText[4].setString(s2);
-    if(score>=record){
-        readRecord();
-        graphicText[3].setString(recordS);
-    }
 }
 
 void Game::moveAliens() {
@@ -374,7 +435,6 @@ void Game::checkDeadAliens(){
         i=0;
         for(auto& a:*aliens){
             if(a != nullptr && a->checkCollision(b)){
-                a->setHitted(true);
                 switch (a->getType()){
                     case 0:
                         score += 30;
@@ -388,6 +448,7 @@ void Game::checkDeadAliens(){
                     default:
                         break;
                 }
+                //speed increase
                 speedAlien = speedAlien - SPAN;
                 ship->getBullets()->erase(ship->getBullets()->begin() + j);
                 sounds[4].play();
@@ -419,6 +480,18 @@ void Game::checkGameOver() {
         window->close();
         std::unique_ptr<GameOver> go(new GameOver);
         go->run();
+    }
+}
+
+void Game::updateScoreRecord() {
+    std::stringstream ss2;
+    std::string s2;
+    ss2<<score;
+    ss2>>s2;
+    graphicText[4].setString(s2);
+    if(score>=record){
+        readRecord();
+        graphicText[3].setString(recordS);
     }
 }
 

@@ -9,7 +9,7 @@ Menu::Menu(): i(0){
     music();
 }
 
-//Ffunctions
+//functions
 void Menu::initVariables() {
     window = nullptr;
     for (int j = 0; j<=5; j++)

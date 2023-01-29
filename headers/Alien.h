@@ -20,7 +20,6 @@ private:
     std::uniform_int_distribution<unsigned short> shoot_distribution;
 
     bool change;
-    bool hitted;
     int changeBulletTimer;
     int type;
 public:
@@ -44,8 +43,6 @@ public:
     Vector2f getPositionA();
     IntRect getHitBox();
     int getType();
-
-    void setHitted(bool hitted);
 };
 
 #endif //SPACEINVADERS_ALIEN_H

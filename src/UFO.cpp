@@ -1,7 +1,6 @@
 #include "../headers/UFO.h"
 
 UFO::UFO(Vector2f pos): dead(false), timePowerUp(0){
-    srand(time(NULL));
     for (int i = 0; i<=9; i++)
         textures.emplace_back();
 
@@ -49,6 +48,7 @@ void UFO::updatePowerUp(){
         timePowerUp--;
 }
 
+//uff vs ship bullet
 bool UFO::checkCollision(IntRect b){
     if(getHitBox().intersects(b))
         return true;
@@ -71,6 +71,7 @@ void UFO::dropPowerUp(Vector2f pos){
     }
 }
 
+//power-up vs ship
 bool UFO::checkCollisionPU(IntRect shipHB) {
     int i=0;
     for(auto p : *powerUp){
@@ -84,6 +85,8 @@ bool UFO::checkCollisionPU(IntRect shipHB) {
 
 }
 
+//getter and setter
+
 Sprite &UFO::getSprite() {
     return sprite;
 }
@@ -92,18 +95,18 @@ IntRect UFO::getHitBox() {
     return IntRect(sprite.getPosition().x, sprite.getPosition().y, sprite.getGlobalBounds().width, sprite.getGlobalBounds().height);
 }
 
-void UFO::setType(int type) {
-    UFO::type = type;
+bool UFO::isDead() {
+    return dead;
 }
 
 int UFO::getType() {
     return type;
 }
 
-void UFO::setDead(bool dead) {
-    UFO::dead = dead;
+void UFO::setType(int type) {
+    UFO::type = type;
 }
 
-bool UFO::isDead() {
-    return dead;
+void UFO::setDead(bool dead) {
+    UFO::dead = dead;
 }

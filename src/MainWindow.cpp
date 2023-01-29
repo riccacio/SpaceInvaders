@@ -12,7 +12,7 @@ void MainWindow::initWindow() {
     videoMode.width = WIDTH;
 
     window = std::make_unique<RenderWindow>(videoMode, "Space Invaders", Style::Titlebar | Style::Close);
-    window->setFramerateLimit(275);
+    window->setFramerateLimit(265);
 }
 
 void MainWindow::initFont() {
