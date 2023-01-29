@@ -1,12 +1,14 @@
 #ifndef INFO_H
 #define INFO_H
 #include "../headers/MainWindow.h"
+#include <iostream>
+
 
 class Info: public MainWindow {
 private:
     std::vector<Text> graphicText = {};
-    std::vector<Texture> aliensT = {};
-    std::vector<Sprite> aliensS = {};
+    std::vector<Texture> textures = {};
+    std::vector<Sprite> sprites = {};
 
     void initVariables() override;
     void initText();
