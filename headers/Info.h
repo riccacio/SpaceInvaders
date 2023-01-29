@@ -3,7 +3,6 @@
 #include "../headers/MainWindow.h"
 #include <iostream>
 
-
 class Info: public MainWindow {
 private:
     std::vector<Text> graphicText = {};

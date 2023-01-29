@@ -280,12 +280,12 @@ void Game::update() {
 
     //power-up bar decrease
     if(ship->isPowerUpHitted()){
-        powerupDuration-=0.125f;
+        powerupDuration-=0.25f;
         powerUpBar.setSize(Vector2f(powerupDuration, 30));
     }
 
     //every 15 sec spawns ufo
-    if(spawnUfoTime.asSeconds() > 15){
+    if(spawnUfoTime.asSeconds() > 10){
         ufo->setDead(false);
         ufo->update();
         ufoPlayingMusic++;
@@ -376,8 +376,8 @@ void Game::render() {
     //ship
     ship->draw(*window);
 
-    //ufo after 15 sec
-    if(spawnUfoTime.asSeconds() > 15)
+    //ufo after 10 sec
+    if(spawnUfoTime.asSeconds() > 10)
         ufo->draw(*window);
 
     //power-up
