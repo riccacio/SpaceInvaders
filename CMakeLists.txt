@@ -7,6 +7,11 @@ set(SOURCE_FILES main.cpp src/Menu.cpp "headers/Menu.h" src/Info.cpp "headers/In
 add_executable(SpaceInvaders ${SOURCE_FILES})
 
 include_directories(/usr/local/include)
+
+# Detect SFML library
 find_package(SFML 2.5 COMPONENTS system window graphics network audio REQUIRED)
 include_directories(${SFML_INCLUDE_DIRS})
 target_link_libraries(SpaceInvaders sfml-system sfml-window sfml-graphics sfml-audio sfml-network)
+
+# Unit test
+add_subdirectory(tests)
