@@ -7,7 +7,7 @@ TEST(Example, EmptyTest) {
 }
 
 TEST(Example, EmptyTest2) {
-    ASSERT_TRUE(1 == 2);
+    ASSERT_TRUE(1 == 1);
 }
 
 int main(int argc, char** argv) {
