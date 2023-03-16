@@ -393,7 +393,6 @@ void Game::render() {
 void Game::createShip() {
     map.createShip();
     ship = map.getShip();
-    ship->setTime();
 }
 
 void Game::centerItem(Sprite& sprite, float height){
