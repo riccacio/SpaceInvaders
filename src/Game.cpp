@@ -426,38 +426,6 @@ void Game::moveAliens() {
     else
         moveTimer --;
 }
-/*
-void Game::checkDeadAliens(){
-    int i, j=0;
-    for(auto& b: *ship->getBullets()){
-        i=0;
-        for(auto& a:*aliens){
-            if(a != nullptr && a->checkCollision(b)){
-                switch (a->getType()){
-                    case 0:
-                        score += 30;
-                        break;
-                    case 1:
-                        score += 20;
-                        break;
-                    case 2:
-                        score += 10;
-                        break;
-                    default:
-                        break;
-                }
-                //speed increase
-                speedAlien = speedAlien - SPAN;
-                ship->getBullets()->erase(ship->getBullets()->begin() + j);
-                sounds[4].play();
-                aliens->erase(aliens->begin() + i);
-            }
-            i++;
-        }
-        j++;
-    }
-}
-*/
 
 void Game::checkDeadAliens() {
     for (int j = ship->getBullets()->size() - 1; j >= 0; j--) {
