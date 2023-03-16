@@ -166,3 +166,5 @@ bool Ship::isPowerUpHitted() const {
 void Ship::setPowerUpHitted(bool powerUpHitted) {
     Ship::powerUpHitted = powerUpHitted;
 }
+
+

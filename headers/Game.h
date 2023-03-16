@@ -65,6 +65,8 @@ public:
     void readRecord() override;
     void writeRecord() const;
     void stopMusic();
+    const std::shared_ptr<Ship> &getShip() const;
+    const std::shared_ptr<std::vector<std::shared_ptr<Alien>>> &getAliens() const;
 };
 
 #endif //GAME_H

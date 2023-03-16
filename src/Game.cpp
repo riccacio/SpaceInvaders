@@ -1,7 +1,6 @@
 #include "../headers/Game.h"
-#include <iostream>
 
-Game::Game(): record(0), lives(3), score(0), reloadTimer(0), moveTimer(0), direction(1), timeAliens(0), changeMusic(true), ufoPlayingMusic(0), speedAlien(ALIEN_CHANGE), powerupDuration(300){
+Game::Game() : record(0), lives(3), score(0), reloadTimer(0), moveTimer(0), direction(1), timeAliens(0), changeMusic(true), ufoPlayingMusic(0), speedAlien(ALIEN_CHANGE), powerupDuration(300){
     std::chrono::microseconds lag(0);
     std::chrono::steady_clock::time_point previous_time;
     initVariables();
@@ -428,7 +427,7 @@ void Game::moveAliens() {
     else
         moveTimer --;
 }
-
+/*
 void Game::checkDeadAliens(){
     int i, j=0;
     for(auto& b: *ship->getBullets()){
@@ -457,6 +456,36 @@ void Game::checkDeadAliens(){
             i++;
         }
         j++;
+    }
+}
+*/
+
+void Game::checkDeadAliens() {
+    for (int j = ship->getBullets()->size() - 1; j >= 0; j--) {
+        Bullet& b = ship->getBullets()->at(j);
+        for (int i = aliens->size() - 1; i >= 0; i--) {
+            std::shared_ptr<Alien>& a = aliens->at(i);
+            if (a->checkCollision(b)) {
+                switch (a->getType()) {
+                    case 0:
+                        score += 30;
+                        break;
+                    case 1:
+                        score += 20;
+                        break;
+                    case 2:
+                        score += 10;
+                        break;
+                    default:
+                        break;
+                }
+                // speed increase
+                speedAlien = speedAlien - SPAN;
+                ship->getBullets()->erase(ship->getBullets()->begin() + j);
+                sounds[4].play();
+                aliens->erase(aliens->begin() + i);
+            }
+        }
     }
 }
 
@@ -514,4 +543,12 @@ void Game::writeRecord() const {
         oFile << str;
         oFile.close();
     }
+}
+
+const std::shared_ptr<std::vector<std::shared_ptr<Alien>>> &Game::getAliens() const {
+    return aliens;
+}
+
+const std::shared_ptr<Ship> &Game::getShip() const {
+    return ship;
 }

@@ -90,7 +90,7 @@ void Alien::shoot() {
     bullets.emplace_back(Bullet(texShot1, texShot2, Vector2f(getPositionA().x + spriteA.getGlobalBounds().width/2.0f, getPositionA().y + spriteA.getGlobalBounds().height/2.0f)));
 }
 
-//ufo bullet vs ship
+//alien bullet vs ship
 bool Alien::checkCollision(IntRect shipHB) {
     int i=0;
     for(auto b : bullets){
@@ -103,15 +103,16 @@ bool Alien::checkCollision(IntRect shipHB) {
     return false;
 }
 
-//ufo vs ship bullet
+//alien vs ship bullet
 bool Alien::checkCollision(Bullet& b){
-    if(getHitBox().intersects(b.getHitBox()))
+    if(getHitBox().intersects(b.getHitBox())){
         return true;
+    }
     else
         return false;
 }
 
-//ufo vs ship
+//alien vs ship
 bool Alien::checkCollisionAlienShip(IntRect shipHB) {
     if(shipHB.intersects(getHitBox()))
         return true;
