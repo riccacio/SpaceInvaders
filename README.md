@@ -1,2 +1,2 @@
 # Space Invaders
-Un progetto universitario per l'esame di programmazione
+A UNIFI project for the programming exam
