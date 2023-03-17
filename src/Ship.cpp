@@ -114,10 +114,10 @@ bool Ship::isInvincible() {
     return invincible;
 }
 
-
-void Ship::setPosition(Vector2f pos) {
-    sprShip.setPosition(pos);
+bool Ship::isPowerUpHitted() {
+    return powerUpHitted;
 }
+
 
 void Ship::setPosition3(Vector2f pos) {
     sprShip3.setPosition(pos);
@@ -157,10 +157,6 @@ void Ship::setInvincible(bool invincible) {
 
 void Ship::setCurrentPower(int currentPower) {
     Ship::currentPower = currentPower;
-}
-
-bool Ship::isPowerUpHitted() const {
-    return powerUpHitted;
 }
 
 void Ship::setPowerUpHitted(bool powerUpHitted) {

@@ -36,11 +36,6 @@ private:
     bool invincible;
     bool powerUpHitted;
 public:
-    bool isPowerUpHitted() const;
-
-    void setPowerUpHitted(bool powerUpHitted);
-
-public:
     //constructor & destructor
     Ship(Vector2f pos);
     ~Ship() = default;
@@ -64,8 +59,8 @@ public:
     int getCurrentPower();
     bool isHitted();
     bool isInvincible();
+    bool isPowerUpHitted();
 
-    void setPosition(Vector2f pos);
     void setPosition3(Vector2f pos);
     void setPositionShield(Vector2f pos);
     void setPositionExp1(Vector2f pos);
@@ -76,6 +71,7 @@ public:
     void setHitted(bool hitted);
     void setInvincible(bool invincible);
     void setCurrentPower(int currentPower);
+    void setPowerUpHitted(bool powerUpHitted);
 };
 
 #endif //SHIP_H
