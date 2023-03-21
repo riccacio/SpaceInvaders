@@ -8,8 +8,8 @@ using namespace sf;
 class UFO {
 private:
     std::shared_ptr<std::vector<PowerUp>> powerUp;
-    Sprite sprite;
     std::vector<Texture> textures = {};
+    Sprite sprite;
     int timePowerUp;
     int type;
     bool dead;

@@ -1,6 +1,6 @@
 #include "../headers/Bullet.h"
 
-Bullet::Bullet(Texture& texShot1, Texture& texShot2, Vector2f(pos)) : change(true){
+Bullet::Bullet(Texture& texShot1, Texture& texShot2, Vector2f pos) : change(true){
     sprite1.setTexture(texShot1);
     sprite2.setTexture(texShot2);
     sprite1.setScale(3.5,3.5);

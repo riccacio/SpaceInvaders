@@ -8,6 +8,7 @@ using namespace sf;
 class Ship{
 private:
     std::shared_ptr<std::vector<Bullet>> bullets;
+    //TODO creare uno sprite unico e un vettore di texture
     Sprite sprShip;
     Sprite sprShip3;
     Sprite sprShipShield;
@@ -22,6 +23,7 @@ private:
     Clock clock;
     Time time;
 
+    //TODO usare un'enum
     /*
      * normal: -1
      * shield: 0

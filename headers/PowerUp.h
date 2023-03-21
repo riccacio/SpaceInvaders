@@ -8,9 +8,12 @@ using namespace sf;
 
 class PowerUp {
 private:
+    //TODO usare uno sprite solo, far cambiare lo sprite in base al tipo
     Sprite sprite0;
     Sprite sprite1;
+    //TODO usare un'enum
     int type;
+
     bool change;
 public:
     //constructor & destructor

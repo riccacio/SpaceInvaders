@@ -10,6 +10,7 @@ using namespace sf;
 
 class Alien {
 private:
+    //TODO vettore di texture e usare uno sprite solo
     Sprite spriteA;
     Sprite spriteB;
     Texture textureA;
