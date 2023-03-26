@@ -13,8 +13,7 @@ private:
 
     bool change;
 public:
-    //TODO fare classe enum
-    enum Type {SHIP, ALIEN};
+    enum class Type {SHIP, ALIEN};
 private:
     Type type;
 public:

@@ -13,16 +13,16 @@ PowerUp::PowerUp(Vector2f pos, Type type): type(type), change(true){
     }
 
     switch(type){
-        case SHIELD:
+        case Type::SHIELD:
             sprite.setTexture(textures[0]);
             break;
-        case THREE_BUL:
+        case Type::THREE_BUL:
             sprite.setTexture(textures[2]);
             break;
-        case FAST:
+        case Type::FAST:
             sprite.setTexture(textures[4]);
             break;
-        case CHANGE_MOV:
+        case Type::CHANGE_MOV:
             sprite.setTexture(textures[6]);
             break;
         default:
@@ -35,16 +35,16 @@ PowerUp::PowerUp(Vector2f pos, Type type): type(type), change(true){
 //functions
 void PowerUp::draw(RenderTarget &target) {
     switch(type){
-        case SHIELD:
+        case Type::SHIELD:
             sprite.setTexture((change)?textures[0]:textures[1]);
             break;
-        case THREE_BUL:
+        case Type::THREE_BUL:
             sprite.setTexture((change)?textures[2]:textures[3]);
             break;
-        case FAST:
+        case Type::FAST:
             sprite.setTexture((change)?textures[4]:textures[5]);
             break;
-        case CHANGE_MOV:
+        case Type::CHANGE_MOV:
             sprite.setTexture((change)?textures[6]:textures[7]);
             break;
         default:

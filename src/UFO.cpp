@@ -49,16 +49,16 @@ bool UFO::checkCollision(IntRect b){
 void UFO::dropPowerUp(Vector2f pos){
 
     if(type == 0){
-        powerUp->emplace_back(PowerUp(pos, PowerUp::SHIELD));
+        powerUp->emplace_back(PowerUp(pos, PowerUp::Type::SHIELD));
     }
     else if(type == 1){
-        powerUp->emplace_back(PowerUp(pos, PowerUp::THREE_BUL));
+        powerUp->emplace_back(PowerUp(pos, PowerUp::Type::THREE_BUL));
     }
     else if(type == 2){
-        powerUp->emplace_back(PowerUp(pos, PowerUp::FAST));
+        powerUp->emplace_back(PowerUp(pos, PowerUp::Type::FAST));
     }
     else if(type == 3){
-        powerUp->emplace_back(PowerUp(pos, PowerUp::CHANGE_MOV));
+        powerUp->emplace_back(PowerUp(pos, PowerUp::Type::CHANGE_MOV));
     }
 }
 

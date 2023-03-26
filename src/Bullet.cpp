@@ -8,7 +8,7 @@ Bullet::Bullet(Vector2f pos, Type type) : change(true), type(type){
     bulletTextures[1].loadFromFile("sprite/alien_shot0.png");
     bulletTextures[2].loadFromFile("sprite/alien_shot1.png");
 
-    if(type == SHIP){
+    if(type == Type::SHIP){
         sprite.setTexture(bulletTextures[0]);
     }
     else{
@@ -20,10 +20,10 @@ Bullet::Bullet(Vector2f pos, Type type) : change(true), type(type){
 
 //functions
 void Bullet::draw(RenderTarget &target) {
-    if(type == SHIP){
+    if(type == Type::SHIP){
         sprite.setTexture((change)?bulletTextures[0]:bulletTextures[0]);
     }
-    else if(type == ALIEN){
+    else if(type == Type::ALIEN){
         sprite.setTexture((change)?bulletTextures[1]:bulletTextures[2]);
     }
     target.draw(sprite);

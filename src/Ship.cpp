@@ -1,7 +1,7 @@
 #include "../headers/Ship.h"
 
 Ship::Ship(Vector2f pos) : change(true), dead(false), hitted(false), invincible(false), powerUpHitted(false){
-    currentPower = NORMAL;
+    currentPower = CurrentPower::NORMAL;
     for (int j = 0; j<5; j++)
         shipTextures.emplace_back();
     /*
@@ -28,11 +28,11 @@ void Ship::draw(RenderTarget& target) {
     }
 
     else{
-        if(currentPower == THREE_BUL){
+        if(currentPower == CurrentPower::THREE_BUL){
             sprite.setTexture(shipTextures[1]);
             target.draw(sprite);
         }
-        else if(currentPower == SHIELD){
+        else if(currentPower == CurrentPower::SHIELD){
             sprite.setTexture(shipTextures[2]);
             target.draw(sprite);
         }
@@ -59,13 +59,13 @@ void Ship::updateBullets() {
 }
 
 void Ship::shoot() {
-    if(currentPower == THREE_BUL){
-        bullets->emplace_back(Bullet(Vector2f(getPosition().x-BULLET_OFFSET, getPosition().y - sprite.getGlobalBounds().height / 2.0f), Bullet::SHIP));
-        bullets->emplace_back(Bullet(Vector2f(getPosition().x, getPosition().y - sprite.getGlobalBounds().height / 2.0f), Bullet::SHIP));
-        bullets->emplace_back(Bullet(Vector2f(getPosition().x+BULLET_OFFSET, getPosition().y - sprite.getGlobalBounds().height / 2.0f), Bullet::SHIP));
+    if(currentPower == CurrentPower::THREE_BUL){
+        bullets->emplace_back(Bullet(Vector2f(getPosition().x-BULLET_OFFSET, getPosition().y - sprite.getGlobalBounds().height / 2.0f), Bullet::Type::SHIP));
+        bullets->emplace_back(Bullet(Vector2f(getPosition().x, getPosition().y - sprite.getGlobalBounds().height / 2.0f), Bullet::Type::SHIP));
+        bullets->emplace_back(Bullet(Vector2f(getPosition().x+BULLET_OFFSET, getPosition().y - sprite.getGlobalBounds().height / 2.0f), Bullet::Type::SHIP));
     }
     else{
-        bullets->emplace_back(Bullet(Vector2f(getPosition().x, getPosition().y - sprite.getGlobalBounds().height / 2.0f), Bullet::SHIP));
+        bullets->emplace_back(Bullet(Vector2f(getPosition().x, getPosition().y - sprite.getGlobalBounds().height / 2.0f), Bullet::Type::SHIP));
     }
 }
 

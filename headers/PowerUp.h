@@ -12,8 +12,7 @@ private:
     Sprite sprite;
     bool change;
 public:
-    //TODO fare classe enum
-    enum Type {SHIELD, THREE_BUL, FAST, CHANGE_MOV};
+    enum class Type {SHIELD, THREE_BUL, FAST, CHANGE_MOV};
 private:
     Type type;
 public:

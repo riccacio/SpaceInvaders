@@ -4,17 +4,17 @@ Alien::Alien(Type type, Vector2f (pos), bool startSprite) : change(startSprite),
     shoot_distribution = std::uniform_int_distribution <unsigned short> (0, std::max<short>(ENEMY_SHOOT_CHANCE_MIN, ENEMY_SHOOT_CHANCE - ENEMY_SHOOT_CHANCE_INCREASE));
 
     switch (type) {
-        case ALIEN1:
+        case Type::ALIEN1:
             textureA.loadFromFile("sprite/alien1_0.png");
             textureB.loadFromFile("sprite/alien1_1.png");
             sprite.setTexture(textureA);
             break;
-        case ALIEN2:
+        case Type::ALIEN2:
             textureA.loadFromFile("sprite/alien2_0.png");
             textureB.loadFromFile("sprite/alien2_1.png");
             sprite.setTexture(textureA);
             break;
-        case ALIEN3:
+        case Type::ALIEN3:
             textureA.loadFromFile("sprite/alien3_0.png");
             textureB.loadFromFile("sprite/alien3_1.png");
             sprite.setTexture(textureA);
@@ -66,7 +66,7 @@ void Alien::changeSprite() {
 
 void Alien::shoot() {
     bullets.emplace_back(Bullet(Vector2f(getPosition().x + sprite.getGlobalBounds().width / 2.0f,
-                                         getPosition().y + sprite.getGlobalBounds().height / 2.0f), Bullet::ALIEN));
+                                         getPosition().y + sprite.getGlobalBounds().height / 2.0f), Bullet::Type::ALIEN));
 }
 
 //alien bullet vs ship

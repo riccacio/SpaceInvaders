@@ -20,7 +20,7 @@ private:
     bool invincible;
     bool powerUpHitted;
 public:
-    enum CurrentPower{NORMAL, SHIELD, FAST, THREE_BUL, CHANGE_MOV};
+    enum class CurrentPower{NORMAL, SHIELD, FAST, THREE_BUL, CHANGE_MOV};
 private:
     CurrentPower currentPower;
 public:

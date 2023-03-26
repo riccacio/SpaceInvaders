@@ -20,8 +20,7 @@ private:
     bool change;
     int changeBulletTimer;
 public:
-    //TODO fare classe enum
-    enum Type{ALIEN1, ALIEN2, ALIEN3};
+    enum class Type{ALIEN1, ALIEN2, ALIEN3};
 private:
     Type type;
 public:
