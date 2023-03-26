@@ -48,36 +48,36 @@ void Game::initItems() {
     int alienX=55;
     int alienY=120;
     for(int i=0; i<8; i++){
-        map.createAliens(0, Vector2f (alienX, alienY));
+        map.createAliens(Alien::ALIEN1, Vector2f (alienX, alienY));
         alienX+=150;
     }
     alienX=55;
     alienY+=100;
     for(int i=0; i<8; i++){
-        map.createAliens(1, Vector2f(alienX, alienY));
+        map.createAliens(Alien::ALIEN2, Vector2f(alienX, alienY));
         alienX+=150;
     }
     alienX=55;
     alienY+=100;
     for(int i=0; i<8; i++){
-        map.createAliens(1, Vector2f(alienX, alienY), false);
+        map.createAliens(Alien::ALIEN2, Vector2f(alienX, alienY), false);
         alienX+=150;
     }
     alienX=55;
     alienY+=100;
     for(int i=0; i<8; i++){
-        map.createAliens(2, Vector2f(alienX, alienY));
+        map.createAliens(Alien::ALIEN3, Vector2f(alienX, alienY));
         alienX+=150;
     }
     alienX=55;
     alienY+=100;
     for(int i=0; i<8; i++){
-        map.createAliens(2, Vector2f(alienX, alienY), false);
+        map.createAliens(Alien::ALIEN3, Vector2f(alienX, alienY), false);
         alienX+=150;
     }
     aliens = map.getAliens();
 
-    centerItem(ship->getSprShip(), 1180.f);
+    centerItem(ship->getSprite(), 1180.f);
 
     map.createUFO();
     ufo = map.getUFO();
@@ -144,41 +144,33 @@ void Game::pollEvents() {
 
     if(!ship->isHitted()){
         if (Keyboard::isKeyPressed(Keyboard::Left)){
-            if(ship->getCurrentPower() == 3){
-                if(ship->getPosition().x < WIDTH - ship->getSprShip().getGlobalBounds().width/2.0f - OFFSET){
-                    ship->getSprShip().move(SHIP_MOVE_SPEED * 1.0f ,0.0f);
-                    ship->getSprShip3().move(SHIP_MOVE_SPEED * 1.0f ,0.0f);
-                    ship->getSprShipShield().move(SHIP_MOVE_SPEED * 1.0f ,0.0f);
+            if(ship->getCurrentPower() == Ship::CHANGE_MOV){
+                if(ship->getPosition().x < WIDTH - ship->getSprite().getGlobalBounds().width/2.0f - OFFSET){
+                    ship->getSprite().move(SHIP_MOVE_SPEED * 1.0f ,0.0f);
                 }
             }
             else{
-                if(ship->getPosition().x > ship->getSprShip().getGlobalBounds().width/2.0f + OFFSET){
-                    ship->getSprShip().move(SHIP_MOVE_SPEED * -1.0f ,0.0f);
-                    ship->getSprShip3().move(SHIP_MOVE_SPEED * -1.0f ,0.0f);
-                    ship->getSprShipShield().move(SHIP_MOVE_SPEED * -1.0f ,0.0f);
+                if(ship->getPosition().x > ship->getSprite().getGlobalBounds().width/2.0f + OFFSET){
+                    ship->getSprite().move(SHIP_MOVE_SPEED * -1.0f ,0.0f);
                 }
             }
 
         }
         if (Keyboard::isKeyPressed(Keyboard::Right)) {
-            if(ship->getCurrentPower() == 3){
-                if(ship->getPosition().x > ship->getSprShip().getGlobalBounds().width/2.0f + OFFSET){
-                    ship->getSprShip().move(SHIP_MOVE_SPEED * -1.0f ,0.0f);
-                    ship->getSprShip3().move(SHIP_MOVE_SPEED * -1.0f ,0.0f);
-                    ship->getSprShipShield().move(SHIP_MOVE_SPEED * -1.0f ,0.0f);
+            if(ship->getCurrentPower() == Ship::CHANGE_MOV){
+                if(ship->getPosition().x > ship->getSprite().getGlobalBounds().width/2.0f + OFFSET){
+                    ship->getSprite().move(SHIP_MOVE_SPEED * -1.0f ,0.0f);
                 }
             }
             else{
-                if(ship->getPosition().x < WIDTH - ship->getSprShip().getGlobalBounds().width/2.0f - OFFSET){
-                    ship->getSprShip().move(SHIP_MOVE_SPEED * 1.0f ,0.0f);
-                    ship->getSprShip3().move(SHIP_MOVE_SPEED * 1.0f ,0.0f);
-                    ship->getSprShipShield().move(SHIP_MOVE_SPEED * 1.0f ,0.0f);
+                if(ship->getPosition().x < WIDTH - ship->getSprite().getGlobalBounds().width/2.0f - OFFSET){
+                    ship->getSprite().move(SHIP_MOVE_SPEED * 1.0f ,0.0f);
                 }
             }
         }
         if (reloadTimer == 0){
             if (Keyboard::isKeyPressed(Keyboard::Space)) {
-                if (ship->getCurrentPower() == 1)
+                if (ship->getCurrentPower() == Ship::FAST)
                     reloadTimer = FAST_RELOAD_DURATION;
                 else {
                     reloadTimer = RELOAD_DURATION;
@@ -226,9 +218,9 @@ void Game::update() {
         if(a != nullptr){
             if(!ship->isInvincible()){
                 if (a->checkCollision(ship->getHitBox())) {
-                    if(ship->getCurrentPower() == 0){
+                    if(ship->getCurrentPower() == Ship::SHIELD){
                         powerupDuration = 0;
-                        ship->setCurrentPower(-1);
+                        ship->setCurrentPower(Ship::NORMAL);
                     }
                     else{
                         ship->setDead(true);
@@ -236,8 +228,6 @@ void Game::update() {
                         ship->setHitted(true);
                         ship->setTimeRestart(); //time animation
                         invincibilityTime = clock.restart(); //time invincibility
-                        ship->setPositionExp1(Vector2f(ship->getSprShip().getPosition().x - ship->getSprShip().getGlobalBounds().width/2, 1150));
-                        ship->setPositionExp2(Vector2f(ship->getSprShip().getPosition().x - ship->getSprShip().getGlobalBounds().width/2, 1150));
                         lives--;
                         sounds[1].play();
                     }
@@ -271,7 +261,7 @@ void Game::update() {
 
     //end of effects power-up
     if(powerupDuration == 0){
-        ship->setCurrentPower(-1);
+        ship->setCurrentPower(Ship::NORMAL);
         ship->setPowerUpHitted(false);
         powerUpBar.setSize(Vector2f(300,30));
         powerupDuration = 300;
@@ -317,25 +307,26 @@ void Game::update() {
         ufo->updatePowerUp();
         if(ufo->checkCollisionPU(ship->getHitBox())){
             ship->setPowerUpHitted(true);
-            ship->setCurrentPower(ufo->getType());
             switch(ufo->getType()){
                 case 0:
-                    powerUpBar.setFillColor(Color(64,144,247)); // shield
+                    ship->setCurrentPower(Ship::SHIELD);
+                    powerUpBar.setFillColor(Color(64,144,247));
                     break;
                 case 1:
-                    powerUpBar.setFillColor(Color(234,51,35)); // fast reloading
+                    ship->setCurrentPower(Ship::FAST);
+                    powerUpBar.setFillColor(Color(234,51,35));
                     break;
                 case 2:
-                    powerUpBar.setFillColor(Color(249,220,74)); // 3 bullets
+                    ship->setCurrentPower(Ship::THREE_BUL);
+                    powerUpBar.setFillColor(Color(249,220,74));
                     break;
                 case 3:
-                    powerUpBar.setFillColor(Color(201,42,246)); // mirrored controls
+                    ship->setCurrentPower(Ship::CHANGE_MOV);
+                    powerUpBar.setFillColor(Color(201,42,246));
                     break;
                 default:
                     break;
             }
-            ship->setPosition3(Vector2f(ship->getSprShip().getPosition().x-ship->getSprShip().getGlobalBounds().width/2.f, ship->getSprShip().getPosition().y-ship->getSprShip().getGlobalBounds().height/2));
-            ship->setPositionShield(Vector2f(ship->getSprShip().getPosition().x-ship->getSprShip().getGlobalBounds().width/2.f, ship->getSprShip().getPosition().y-ship->getSprShip().getGlobalBounds().height/2));
         }
     }
 
@@ -405,22 +396,19 @@ void Game::moveAliens() {
     if(moveTimer == 0) {
         moveTimer = speedAlien;
         for (auto &a: *aliens) {
-            if ((a->getPositionA().x + a->getSpriteA().getGlobalBounds().width) >= WIDTH) {
+            if ((a->getPosition().x + a->getSprite().getGlobalBounds().width + PADDING) >= WIDTH) {
                 for (auto &b: *aliens) {
-                    b->getSpriteA().move(0.0f, OFFSET);
-                    b->getSpriteB().move(0.0f, OFFSET);
+                    b->getSprite().move(0.0f, OFFSET);
                 }
                 direction = -1;
             }
-            if (a->getPositionA().x <= 0) {
+            if ((a->getPosition().x - PADDING) <= 0) {
                 for (auto &b: *aliens) {
-                    b->getSpriteA().move(0.0f, OFFSET);
-                    b->getSpriteB().move(0.0f, OFFSET);
+                    b->getSprite().move(0.0f, OFFSET);
                 }
                 direction = 1;
             }
-            a->getSpriteA().move(ALIEN_SPEED * direction, 0.0f);
-            a->getSpriteB().move(ALIEN_SPEED * direction, 0.0f);
+            a->getSprite().move(ALIEN_SPEED * direction, 0.0f);
         }
     }
     else
@@ -434,13 +422,13 @@ void Game::checkDeadAliens() {
             std::shared_ptr<Alien>& a = aliens->at(i);
             if (a->checkCollision(b)) {
                 switch (a->getType()) {
-                    case 0:
+                    case Alien::ALIEN1:
                         score += 30;
                         break;
-                    case 1:
+                    case Alien::ALIEN2:
                         score += 20;
                         break;
-                    case 2:
+                    case Alien::ALIEN3:
                         score += 10;
                         break;
                     default:

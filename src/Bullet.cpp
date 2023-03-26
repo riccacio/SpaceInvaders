@@ -1,22 +1,36 @@
 #include "../headers/Bullet.h"
 
-Bullet::Bullet(Texture& texShot1, Texture& texShot2, Vector2f pos) : change(true){
-    sprite1.setTexture(texShot1);
-    sprite2.setTexture(texShot2);
-    sprite1.setScale(3.5,3.5);
-    sprite2.setScale(3.5,3.5);
-    sprite1.setPosition(pos.x-sprite1.getGlobalBounds().width/2.f, pos.y);
-    sprite2.setPosition(pos.x-sprite2.getGlobalBounds().width/2.f, pos.y);
+Bullet::Bullet(Vector2f pos, Type type) : change(true), type(type){
+    for(int i=0; i<=2; i++){
+        bulletTextures.emplace_back();
+    }
+    bulletTextures[0].loadFromFile("sprite/ship_shot.png");
+    bulletTextures[1].loadFromFile("sprite/alien_shot0.png");
+    bulletTextures[2].loadFromFile("sprite/alien_shot1.png");
+
+    if(type == SHIP){
+        sprite.setTexture(bulletTextures[0]);
+    }
+    else{
+        sprite.setTexture(bulletTextures[1]);
+    }
+    sprite.setScale(BULLET_SCALE, BULLET_SCALE);
+    sprite.setPosition(pos.x - sprite.getGlobalBounds().width/2.f, pos.y);
 }
 
 //functions
 void Bullet::draw(RenderTarget &target) {
-    target.draw((change)?sprite1:sprite2);
+    if(type == SHIP){
+        sprite.setTexture((change)?bulletTextures[0]:bulletTextures[0]);
+    }
+    else if(type == ALIEN){
+        sprite.setTexture((change)?bulletTextures[1]:bulletTextures[2]);
+    }
+    target.draw(sprite);
 }
 
 void Bullet::update(int direction) {
-    sprite1.move(0.0f, BULLET_SPEED * direction);
-    sprite2.move(0.0f, BULLET_SPEED * direction);
+    sprite.move(0.0f, BULLET_SPEED * direction);
 }
 
 void Bullet::changeSprite() {
@@ -25,16 +39,13 @@ void Bullet::changeSprite() {
 
 //getter
 Vector2f Bullet::getPosition() {
-    if(change)
-        return sprite1.getPosition();
-    else
-        return sprite2.getPosition();
+    return sprite.getPosition();
 }
 
 IntRect Bullet::getHitBox() const{
-    return IntRect (sprite1.getPosition().x, sprite1.getPosition().y, sprite1.getGlobalBounds().width, sprite1.getGlobalBounds().height);
+    return IntRect (sprite.getPosition().x, sprite.getPosition().y, sprite.getGlobalBounds().width, sprite.getGlobalBounds().height);
 }
 
 Sprite Bullet::getSprite() {
-    return sprite1;
+    return sprite;
 }

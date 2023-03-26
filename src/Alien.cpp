@@ -1,57 +1,35 @@
 #include "../headers/Alien.h"
 
-Alien::Alien(int type, Vector2f (pos), bool startSprite) : change(startSprite), changeBulletTimer(0){
+Alien::Alien(Type type, Vector2f (pos), bool startSprite) : change(startSprite), changeBulletTimer(0), type(type){
     shoot_distribution = std::uniform_int_distribution <unsigned short> (0, std::max<short>(ENEMY_SHOOT_CHANCE_MIN, ENEMY_SHOOT_CHANCE - ENEMY_SHOOT_CHANCE_INCREASE));
 
-    texShot1.loadFromFile("sprite/alien_shot0.png");
-    texShot2.loadFromFile("sprite/alien_shot1.png");
-
-    this->type = type;
     switch (type) {
-        case 0:
+        case ALIEN1:
             textureA.loadFromFile("sprite/alien1_0.png");
-            spriteA.setTexture(textureA);
-            spriteA.setPosition(Vector2f (pos));
-
             textureB.loadFromFile("sprite/alien1_1.png");
-            spriteB.setTexture(textureB);
-            spriteB.setPosition(Vector2f (pos));
-
-            spriteA.setScale(4, 4);
-            spriteB.setScale(4, 4);
+            sprite.setTexture(textureA);
             break;
-        case 1:
+        case ALIEN2:
             textureA.loadFromFile("sprite/alien2_0.png");
-            spriteA.setTexture(textureA);
-            spriteA.setPosition(pos);
-
             textureB.loadFromFile("sprite/alien2_1.png");
-            spriteB.setTexture(textureB);
-            spriteB.setPosition(pos);
-
-            spriteA.setScale(4, 4);
-            spriteB.setScale(4, 4);
+            sprite.setTexture(textureA);
             break;
-        case 2:
+        case ALIEN3:
             textureA.loadFromFile("sprite/alien3_0.png");
-            spriteA.setTexture(textureA);
-            spriteA.setPosition(pos);
-
             textureB.loadFromFile("sprite/alien3_1.png");
-            spriteB.setTexture(textureB);
-            spriteB.setPosition(Vector2f (pos));
-
-            spriteA.setScale(4, 4);
-            spriteB.setScale(4, 4);
+            sprite.setTexture(textureA);
             break;
         default:
             break;
     }
+    sprite.setPosition(Vector2f (pos));
+    sprite.setScale(SPRITE_SCALE, SPRITE_SCALE);
 }
 
 //functions
 void Alien::draw(RenderTarget& target) {
-    target.draw((change)?spriteA:spriteB);
+    sprite.setTexture((change)?textureA:textureB);
+    target.draw(sprite);
 
     for (auto &b: bullets) {
         b.draw(target);
@@ -87,7 +65,8 @@ void Alien::changeSprite() {
 }
 
 void Alien::shoot() {
-    bullets.emplace_back(Bullet(texShot1, texShot2, Vector2f(getPositionA().x + spriteA.getGlobalBounds().width/2.0f, getPositionA().y + spriteA.getGlobalBounds().height/2.0f)));
+    bullets.emplace_back(Bullet(Vector2f(getPosition().x + sprite.getGlobalBounds().width / 2.0f,
+                                         getPosition().y + sprite.getGlobalBounds().height / 2.0f), Bullet::ALIEN));
 }
 
 //alien bullet vs ship
@@ -121,22 +100,19 @@ bool Alien::checkCollisionAlienShip(IntRect shipHB) {
 }
 
 //getter and setter
-Sprite& Alien::getSpriteA(){
-    return spriteA;
+Sprite& Alien::getSprite(){
+    return sprite;
 }
 
-Sprite& Alien::getSpriteB(){
-    return spriteB;
-}
-
-Vector2f Alien::getPositionA() {
-    return spriteA.getPosition();
+Vector2f Alien::getPosition() {
+    return sprite.getPosition();
 }
 
 IntRect Alien::getHitBox() {
-    return IntRect(spriteA.getPosition().x, spriteA.getPosition().y, spriteA.getGlobalBounds().width, spriteA.getGlobalBounds().height);
+    return IntRect(sprite.getPosition().x, sprite.getPosition().y, sprite.getGlobalBounds().width, sprite.getGlobalBounds().height);
 }
 
-int Alien::getType(){
+Alien::Type Alien::getType() {
     return type;
 }
+

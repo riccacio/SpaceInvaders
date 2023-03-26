@@ -8,35 +8,21 @@ using namespace sf;
 class Ship{
 private:
     std::shared_ptr<std::vector<Bullet>> bullets;
-    //TODO creare uno sprite unico e un vettore di texture
-    Sprite sprShip;
-    Sprite sprShip3;
-    Sprite sprShipShield;
-    Sprite sprExpShip1;
-    Sprite sprExpShip2;
-    Texture texShip;
-    Texture texShip3;
-    Texture texShipShield;
-    Texture texExpShip1;
-    Texture texExpShip2;
-    Texture texShipShot;
+    std::vector<Texture> shipTextures;
+    Sprite sprite;
+
     Clock clock;
     Time time;
 
-    //TODO usare un'enum
-    /*
-     * normal: -1
-     * shield: 0
-     * fast reloading: 1
-     * 3 bullets: 2
-     * mirrored controls: 3
-     */
-    int currentPower;
     bool change;
     bool dead;
     bool hitted;
     bool invincible;
     bool powerUpHitted;
+public:
+    enum CurrentPower{NORMAL, SHIELD, FAST, THREE_BUL, CHANGE_MOV};
+private:
+    CurrentPower currentPower;
 public:
     //constructor & destructor
     Ship(Vector2f pos);
@@ -50,29 +36,23 @@ public:
     void changeSprite();
 
     //getter & setter
-    Sprite& getSprShip();
-    Sprite& getSprShip3();
-    Sprite& getSprShipShield();
+    Sprite& getSprite();
     Texture& getTexShip();
     Vector2f getPosition();
     Time& getTime();
     IntRect getHitBox();
     std::shared_ptr<std::vector<Bullet>> getBullets();
-    int getCurrentPower();
+    CurrentPower getCurrentPower();
     bool isHitted();
     bool isInvincible();
     bool isPowerUpHitted();
 
-    void setPosition3(Vector2f pos);
-    void setPositionShield(Vector2f pos);
-    void setPositionExp1(Vector2f pos);
-    void setPositionExp2(Vector2f pos);
     void setTime();
     void setTimeRestart();
     void setDead(bool dead);
     void setHitted(bool hitted);
     void setInvincible(bool invincible);
-    void setCurrentPower(int currentPower);
+    void setCurrentPower(CurrentPower currentPower);
     void setPowerUpHitted(bool powerUpHitted);
 };
 

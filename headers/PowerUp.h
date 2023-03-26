@@ -8,16 +8,18 @@ using namespace sf;
 
 class PowerUp {
 private:
-    //TODO usare uno sprite solo, far cambiare lo sprite in base al tipo
-    Sprite sprite0;
-    Sprite sprite1;
-    //TODO usare un'enum
-    int type;
-
+    std::vector<Texture> textures = {};
+    Sprite sprite;
     bool change;
 public:
+    //TODO fare classe enum
+    enum Type {SHIELD, THREE_BUL, FAST, CHANGE_MOV};
+private:
+    Type type;
+public:
     //constructor & destructor
-    PowerUp(Texture &texture0, Texture &texture1, Vector2f pos, int type);
+    PowerUp(Vector2f pos, Type type);
+    //PowerUp(Texture &texture0, Texture &texture1, Vector2f pos, int type);
     ~PowerUp() = default;
 
     //functions

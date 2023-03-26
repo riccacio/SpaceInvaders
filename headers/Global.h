@@ -20,6 +20,9 @@ constexpr unsigned int TOP_LIMIT = 100;
 constexpr unsigned int BOTTOM_LIMIT = 1270;
 constexpr unsigned char OFFSET = 20;
 constexpr unsigned char BULLET_OFFSET = 30;
+constexpr unsigned char SPRITE_SCALE = 4;
+constexpr float BULLET_SCALE = 3.5;
 constexpr unsigned char PADDING = 10; //ship padding hitbox
+
 
 #endif //SPACEINVADERS_GLOBAL_H

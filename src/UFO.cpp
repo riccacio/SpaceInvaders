@@ -1,20 +1,10 @@
 #include "../headers/UFO.h"
 
 UFO::UFO(Vector2f pos): dead(false), timePowerUp(0){
-    for (int i = 0; i<=9; i++)
-        textures.emplace_back();
-
-    textures[0].loadFromFile("sprite/ufo.png");
-    int i=1;
-    for(int j = 0; j<4; j++){
-        for(int k = 0; k<2; k++){
-            textures[i].loadFromFile("sprite/powerup" + std::to_string(j) + std::to_string(k) + ".png");
-            i++;
-        }
-    }
-    sprite.setTexture(textures[0]);
+    texture.loadFromFile("sprite/ufo.png");
+    sprite.setTexture(texture);
     sprite.setPosition(pos);
-    sprite.setScale(4,4);
+    sprite.setScale(SPRITE_SCALE, SPRITE_SCALE);
     powerUp = std::make_shared<std::vector<PowerUp>>();
 }
 
@@ -57,17 +47,18 @@ bool UFO::checkCollision(IntRect b){
 }
 
 void UFO::dropPowerUp(Vector2f pos){
+
     if(type == 0){
-        powerUp->emplace_back(PowerUp(textures[1], textures[2], pos, type));
+        powerUp->emplace_back(PowerUp(pos, PowerUp::SHIELD));
     }
     else if(type == 1){
-        powerUp->emplace_back(PowerUp(textures[3], textures[4], pos, type));
+        powerUp->emplace_back(PowerUp(pos, PowerUp::THREE_BUL));
     }
     else if(type == 2){
-        powerUp->emplace_back(PowerUp(textures[5], textures[6], pos, type));
+        powerUp->emplace_back(PowerUp(pos, PowerUp::FAST));
     }
     else if(type == 3){
-        powerUp->emplace_back(PowerUp(textures[7], textures[8], pos, type));
+        powerUp->emplace_back(PowerUp(pos, PowerUp::CHANGE_MOV));
     }
 }
 

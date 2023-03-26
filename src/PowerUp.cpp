@@ -1,41 +1,75 @@
 #include "../headers/PowerUp.h"
 
-PowerUp::PowerUp(Texture &texture0, Texture &texture1, Vector2f pos, int type): type(type), change(true){
-    sprite0.setTexture(texture0);
-    sprite1.setTexture(texture1);
-    sprite0.setScale(4,4);
-    sprite1.setScale(4,4);
-    sprite0.setPosition(pos.x-sprite0.getGlobalBounds().width/2.f, pos.y);
-    sprite1.setPosition(pos.x-sprite1.getGlobalBounds().width/2.f, pos.y);
+PowerUp::PowerUp(Vector2f pos, Type type): type(type), change(true){
+    for (int i = 0; i<9; i++)
+        textures.emplace_back();
+
+    int i=0;
+    for(int j = 0; j<4; j++){
+        for(int k = 0; k<2; k++){
+            textures[i].loadFromFile("sprite/powerup" + std::to_string(j) + std::to_string(k) + ".png");
+            i++;
+        }
+    }
+
+    switch(type){
+        case SHIELD:
+            sprite.setTexture(textures[0]);
+            break;
+        case THREE_BUL:
+            sprite.setTexture(textures[2]);
+            break;
+        case FAST:
+            sprite.setTexture(textures[4]);
+            break;
+        case CHANGE_MOV:
+            sprite.setTexture(textures[6]);
+            break;
+        default:
+            break;
+    }
+    sprite.setScale(SPRITE_SCALE, SPRITE_SCALE);
+    sprite.setPosition(pos.x-sprite.getGlobalBounds().width/2.f, pos.y);
 }
 
+//functions
 void PowerUp::draw(RenderTarget &target) {
-    target.draw((change)?sprite0:sprite1);
+    switch(type){
+        case SHIELD:
+            sprite.setTexture((change)?textures[0]:textures[1]);
+            break;
+        case THREE_BUL:
+            sprite.setTexture((change)?textures[2]:textures[3]);
+            break;
+        case FAST:
+            sprite.setTexture((change)?textures[4]:textures[5]);
+            break;
+        case CHANGE_MOV:
+            sprite.setTexture((change)?textures[6]:textures[7]);
+            break;
+        default:
+            break;
+    }
+    target.draw(sprite);
 }
 
 void PowerUp::update(){
-    sprite0.move(0.f, POWERUP_SPEED);
-    sprite1.move(0.f, POWERUP_SPEED);
+    sprite.move(0.f, POWERUP_SPEED);
 }
 
 void PowerUp::changeSprite() {
     change = !change;
 }
 
+//getter
 Vector2f PowerUp::getPosition() {
-    if(change)
-        return sprite0.getPosition();
-    else
-        return sprite1.getPosition();
+    return sprite.getPosition();
 }
 
 IntRect PowerUp::getHitBox() const{
-    if(change)
-        return IntRect (sprite0.getPosition().x, sprite0.getPosition().y, sprite0.getGlobalBounds().width, sprite0.getGlobalBounds().height);
-    else
-        return IntRect (sprite1.getPosition().x, sprite1.getPosition().y, sprite1.getGlobalBounds().width, sprite1.getGlobalBounds().height);
+    return IntRect (sprite.getPosition().x, sprite.getPosition().y, sprite.getGlobalBounds().width, sprite.getGlobalBounds().height);
 }
 
 Sprite PowerUp::getSprite() {
-    return sprite0;
+    return sprite;
 }

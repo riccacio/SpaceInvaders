@@ -9,7 +9,7 @@ TEST(Game, checkDeadAliens) {
     sf::Texture texShot;
     texShot.loadFromFile("sprite/ship_shot.png");
 
-    sf::Vector2f bulletPosition = (*game->getAliens())[35]->getPositionA();
+    sf::Vector2f bulletPosition = (*game->getAliens())[35]->getPosition();
     game->getShip()->getBullets()->emplace_back(texShot, texShot, bulletPosition);
 
     game->checkDeadAliens();

@@ -17,7 +17,7 @@ void Menu::initVariables() {
 }
 
 void Menu::initText() {
-    texShip.loadFromFile("sprite/ship.png");
+    texShip.loadFromFile("sprite/ship0.png");
 
     sprShip.setTexture(texShip);
     sprShip.setScale(7,7);

@@ -16,7 +16,7 @@ public:
 
     //functions
     void createShip();
-    void createAliens(int type, Vector2f pos, bool startSprite=true);
+    void createAliens(Alien::Type type, Vector2f pos, bool startSprite=true);
     void createUFO();
 
     //getter

@@ -10,22 +10,23 @@ using namespace sf;
 
 class Alien {
 private:
-    //TODO vettore di texture e usare uno sprite solo
-    Sprite spriteA;
-    Sprite spriteB;
     Texture textureA;
     Texture textureB;
-    Texture texShot1;
-    Texture texShot2;
+    Sprite sprite;
+
     std::vector<Bullet> bullets = {};
     std::uniform_int_distribution<unsigned short> shoot_distribution;
 
     bool change;
     int changeBulletTimer;
-    int type;
+public:
+    //TODO fare classe enum
+    enum Type{ALIEN1, ALIEN2, ALIEN3};
+private:
+    Type type;
 public:
     //constructor & destructor
-    Alien(int type, Vector2f (pos), bool startSprite=true);
+    Alien(Type type, Vector2f (pos), bool startSprite=true);
     ~Alien() = default;
 
     //functions
@@ -39,11 +40,10 @@ public:
     bool checkCollisionAlienShip(IntRect shipHB);
 
     //getter & setter
-    Sprite& getSpriteA();
-    Sprite& getSpriteB();
-    Vector2f getPositionA();
+    Sprite& getSprite();
+    Vector2f getPosition();
     IntRect getHitBox();
-    int getType();
+    Type getType();
 };
 
 #endif //SPACEINVADERS_ALIEN_H
