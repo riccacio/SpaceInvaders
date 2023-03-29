@@ -16,6 +16,7 @@ class Game: public MainWindow{
 private:
     std::shared_ptr<Ship> ship;
     std::shared_ptr<std::vector<std::shared_ptr<Alien>>> aliens;
+    std::shared_ptr<std::vector<std::shared_ptr<Shield>>> shields;
     std::shared_ptr<UFO> ufo;
     Map map;
     std::vector<Text> graphicText = {};
@@ -61,6 +62,7 @@ public:
     void updateScoreRecord();
     void moveAliens();
     void checkDeadAliens();
+    void checkHitShields();
     void checkGameOver();
     void readRecord() override;
     void writeRecord() const;

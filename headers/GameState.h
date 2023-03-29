@@ -1,0 +1,10 @@
+#ifndef SPACEINVADERS_GAMESTATE_H
+#define SPACEINVADERS_GAMESTATE_H
+
+
+class GameState {
+
+};
+
+
+#endif //SPACEINVADERS_GAMESTATE_H

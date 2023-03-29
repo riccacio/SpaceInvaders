@@ -26,7 +26,6 @@ void UFO::updatePowerUp(){
     std::erase_if(*powerUp, [](auto& p){return p.getPosition().y >= BOTTOM_LIMIT-p.getSprite().getGlobalBounds().height;});
     for(auto& p : *powerUp) {
         p.update();
-
     }
     if(timePowerUp == 0){
         timePowerUp = POWERUP_DURATION;

@@ -77,6 +77,27 @@ void Game::initItems() {
     }
     aliens = map.getAliens();
 
+    //create shields
+    int x0 = 100;
+    int y0 = 950;
+    for(int i = 0; i<3; i++){
+        int shieldWidth = 70;
+        int shieldHeight = 40;
+        map.createShields(Shield::Type::LeftUp, Vector2f(x0, y0));
+        map.createShields(Shield::Type::LeftBot, Vector2f(x0, (y0 + (2*shieldHeight))));
+        map.createShields(Shield::Type::RightUp, Vector2f((x0 + (2*shieldWidth)), y0));
+        map.createShields(Shield::Type::RightBot, Vector2f((x0 + (2*shieldWidth)), (y0 + (2*shieldHeight))));
+        map.createShields(Shield::Type::Unique, Vector2f((x0 + shieldWidth), y0));
+        int shieldX = x0;
+        for(int i=0; i<3; i++){
+            map.createShields(Shield::Type::Unique, Vector2f(shieldX, (y0 + shieldHeight)));
+            shieldX+=shieldWidth;
+        }
+        x0+=425;
+    }
+
+    shields = map.getShields();
+
     centerItem(ship->getSprite(), 1180.f);
 
     map.createUFO();
@@ -259,6 +280,9 @@ void Game::update() {
     //ship bullets collision check vs aliens
     checkDeadAliens();
 
+    //ship bullets collision check vs shields
+    checkHitShields();
+
     //end of effects power-up
     if(powerupDuration == 0){
         ship->setCurrentPower(Ship::CurrentPower::NORMAL);
@@ -363,6 +387,9 @@ void Game::render() {
     for(auto& a : *aliens)
         a->draw(*window);
 
+    for(auto& s : *shields)
+        s->draw(*window);
+
     //ship
     ship->draw(*window);
 
@@ -440,6 +467,23 @@ void Game::checkDeadAliens() {
                 sounds[4].play();
                 aliens->erase(aliens->begin() + i);
             }
+        }
+    }
+}
+
+void Game::checkHitShields() {
+    for (int j = ship->getBullets()->size() - 1; j >= 0; j--) {
+        Bullet& b = ship->getBullets()->at(j);
+        for (int i = shields->size() - 1; i >= 0; i--) {
+            std::shared_ptr<Shield>& s = shields->at(i);
+            if(s->checkCollision(b.getHitBox())){
+                ship->getBullets()->erase(ship->getBullets()->begin() + j);
+                s->setHitted(true);
+                if(s->isDeletable())
+                    shields->erase(shields->begin() + i);
+            }
+            if(s->isHitted())
+                s->setDeletable(true);
         }
     }
 }
