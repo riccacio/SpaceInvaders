@@ -116,3 +116,7 @@ Alien::Type Alien::getType() {
     return type;
 }
 
+std::vector<Bullet> &Alien::getBullets() {
+    return bullets;
+}
+

@@ -49,7 +49,7 @@ private:
     void initText();
 public:
     //constructor & destructor
-    Game();
+    Game(int score, int lives);
     ~Game() = default;
 
     //functions
@@ -63,10 +63,14 @@ public:
     void moveAliens();
     void checkDeadAliens();
     void checkHitShields();
+    void checkHitAlienBulletShields();
+    void checkHitAlienShields();
+    void checkEndLevel();
     void checkGameOver();
     void readRecord() override;
     void writeRecord() const;
     void stopMusic();
+    void updatedata(int scoreFile, int livesFile);
     const std::shared_ptr<Ship> &getShip() const;
     const std::shared_ptr<std::vector<std::shared_ptr<Alien>>> &getAliens() const;
 };

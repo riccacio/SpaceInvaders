@@ -1,16 +1,13 @@
 #ifndef SPACEINVADERS_POWERUP_H
 #define SPACEINVADERS_POWERUP_H
 #include "../headers/Global.h"
+#include "../headers/BulletPower.h"
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
 using namespace sf;
 
-class PowerUp {
-private:
-    std::vector<Texture> textures = {};
-    Sprite sprite;
-    bool change;
+class PowerUp: public BulletPower {
 public:
     enum class Type {SHIELD, THREE_BUL, FAST, CHANGE_MOV};
 private:
@@ -18,18 +15,11 @@ private:
 public:
     //constructor & destructor
     PowerUp(Vector2f pos, Type type);
-    //PowerUp(Texture &texture0, Texture &texture1, Vector2f pos, int type);
     ~PowerUp() = default;
 
     //functions
-    void draw(RenderTarget& target);
+    void draw(RenderTarget& target) override;
     void update();
-    void changeSprite();
-
-    //getter
-    Vector2f getPosition();
-    IntRect getHitBox() const;
-    Sprite getSprite();
 };
 
 

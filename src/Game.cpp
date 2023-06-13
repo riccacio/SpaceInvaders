@@ -1,6 +1,6 @@
-#include "../headers/Game.h"
+# include "../headers/Game.h"
 
-Game::Game() : record(0), lives(3), score(0), reloadTimer(0), moveTimer(0), direction(1), timeAliens(0), changeMusic(true), ufoPlayingMusic(0), speedAlien(ALIEN_CHANGE), powerupDuration(300){
+Game::Game(int score, int lives) : record(0), lives(lives), score(score), reloadTimer(0), moveTimer(0), direction(1), timeAliens(0), changeMusic(true), ufoPlayingMusic(0), speedAlien(ALIEN_CHANGE), powerupDuration(300){
     std::chrono::microseconds lag(0);
     std::chrono::steady_clock::time_point previous_time;
     initVariables();
@@ -283,6 +283,12 @@ void Game::update() {
     //ship bullets collision check vs shields
     checkHitShields();
 
+    //aliens bullets check collision vs shields
+    checkHitAlienBulletShields();
+
+    //aliens check collision vs shields
+    checkHitAlienShields();
+
     //end of effects power-up
     if(powerupDuration == 0){
         ship->setCurrentPower(Ship::CurrentPower::NORMAL);
@@ -308,7 +314,7 @@ void Game::update() {
         sounds[5].play();
     }
 
-    //ship collision check ship bullet vs ufo
+    //check collision ship bullet vs ufo
     int i=0;
     for(auto& b: *ship->getBullets()){
             if(ufo->checkCollision(b.getHitBox())) {
@@ -362,6 +368,7 @@ void Game::update() {
         ufo->setDead(false);
     }
 
+    checkEndLevel();
     updateScoreRecord();
     checkGameOver();
 }
@@ -472,27 +479,78 @@ void Game::checkDeadAliens() {
 }
 
 void Game::checkHitShields() {
-    for (int j = ship->getBullets()->size() - 1; j >= 0; j--) {
-        Bullet& b = ship->getBullets()->at(j);
-        for (int i = shields->size() - 1; i >= 0; i--) {
-            std::shared_ptr<Shield>& s = shields->at(i);
-            if(s->checkCollision(b.getHitBox())){
+    for (int i = shields->size() - 1; i >= 0; i--) {
+        std::shared_ptr<Shield>& s = shields->at(i);
+        for(int j = ship->getBullets()->size() - 1; j >= 0; j--) {
+            Bullet &b = ship->getBullets()->at(j);
+            if (s->checkCollision(b.getHitBox())) {
                 ship->getBullets()->erase(ship->getBullets()->begin() + j);
                 s->setHitted(true);
-                if(s->isDeletable())
+                if (s->isDeletable())
                     shields->erase(shields->begin() + i);
             }
-            if(s->isHitted())
+            if (s->isHitted())
                 s->setDeletable(true);
         }
     }
 }
+
+void Game::checkHitAlienBulletShields(){
+    for (int i = shields->size() - 1; i >= 0; i--) {
+        std::shared_ptr<Shield>& s = shields->at(i);
+
+        for(auto& a : *aliens){
+            if(a != nullptr){
+                for(int j = a->getBullets().size() - 1; j >= 0; j--) {
+                    Bullet &b = a->getBullets().at(j);
+                    if (s->checkCollision(b.getHitBox())) {
+                        a->getBullets().erase(a->getBullets().begin() + j);
+                        s->setHitted(true);
+                        if (s->isDeletable())
+                            shields->erase(shields->begin() + i);
+                    }
+                    if (s->isHitted())
+                        s->setDeletable(true);
+                }
+            }
+        }
+    }
+}
+
+void Game::checkHitAlienShields() {
+    for (int i = shields->size() - 1; i >= 0; i--) {
+        std::shared_ptr<Shield>& s = shields->at(i);
+
+        for(auto& a : *aliens){
+            if(a != nullptr){
+                    if (s->checkCollision(a->getHitBox())) {
+                        s->setHitted(true);
+                        if (s->isDeletable())
+                            shields->erase(shields->begin() + i);
+                    }
+                    if (s->isHitted())
+                        s->setDeletable(true);
+            }
+        }
+
+    }
+}
+
 
 void Game::stopMusic() {
     for(int i=0; i<7; i++){
         sounds[i].stop();
     }
 }
+
+void Game::checkEndLevel(){
+    if(aliens->empty()){
+        window->close();
+        std::unique_ptr<Game> game(new Game(score, lives));
+        game->run();
+    }
+}
+
 
 void Game::checkGameOver() {
     for(auto& a : *aliens){

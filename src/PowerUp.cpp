@@ -1,9 +1,6 @@
 #include "../headers/PowerUp.h"
 
-PowerUp::PowerUp(Vector2f pos, Type type): type(type), change(true){
-    for (int i = 0; i<9; i++)
-        textures.emplace_back();
-
+PowerUp::PowerUp(Vector2f pos, Type type): type(type) {
     int i=0;
     for(int j = 0; j<4; j++){
         for(int k = 0; k<2; k++){
@@ -55,21 +52,4 @@ void PowerUp::draw(RenderTarget &target) {
 
 void PowerUp::update(){
     sprite.move(0.f, POWERUP_SPEED);
-}
-
-void PowerUp::changeSprite() {
-    change = !change;
-}
-
-//getter
-Vector2f PowerUp::getPosition() {
-    return sprite.getPosition();
-}
-
-IntRect PowerUp::getHitBox() const{
-    return IntRect (sprite.getPosition().x, sprite.getPosition().y, sprite.getGlobalBounds().width, sprite.getGlobalBounds().height);
-}
-
-Sprite PowerUp::getSprite() {
-    return sprite;
 }

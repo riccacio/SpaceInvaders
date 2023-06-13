@@ -1,4 +1,4 @@
-#include "../headers/Ship.h"
+# include "../headers/Ship.h"
 
 Ship::Ship(Vector2f pos) : change(true), dead(false), hitted(false), invincible(false), powerUpHitted(false){
     currentPower = CurrentPower::NORMAL;

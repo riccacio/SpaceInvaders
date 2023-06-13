@@ -43,6 +43,7 @@ public:
     Vector2f getPosition();
     IntRect getHitBox();
     Type getType();
+    std::vector<Bullet> &getBullets();
 };
 
 #endif //SPACEINVADERS_ALIEN_H
