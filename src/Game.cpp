@@ -1,6 +1,6 @@
 # include "../headers/Game.h"
 
-Game::Game(int score, int lives) : record(0), lives(lives), score(score), reloadTimer(0), moveTimer(0), direction(1), timeAliens(0), changeMusic(true), ufoPlayingMusic(0), speedAlien(ALIEN_CHANGE), powerupDuration(300){
+Game::Game(int score, int lives, int speedAlienLevel, int stage) : record(0), lives(lives), score(score), stage(stage), reloadTimer(0), moveTimer(0), direction(1), timeAliens(0), changeMusic(true), ufoPlayingMusic(0), speedAlienLevel(speedAlienLevel), speedAlien(speedAlienLevel), powerupDuration(300){
     std::chrono::microseconds lag(0);
     std::chrono::steady_clock::time_point previous_time;
     initVariables();
@@ -8,6 +8,9 @@ Game::Game(int score, int lives) : record(0), lives(lives), score(score), reload
     initItems();
     initWindow();
     initText();
+    if(stage!=0){
+        killObserver->update(stage);
+    }
 }
 
 //functions
@@ -18,7 +21,7 @@ void Game::initVariables() {
     //init arrays
     for(int j=0; j<lives; j++)
         sprShipL.emplace_back();
-    for(int j=0; j<5; j++)
+    for(int j=0; j<7; j++)
         graphicText.emplace_back();
     for(int j=0; j<7; j++)
         soundBuffers.emplace_back();
@@ -108,24 +111,29 @@ void Game::initItems() {
     powerUpBar.setOutlineColor(Color::White);
     powerUpBar.setPosition(900, 1315);
     powerUpBar.setSize(Vector2f(300,30));
+
+    killObserver = std::make_shared<AliensDestroyedAchievement>();
 }
 
 void Game::initText() {
     graphicText[0].setString("HI-SCORE: ");
     graphicText[1].setString("SCORE: ");
     graphicText[2].setString("LIVES: ");
-    std::stringstream ss2;
-    std::string s2;
+    graphicText[5].setString("STAGE: ");
+    std::stringstream ss2, ss3;
+    std::string s2, s3;
     ss2<<score;
     ss2>>s2;
-    graphicText[4].setString(s2);
+    ss3<<stage;
+    ss3>>s3;
+    graphicText[6].setString(s3);
     graphicText[3].setString(recordS);
 
     line.setSize(Vector2f(1240, 10));
     line.setFillColor(Color::Green);
     line.setPosition(20, BOTTOM_LIMIT);
 
-    for(int j=0; j<5; j++){
+    for(int j=0; j<7; j++){
         graphicText[j].setFont(f);
         graphicText[j].setCharacterSize(32);
     }
@@ -135,6 +143,8 @@ void Game::initText() {
     graphicText[1].setPosition(900,20);//SCORE
     graphicText[4].setPosition(1100,20);//SCORE NUM
     graphicText[2].setPosition(20, 1315);//LIVES
+    graphicText[5].setPosition(550, 20);//STAGE
+    graphicText[6].setPosition(750, 20);//STAGE NUM
 
     int offset=215;
     for(int j=0; j<lives; j++){
@@ -210,6 +220,7 @@ void Game::update() {
     pollEvents();
     invincibilityTime = clock.getElapsedTime();
     spawnUfoTime = clockUFO.getElapsedTime();
+    timerAch = clockAch.getElapsedTime();
 
     //aliens animation
     if(timeAliens==0){
@@ -368,6 +379,7 @@ void Game::update() {
         ufo->setDead(false);
     }
 
+    std::cout << timerAch.asSeconds() << std::endl;
     checkEndLevel();
     updateScoreRecord();
     checkGameOver();
@@ -380,7 +392,7 @@ void Game::render() {
         writeRecord();
 
     //texts
-    for(int j=0; j<5; j++)
+    for(int j=0; j<7; j++)
         window->draw(graphicText[j]);
 
     //life sprites
@@ -411,6 +423,11 @@ void Game::render() {
     //power-up bar duration
     if(ship->isPowerUpHitted())
         window->draw(powerUpBar);
+
+    //achievements
+    if(timerAch.asSeconds()<2){
+        killObserver->draw(*window);
+    }
 
     window->display();
 }
@@ -469,7 +486,9 @@ void Game::checkDeadAliens() {
                         break;
                 }
                 // speed increase
-                speedAlien = speedAlien - SPAN;
+                if(speedAlien>20)
+                    speedAlien = speedAlien - SPAN;
+                killObserver->update();
                 ship->getBullets()->erase(ship->getBullets()->begin() + j);
                 sounds[4].play();
                 aliens->erase(aliens->begin() + i);
@@ -536,7 +555,6 @@ void Game::checkHitAlienShields() {
     }
 }
 
-
 void Game::stopMusic() {
     for(int i=0; i<7; i++){
         sounds[i].stop();
@@ -546,11 +564,12 @@ void Game::stopMusic() {
 void Game::checkEndLevel(){
     if(aliens->empty()){
         window->close();
-        std::unique_ptr<Game> game(new Game(score, lives));
+        speedAlienLevel-=10;
+        stage++;
+        std::unique_ptr<Game> game(new Game(score, lives, speedAlienLevel, stage));
         game->run();
     }
 }
-
 
 void Game::checkGameOver() {
     for(auto& a : *aliens){

@@ -74,7 +74,7 @@ void Menu::keyboardEvent(auto& e){
         case Keyboard::Enter:{
             window->close();
             sound.stop();
-            std::unique_ptr<Game> game(new Game(0,3));
+            std::unique_ptr<Game> game(new Game(0,3, ALIEN_CHANGE, 0));
             game->run();
             break;
         }

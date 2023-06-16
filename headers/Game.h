@@ -5,6 +5,7 @@
 #include "../headers/Alien.h"
 #include "../headers/Map.h"
 #include "../headers/GameOver.h"
+#include "../headers/AliensDestroyedAchievement.h"
 #include <chrono>
 #include <random>
 #include <array>
@@ -19,6 +20,9 @@ private:
     std::shared_ptr<std::vector<std::shared_ptr<Shield>>> shields;
     std::shared_ptr<UFO> ufo;
     Map map;
+
+    std::shared_ptr<AliensDestroyedAchievement> killObserver;
+
     std::vector<Text> graphicText = {};
     std::vector<Sprite> sprShipL = {};
     std::vector<SoundBuffer> soundBuffers = {};
@@ -29,8 +33,10 @@ private:
 
     Clock clock;
     Clock clockUFO;
+    Clock clockAch;
     Time invincibilityTime;
     Time spawnUfoTime;
+    Time timerAch;
 
     int reloadTimer;
     int record;
@@ -38,9 +44,11 @@ private:
     int lives;
     int moveTimer;
     int timeAliens;
+    int stage;
     float direction;
     bool changeMusic;
     int ufoPlayingMusic;
+    int speedAlienLevel;
     float speedAlien;
     float powerupDuration;
 
@@ -49,7 +57,7 @@ private:
     void initText();
 public:
     //constructor & destructor
-    Game(int score, int lives);
+    Game(int score, int lives, int speedAlienLevel, int stage);
     ~Game() = default;
 
     //functions

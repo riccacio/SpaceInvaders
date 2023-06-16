@@ -3,7 +3,7 @@
 #include "../headers/Game.h"
 
 TEST(Game, checkDeadAliens) {
-    std::unique_ptr<Game> game(new Game);
+    std::unique_ptr<Game> game(new Game(0,3,0, 0));
     int initialAlienCount = game->getAliens()->size();
 
     sf::Texture texShot;
