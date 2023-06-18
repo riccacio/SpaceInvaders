@@ -6,6 +6,8 @@
 #include "../headers/Map.h"
 #include "../headers/GameOver.h"
 #include "../headers/AliensDestroyedAchievement.h"
+#include "../headers/AchievementDataHandler.h"
+#include "../headers/ExtraLifeAchievements.h"
 #include <chrono>
 #include <random>
 #include <array>
@@ -14,14 +16,15 @@
 #include <SFML/Audio.hpp>
 
 class Game: public MainWindow{
-private:
+public:
     std::shared_ptr<Ship> ship;
     std::shared_ptr<std::vector<std::shared_ptr<Alien>>> aliens;
     std::shared_ptr<std::vector<std::shared_ptr<Shield>>> shields;
     std::shared_ptr<UFO> ufo;
     Map map;
-
+    AchievementDataHandler handler;
     std::shared_ptr<AliensDestroyedAchievement> killObserver;
+    std::shared_ptr<ExtraLifeAchievements> lifeObserver;
 
     std::vector<Text> graphicText = {};
     std::vector<Sprite> sprShipL = {};
@@ -51,6 +54,7 @@ private:
     int speedAlienLevel;
     float speedAlien;
     float powerupDuration;
+    bool livesIncremented;
 
     void initVariables() override;
     void initItems();

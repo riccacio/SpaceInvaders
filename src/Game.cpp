@@ -1,6 +1,6 @@
 # include "../headers/Game.h"
 
-Game::Game(int score, int lives, int speedAlienLevel, int stage) : record(0), lives(lives), score(score), stage(stage), reloadTimer(0), moveTimer(0), direction(1), timeAliens(0), changeMusic(true), ufoPlayingMusic(0), speedAlienLevel(speedAlienLevel), speedAlien(speedAlienLevel), powerupDuration(300){
+Game::Game(int score, int lives, int speedAlienLevel, int stage) : record(0), lives(lives), score(score), stage(stage), reloadTimer(0), moveTimer(0), direction(1), timeAliens(0), changeMusic(true), ufoPlayingMusic(0), speedAlienLevel(speedAlienLevel), speedAlien(speedAlienLevel), powerupDuration(300), livesIncremented(false){
     std::chrono::microseconds lag(0);
     std::chrono::steady_clock::time_point previous_time;
     initVariables();
@@ -8,9 +8,7 @@ Game::Game(int score, int lives, int speedAlienLevel, int stage) : record(0), li
     initItems();
     initWindow();
     initText();
-    if(stage!=0){
-        killObserver->update(stage);
-    }
+    killObserver->update(stage);
 }
 
 //functions
@@ -19,7 +17,7 @@ void Game::initVariables() {
     srand(time(NULL));
 
     //init arrays
-    for(int j=0; j<lives; j++)
+    for(int j=0; j<10; j++)
         sprShipL.emplace_back();
     for(int j=0; j<7; j++)
         graphicText.emplace_back();
@@ -113,6 +111,9 @@ void Game::initItems() {
     powerUpBar.setSize(Vector2f(300,30));
 
     killObserver = std::make_shared<AliensDestroyedAchievement>();
+    killObserver->setAliensKilled(handler.loadAchievementData("achievements.txt"));
+
+    lifeObserver = std::make_shared<ExtraLifeAchievements>();
 }
 
 void Game::initText() {
@@ -147,7 +148,7 @@ void Game::initText() {
     graphicText[6].setPosition(750, 20);//STAGE NUM
 
     int offset=215;
-    for(int j=0; j<lives; j++){
+    for(int j=0; j<10; j++){
         sprShipL[j].setTexture(ship->getTexShip());
         sprShipL[j].setScale(3, 3);
         sprShipL[j].setPosition(offset, 1290);
@@ -379,7 +380,17 @@ void Game::update() {
         ufo->setDead(false);
     }
 
-    std::cout << timerAch.asSeconds() << std::endl;
+    lifeObserver->update(score);
+
+    if(lifeObserver->isReached()){
+        clockAch.restart();
+        if(!livesIncremented){
+            lives++;
+            livesIncremented=true;
+        }
+        lifeObserver->setReached(false);
+    }
+
     checkEndLevel();
     updateScoreRecord();
     checkGameOver();
@@ -425,8 +436,17 @@ void Game::render() {
         window->draw(powerUpBar);
 
     //achievements
-    if(timerAch.asSeconds()<2){
-        killObserver->draw(*window);
+    if(killObserver->isDrawable()){
+        if(timerAch.asSeconds()<3){
+            killObserver->draw(*window);
+            killObserver->setAchReached(false);
+        }
+    }
+
+    if(lifeObserver->isDrawable()){
+        if(timerAch.asSeconds()<3){
+            lifeObserver->draw(*window);
+        }
     }
 
     window->display();
@@ -489,6 +509,9 @@ void Game::checkDeadAliens() {
                 if(speedAlien>20)
                     speedAlien = speedAlien - SPAN;
                 killObserver->update();
+                if(killObserver->isAchReached()){
+                    clockAch.restart();
+                }
                 ship->getBullets()->erase(ship->getBullets()->begin() + j);
                 sounds[4].play();
                 aliens->erase(aliens->begin() + i);
@@ -566,6 +589,7 @@ void Game::checkEndLevel(){
         window->close();
         speedAlienLevel-=10;
         stage++;
+        handler.saveAchievementData("achievements.txt", killObserver->getAliensKilled());
         std::unique_ptr<Game> game(new Game(score, lives, speedAlienLevel, stage));
         game->run();
     }
@@ -575,6 +599,7 @@ void Game::checkGameOver() {
     for(auto& a : *aliens){
         if(a != nullptr && a->checkCollisionAlienShip(ship->getHitBox())){
             stopMusic();
+            handler.resetAchievementData("achievements.txt");
             window->close();
             std::unique_ptr<GameOver> go(new GameOver);
             go->run();
@@ -582,6 +607,7 @@ void Game::checkGameOver() {
     }
     if(lives == 0 && ship->getTime().asSeconds() > 1.0f){
         stopMusic();
+        handler.resetAchievementData("achievements.txt");
         window->close();
         std::unique_ptr<GameOver> go(new GameOver);
         go->run();

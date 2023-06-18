@@ -5,10 +5,10 @@
 class AliensDestroyedAchievement: public Observer {
 private:
     int aliensKilled=0;
-    int achievementKill = 10;
+    int achievementKill = 250;
     int achievementReached = 0;
     bool drawable;
-    RectangleShape display;
+    bool achReached;
 
     void displayAchievements();
 public:
@@ -19,7 +19,10 @@ public:
     void update() override;
     void draw(RenderTarget &target) const;
     bool isDrawable();
-    void setDrawable(bool drawable);
+    bool isAchReached();
+    void setAchReached(bool achReached);
+    void setAliensKilled(int aliensKilled);
+    int getAliensKilled();
 };
 
 

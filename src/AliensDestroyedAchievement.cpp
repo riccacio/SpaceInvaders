@@ -1,9 +1,9 @@
 #include "../headers/AliensDestroyedAchievement.h"
 
-AliensDestroyedAchievement::AliensDestroyedAchievement():drawable(false) {}
+AliensDestroyedAchievement::AliensDestroyedAchievement():drawable(false), achReached(false) {}
 
 void AliensDestroyedAchievement::update(int stage) {
-    if(stage != 6){
+    if(stage >= 1 && stage !=6){
         achievementReached = stage;
         displayAchievements();
         drawable=true;
@@ -16,6 +16,7 @@ void AliensDestroyedAchievement::update() {
         achievementReached = 6;
         displayAchievements();
         drawable=true;
+        achReached = true;
     }
 }
 
@@ -85,7 +86,18 @@ bool AliensDestroyedAchievement::isDrawable() {
     return drawable;
 }
 
-void AliensDestroyedAchievement::setDrawable(bool drawable) {
-    drawable = drawable;
+bool AliensDestroyedAchievement::isAchReached() {
+    return achReached;
 }
 
+void AliensDestroyedAchievement::setAchReached(bool achReached) {
+    this->achReached = achReached;
+}
+
+void AliensDestroyedAchievement::setAliensKilled(int aliensKilled){
+    this->aliensKilled = aliensKilled;
+}
+
+int AliensDestroyedAchievement::getAliensKilled(){
+    return aliensKilled;
+}
