@@ -8,6 +8,7 @@
 #include "../headers/AliensDestroyedAchievement.h"
 #include "../headers/AchievementDataHandler.h"
 #include "../headers/ExtraLifeAchievements.h"
+#include "../headers/GoodJobAchievement.h"
 #include <chrono>
 #include <random>
 #include <array>
@@ -25,6 +26,7 @@ public:
     AchievementDataHandler handler;
     std::shared_ptr<AliensDestroyedAchievement> killObserver;
     std::shared_ptr<ExtraLifeAchievements> lifeObserver;
+    std::shared_ptr<GoodJobAchievement> goodJobObserver;
 
     std::vector<Text> graphicText = {};
     std::vector<Sprite> sprShipL = {};
@@ -55,13 +57,14 @@ public:
     float speedAlien;
     float powerupDuration;
     bool livesIncremented;
+    bool lifeLost;
 
     void initVariables() override;
     void initItems();
     void initText();
 public:
     //constructor & destructor
-    Game(int score, int lives, int speedAlienLevel, int stage);
+    Game(int score, int lives, int speedAlienLevel, int stage, bool life);
     ~Game() = default;
 
     //functions

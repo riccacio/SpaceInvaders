@@ -15,11 +15,14 @@ protected:
     RectangleShape display;
 
     void initFont();
+    virtual void displayAchievements(std::string title, std::string description, std::string textureName, Vector2f size);
+
 public:
     Observer();
     virtual ~Observer() = default;
 
-    virtual void update(){};
+    virtual void update();
+    virtual void draw(RenderTarget &target) const;
 };
 
 

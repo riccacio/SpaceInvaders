@@ -8,13 +8,11 @@ private:
     bool drawable;
     bool reached;
 
-    void displayAchievements();
 public:
     ExtraLifeAchievements();
     ~ExtraLifeAchievements() = default;
 
     void update(int score);
-    void draw(RenderTarget &target) const;
     bool isDrawable();
     bool isReached();
     void setReached(bool reached);

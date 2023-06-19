@@ -1,6 +1,6 @@
 # include "../headers/Game.h"
 
-Game::Game(int score, int lives, int speedAlienLevel, int stage) : record(0), lives(lives), score(score), stage(stage), reloadTimer(0), moveTimer(0), direction(1), timeAliens(0), changeMusic(true), ufoPlayingMusic(0), speedAlienLevel(speedAlienLevel), speedAlien(speedAlienLevel), powerupDuration(300), livesIncremented(false){
+Game::Game(int score, int lives, int speedAlienLevel, int stage, bool lifeLost) : record(0), lives(lives), score(score), stage(stage), reloadTimer(0), moveTimer(0), direction(1), timeAliens(0), changeMusic(true), ufoPlayingMusic(0), speedAlienLevel(speedAlienLevel), speedAlien(speedAlienLevel), powerupDuration(300), livesIncremented(false), lifeLost(lifeLost){
     std::chrono::microseconds lag(0);
     std::chrono::steady_clock::time_point previous_time;
     initVariables();
@@ -9,6 +9,9 @@ Game::Game(int score, int lives, int speedAlienLevel, int stage) : record(0), li
     initWindow();
     initText();
     killObserver->update(stage);
+    if(!lifeLost && stage != 0){
+        goodJobObserver->update(lifeLost);
+    }
 }
 
 //functions
@@ -114,6 +117,8 @@ void Game::initItems() {
     killObserver->setAliensKilled(handler.loadAchievementData("achievements.txt"));
 
     lifeObserver = std::make_shared<ExtraLifeAchievements>();
+
+    goodJobObserver = std::make_shared<GoodJobAchievement>();
 }
 
 void Game::initText() {
@@ -262,6 +267,7 @@ void Game::update() {
                         ship->setTimeRestart(); //time animation
                         invincibilityTime = clock.restart(); //time invincibility
                         lives--;
+                        lifeLost = true;
                         sounds[1].play();
                     }
                 }
@@ -406,7 +412,7 @@ void Game::render() {
     for(int j=0; j<7; j++)
         window->draw(graphicText[j]);
 
-    //life sprites
+    //lifeLost sprites
     for(int j=0; j<lives; j++)
         window->draw(sprShipL[j]);
 
@@ -437,15 +443,28 @@ void Game::render() {
 
     //achievements
     if(killObserver->isDrawable()){
-        if(timerAch.asSeconds()<3){
-            killObserver->draw(*window);
-            killObserver->setAchReached(false);
+
+        if(!lifeLost){
+            if(timerAch.asSeconds()<6) {
+                killObserver->draw(*window);
+                killObserver->setAchReached(false);
+            }
+        }else{
+            if(timerAch.asSeconds()<3){
+                killObserver->draw(*window);
+                killObserver->setAchReached(false);
+            }
         }
     }
 
     if(lifeObserver->isDrawable()){
         if(timerAch.asSeconds()<3){
             lifeObserver->draw(*window);
+        }
+    }
+    if(goodJobObserver->isDrawable()){
+        if(timerAch.asSeconds()<3){
+            goodJobObserver->draw(*window);
         }
     }
 
@@ -590,7 +609,10 @@ void Game::checkEndLevel(){
         speedAlienLevel-=10;
         stage++;
         handler.saveAchievementData("achievements.txt", killObserver->getAliensKilled());
-        std::unique_ptr<Game> game(new Game(score, lives, speedAlienLevel, stage));
+        if(goodJobObserver->isReached()){
+            lifeLost = true;
+        }
+        std::unique_ptr<Game> game(new Game(score, lives, speedAlienLevel, stage, lifeLost));
         game->run();
     }
 }

@@ -3,14 +3,11 @@
 #include "../headers/Game.h"
 
 TEST(Game, checkDeadAliens) {
-    std::unique_ptr<Game> game(new Game(0,3,0, 0));
+    std::unique_ptr<Game> game(new Game(0,3,0, 0, 0));
     int initialAlienCount = game->getAliens()->size();
 
-    sf::Texture texShot;
-    texShot.loadFromFile("sprite/ship_shot.png");
-
     sf::Vector2f bulletPosition = (*game->getAliens())[35]->getPosition();
-    game->getShip()->getBullets()->emplace_back(texShot, texShot, bulletPosition);
+    game->getShip()->getBullets()->emplace_back(bulletPosition, Bullet::Type::SHIP);
 
     game->checkDeadAliens();
 

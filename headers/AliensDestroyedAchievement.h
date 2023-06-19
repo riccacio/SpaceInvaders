@@ -17,7 +17,6 @@ public:
 
     void update(int stage);
     void update() override;
-    void draw(RenderTarget &target) const;
     bool isDrawable();
     bool isAchReached();
     void setAchReached(bool achReached);

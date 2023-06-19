@@ -8,6 +8,7 @@ void AchievementDataHandler::saveAchievementData(std::string filename, int data)
     }
 }
 
+
 int AchievementDataHandler::loadAchievementData(std::string filename) {
     int data = 0;
     std::ifstream file(filename);

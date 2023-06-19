@@ -75,12 +75,6 @@ void AliensDestroyedAchievement::displayAchievements() {
     description.setFont(textF);
 }
 
-void AliensDestroyedAchievement::draw(RenderTarget &target) const{
-    target.draw(display);
-    target.draw(title);
-    target.draw(description);
-    target.draw(sprite);
-}
 
 bool AliensDestroyedAchievement::isDrawable() {
     return drawable;
