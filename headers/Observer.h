@@ -14,9 +14,8 @@ protected:
     Text description;
     RectangleShape display;
 
-    void initFont();
+    virtual void initFont();
     virtual void displayAchievements(std::string title, std::string description, std::string textureName, Vector2f size);
-
 public:
     Observer();
     virtual ~Observer() = default;
@@ -24,6 +23,5 @@ public:
     virtual void update();
     virtual void draw(RenderTarget &target) const;
 };
-
 
 #endif //SPACEINVADERS_OBSERVER_H

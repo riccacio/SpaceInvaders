@@ -37,5 +37,4 @@ public:
     void setDead(bool dead);
 };
 
-
 #endif //SPACEINVADERS_UFO_H

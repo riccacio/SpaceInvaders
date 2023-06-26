@@ -4,7 +4,7 @@
 
 class AliensDestroyedAchievement: public Observer {
 private:
-    int aliensKilled=0;
+    int aliensKilled = 0;
     int achievementKill = 250;
     int achievementReached = 0;
     bool drawable;
@@ -12,17 +12,19 @@ private:
 
     void displayAchievements();
 public:
+    //constructor
     AliensDestroyedAchievement();
-    ~AliensDestroyedAchievement() = default;
 
+    //functions
     void update(int stage);
     void update() override;
+
+    //getter & setter
     bool isDrawable();
     bool isAchReached();
+    int getAliensKilled();
     void setAchReached(bool achReached);
     void setAliensKilled(int aliensKilled);
-    int getAliensKilled();
 };
-
 
 #endif //SPACEINVADERS_ALIENSDESTROYEDACHIEVEMENT_H

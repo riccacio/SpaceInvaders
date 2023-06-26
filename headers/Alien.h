@@ -38,7 +38,7 @@ public:
     bool checkCollision(Bullet &b);
     bool checkCollisionAlienShip(IntRect shipHB);
 
-    //getter & setter
+    //getter
     Sprite& getSprite();
     Vector2f getPosition();
     IntRect getHitBox();

@@ -7,14 +7,14 @@ private:
     bool drawable;
     bool reached;
 public:
+    //constructor
     GoodJobAchievement();
-    ~GoodJobAchievement() = default;
 
     void update(bool life);
+
+    //getter & setter
     bool isDrawable();
     bool isReached();
-    void setReached(bool reached);
 };
-
 
 #endif //SPACEINVADERS_GOODJOBACHIEVEMENT_H

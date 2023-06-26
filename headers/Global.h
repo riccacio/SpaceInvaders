@@ -22,7 +22,6 @@ constexpr unsigned char OFFSET = 20;
 constexpr unsigned char BULLET_OFFSET = 30;
 constexpr unsigned char SPRITE_SCALE = 4;
 constexpr float BULLET_SCALE = 3.5;
-constexpr unsigned char PADDING = 10; //ship padding hitbox
-
+constexpr unsigned char PADDING = 10; //ship padding hit-box
 
 #endif //SPACEINVADERS_GLOBAL_H

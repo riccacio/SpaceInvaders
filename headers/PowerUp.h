@@ -22,5 +22,4 @@ public:
     void update();
 };
 
-
 #endif //SPACEINVADERS_POWERUP_H

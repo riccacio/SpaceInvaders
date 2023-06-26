@@ -33,5 +33,4 @@ public:
     void setDeletable(bool deletable);
 };
 
-
 #endif //SPACEINVADERS_SHIELD_H

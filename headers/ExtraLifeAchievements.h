@@ -7,16 +7,13 @@ private:
     int achievementsReached = 1500;
     bool drawable;
     bool reached;
-
 public:
     ExtraLifeAchievements();
-    ~ExtraLifeAchievements() = default;
 
     void update(int score);
     bool isDrawable();
     bool isReached();
     void setReached(bool reached);
 };
-
 
 #endif //SPACEINVADERS_EXTRALIFEACHIEVEMENTS_H

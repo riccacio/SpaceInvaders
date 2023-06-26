@@ -12,9 +12,8 @@ private:
     void initVariables() override;
     void initText();
 public:
-    //constructor & destructor
+    //constructor
     Info();
-    ~Info() = default;
 
     //functions
     void pollEvents() override;

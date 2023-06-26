@@ -16,7 +16,6 @@ private:
 public:
     //constructor & destructor
     GameOver();
-    ~GameOver() = default;
 
     //functions
     void run() override;

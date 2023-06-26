@@ -5,6 +5,7 @@
 
 class AchievementDataHandler {
 public:
+    //functions
     void saveAchievementData(std::string filename, int data);
     int loadAchievementData(std::string filename);
     void resetAchievementData(std::string filename);

@@ -11,7 +11,6 @@
 #include "../headers/GoodJobAchievement.h"
 #include <chrono>
 #include <random>
-#include <array>
 #include <iostream>
 #include <sstream>
 #include <SFML/Audio.hpp>
@@ -23,6 +22,7 @@ public:
     std::shared_ptr<std::vector<std::shared_ptr<Shield>>> shields;
     std::shared_ptr<UFO> ufo;
     Map map;
+
     AchievementDataHandler handler;
     std::shared_ptr<AliensDestroyedAchievement> killObserver;
     std::shared_ptr<ExtraLifeAchievements> lifeObserver;
@@ -63,17 +63,17 @@ public:
     void initItems();
     void initText();
 public:
-    //constructor & destructor
+    //constructor
     Game(int score, int lives, int speedAlienLevel, int stage, bool life);
-    ~Game() = default;
 
     //functions
     void run() override;
     void pollEvents() override;
     void update() override;
     void render() override;
-    void createShip();
     void centerItem(Sprite& s, float height) override;
+
+    void createShip();
     void updateScoreRecord();
     void moveAliens();
     void checkDeadAliens();
@@ -82,10 +82,12 @@ public:
     void checkHitAlienShields();
     void checkEndLevel();
     void checkGameOver();
+
     void readRecord() override;
     void writeRecord() const;
     void stopMusic();
-    void updatedata(int scoreFile, int livesFile);
+
+    //getter
     const std::shared_ptr<Ship> &getShip() const;
     const std::shared_ptr<std::vector<std::shared_ptr<Alien>>> &getAliens() const;
 };

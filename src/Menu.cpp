@@ -33,7 +33,7 @@ void Menu::initText() {
         graphicText[j].setFillColor(Color::White);
     }
 
-    graphicText[0].setCharacterSize(60);
+    graphicText[0].setCharacterSize(70);
     graphicText[1].setCharacterSize(25);
     graphicText[2].setCharacterSize(30);
     graphicText[3].setCharacterSize(32);

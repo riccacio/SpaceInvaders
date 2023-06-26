@@ -20,7 +20,7 @@ protected:
 public:
     //constructor & destructor
     MainWindow();
-    ~MainWindow() = default;
+    virtual ~MainWindow() = default;
 
     //functions
     virtual void run();

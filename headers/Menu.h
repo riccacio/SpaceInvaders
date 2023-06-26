@@ -18,9 +18,8 @@ private:
     void initVariables() override;
     void initText();
 public:
-    //constructor & destructor
+    //constructor
     Menu();
-    ~Menu() = default;
 
     //functions
     void pollEvents() override;
