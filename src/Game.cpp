@@ -676,3 +676,7 @@ const std::shared_ptr<std::vector<std::shared_ptr<Alien>>> &Game::getAliens() co
 const std::shared_ptr<Ship> &Game::getShip() const {
     return ship;
 }
+
+const std::shared_ptr<std::vector<std::shared_ptr<Shield>>> &Game::getShields() const {
+    return shields;
+}

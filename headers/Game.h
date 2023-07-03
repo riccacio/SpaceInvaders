@@ -90,6 +90,7 @@ public:
     //getter
     const std::shared_ptr<Ship> &getShip() const;
     const std::shared_ptr<std::vector<std::shared_ptr<Alien>>> &getAliens() const;
+    const std::shared_ptr<std::vector<std::shared_ptr<Shield>>> &getShields() const;
 };
 
 #endif //GAME_H
