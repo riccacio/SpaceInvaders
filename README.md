@@ -20,3 +20,24 @@ The player has an unlimited number of projectiles. As the aliens are destroyed, 
 
 * To move: ← →
 * To shoot: ⎵
+
+## PowerUP
+
+### Ship Shield
+<img src="sprite/powerup01.png" alt="Immagine" style="width: 50px; margin-right: 20px;">
+The spacecraft cannot be damaged for 5 seconds 
+
+### Reverse the commands
+<img src="sprite/powerup11.png" alt="Immagine" style="width: 50px; margin-right: 20px;">
+Reverses the movement controls for
+
+### Triple cannon
+<img src="sprite/powerup21.png" alt="Immagine" style="width: 50px; margin-right: 20px;">
+The spacecraft gets two extra guns for 
+
+### Fire Rate
+<img src="sprite/powerup31.png" alt="Immagine" style="width: 50px; margin-right: 20px;">
+The rate of fire increases considerably for 
+
+
+
