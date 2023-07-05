@@ -25,19 +25,51 @@ The player has an unlimited number of projectiles. As the aliens are destroyed, 
 
 ### Ship Shield
 <img src="sprite/powerup01.png" alt="Immagine" style="width: 50px; margin-right: 20px;">
-The spacecraft cannot be damaged for 5 seconds 
+The spacecraft cannot be damaged for 10 seconds 
 
 ### Reverse the commands
-<img src="sprite/powerup11.png" alt="Immagine" style="width: 50px; margin-right: 20px;">
-Reverses the movement controls for
+<img src="sprite/powerup31.png" alt="Immagine" style="width: 50px; margin-right: 20px;">
+Reverses the movement controls for 10 seconds
 
 ### Triple cannon
 <img src="sprite/powerup21.png" alt="Immagine" style="width: 50px; margin-right: 20px;">
-The spacecraft gets two extra guns for 
+The spacecraft gets two extra guns for 10 seconds
 
 ### Fire Rate
-<img src="sprite/powerup31.png" alt="Immagine" style="width: 50px; margin-right: 20px;">
-The rate of fire increases considerably for 
+<img src="sprite/powerup11.png" alt="Immagine" style="width: 50px; margin-right: 20px;">
+The rate of fire increases considerably for 10 seconds
+
+## Achievements
+
+### Welcome, Rookie!
+<img src="sprite/clear1.png" alt="Immagine" style="width: 50px; margin-right: 20px;">
+Clear 1 board of aliens
+
+### This is War!
+<img src="sprite/clear2.png" alt="Immagine" style="width: 50px; margin-right: 20px;">
+Clear 2 boards of aliens
+
+### As Much As It Takes
+<img src="sprite/clear3.png" alt="Immagine" style="width: 50px; margin-right: 20px;">
+Clear 3 boards of aliens
+
+### Master Defender of the Earth
+<img src="sprite/clear5.png" alt="Immagine" style="width: 50px; margin-right: 20px;">
+Clear 5 boards of aliens
+
+### A New Chance
+<img src="sprite/life.png" alt="Immagine" style="width: 50px; margin-right: 20px;">
+Earn an Extra Life with 1500 points
+
+### Exterminator
+<img src="sprite/ext.png" alt="Immagine" style="width: 50px; margin-right: 20px;">
+Kill 250 invaders
+
+### A Job Well Done
+<img src="sprite/job.png" alt="Immagine" style="width: 50px; margin-right: 20px;">
+Clear the board without losing a life
+
+
 
 
 
