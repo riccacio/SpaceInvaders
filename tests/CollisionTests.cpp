@@ -17,11 +17,11 @@ TEST(Game, checkDeadAliens) {
 
     std::cout << "Initial alien count: " << initialAlienCount << std::endl;
     std::cout << "Expected alien count: " << expectedAlienCount << std::endl;
-    std::cout << "Actual alien count: " << actualAlienCount << std::endl;
+    std::cout << "Actual alien count: " << actualAlienCount << std::endl << std::endl;
 
     EXPECT_EQ(actualAlienCount, expectedAlienCount);
 }
-// check alien bullet vs ship
+// check alien bullet vs Ship
 TEST(Alien, checkCollision) {
     std::unique_ptr<Game> game(new Game(0,3,0, 0, 0));
     std::unique_ptr<Alien> alien(new Alien(Alien::Type::ALIEN1, Vector2f{55, 120}));
@@ -30,7 +30,6 @@ TEST(Alien, checkCollision) {
     alien->getBullets().emplace_back(shipPosition, Bullet::Type::ALIEN);
 
     ASSERT_TRUE(alien->checkCollision(game->getShip()->getHitBox()));
-
 }
 //check ship bullet vs shield
 TEST(Game, checkHitShields) {
@@ -49,14 +48,14 @@ TEST(Game, checkHitShields) {
 
     std::cout << "Initial shield count: " << initialShieldCount << std::endl;
     std::cout << "Expected shield count: " << expectedShieldCount << std::endl;
-    std::cout << "Actual shield count: " << actualShieldCount << std::endl;
+    std::cout << "Actual shield count: " << actualShieldCount << std::endl << std::endl;
 
     EXPECT_EQ(actualShieldCount, expectedShieldCount);
-
 }
+
 //check the dropped powerUp vs Ship
-TEST(Ufo, checkCollisionPU) {
-    std::unique_ptr<UFO> ufo(new UFO(Vector2f{565,200}));
+TEST(UFO, checkCollisionPU) {
+    std::unique_ptr<UFO> ufo(new UFO(Vector2f{565,150}));
     std::unique_ptr<Game> game(new Game(0,3,0, 0, 0));
 
     sf::Vector2f shipPosition = (game->getShip()->getPosition());
@@ -66,3 +65,13 @@ TEST(Ufo, checkCollisionPU) {
     ASSERT_TRUE(ufo->checkCollisionPU(game->getShip()->getHitBox()));
 }
 
+//check ship bullet vs UFO
+TEST(UFO, checkCollision){
+    std::unique_ptr<UFO> ufo(new UFO(Vector2f{1184,150}));
+    std::unique_ptr<Game> game(new Game(0,3,0, 0, 0));
+
+    sf::Vector2f bulletPosition = game->getUFO()->getSprite().getPosition();
+    game->getShip()->getBullets()->emplace_back(bulletPosition, Bullet::Type::SHIP);
+
+    ASSERT_TRUE(ufo->checkCollision(game->getShip()->getBullets()->at(0).getHitBox()));
+}

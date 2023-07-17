@@ -70,7 +70,7 @@ void Alien::shoot() {
 }
 
 //alien bullet vs ship
-bool Alien::checkCollision(IntRect shipHB) {
+bool Alien::checkCollision(FloatRect shipHB) {
     int i=0;
     for(auto b : bullets){
         if(b.getHitBox().intersects(shipHB)){
@@ -92,7 +92,7 @@ bool Alien::checkCollision(Bullet& b){
 }
 
 //alien vs ship
-bool Alien::checkCollisionAlienShip(IntRect shipHB) {
+bool Alien::checkCollisionAlienShip(FloatRect shipHB) {
     if(shipHB.intersects(getHitBox()))
         return true;
     else
@@ -108,8 +108,8 @@ Vector2f Alien::getPosition() {
     return sprite.getPosition();
 }
 
-IntRect Alien::getHitBox() {
-    return IntRect(sprite.getPosition().x, sprite.getPosition().y, sprite.getGlobalBounds().width, sprite.getGlobalBounds().height);
+FloatRect Alien::getHitBox() {
+    return FloatRect(sprite.getPosition().x, sprite.getPosition().y, sprite.getGlobalBounds().width, sprite.getGlobalBounds().height);
 }
 
 Alien::Type Alien::getType() {

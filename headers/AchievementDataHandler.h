@@ -6,12 +6,9 @@
 class AchievementDataHandler {
 public:
     //functions
-    void saveAchievementData(std::string filename, int data);
-    int loadAchievementData(std::string filename);
-    void resetAchievementData(std::string filename);
+    static void saveAchievementData(const std::string& filename, int data);
+    static int loadAchievementData(const std::string& filename);
+    static void resetAchievementData(const std::string& filename);
 };
 
 #endif //SPACEINVADERS_ACHIEVEMENTDATAHANDLER_H
-
-
-

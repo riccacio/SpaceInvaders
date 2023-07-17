@@ -13,11 +13,11 @@ void ExtraLifeAchievements::update(int score) {
     }
 }
 
-bool ExtraLifeAchievements::isDrawable() {
+bool ExtraLifeAchievements::isDrawable() const{
     return drawable;
 }
 
-bool ExtraLifeAchievements::isReached(){
+bool ExtraLifeAchievements::isReached() const{
     return reached;
 }
 

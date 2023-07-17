@@ -23,14 +23,14 @@ public:
     void draw(RenderTarget& target);
     void drawPowerUp(RenderTarget& target);
     void update();
-    bool checkCollision(IntRect hitBox);
+    bool checkCollision(FloatRect hitBox);
     void dropPowerUp(Vector2f pos);
     void updatePowerUp();
-    bool checkCollisionPU(IntRect shipHB);
+    bool checkCollisionPU(FloatRect shipHB);
 
     //getter and setter
     Sprite& getSprite();
-    IntRect getHitBox();
+    FloatRect getHitBox();
     bool isDead();
     int getType();
     void setType(int type);

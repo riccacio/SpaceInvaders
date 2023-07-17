@@ -22,11 +22,11 @@ public:
     //functions
     void draw(RenderTarget& target);
     void update();
-    bool checkCollision(IntRect hitBox);
+    bool checkCollision(FloatRect hitBox);
 
     //getter and setter
     Sprite& getSprite();
-    IntRect getHitBox();
+    FloatRect getHitBox();
     bool isHitted() const;
     void setHitted(bool hitted);
     bool isDeletable() const;

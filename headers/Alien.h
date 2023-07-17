@@ -30,18 +30,18 @@ public:
 
     //functions
     void draw(RenderTarget& target);
-    void update(std::mt19937_64& i_random_engine);
+    void update(std::mt19937_64 &random_engine);
     void updateBullets();
     void changeSprite();
     void shoot();
-    bool checkCollision(IntRect shipHB);
+    bool checkCollision(FloatRect shipHB);
     bool checkCollision(Bullet &b);
-    bool checkCollisionAlienShip(IntRect shipHB);
+    bool checkCollisionAlienShip(FloatRect shipHB);
 
     //getter
     Sprite& getSprite();
     Vector2f getPosition();
-    IntRect getHitBox();
+    FloatRect getHitBox();
     Type getType();
     std::vector<Bullet> &getBullets();
 };

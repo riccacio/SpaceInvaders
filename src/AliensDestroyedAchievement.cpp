@@ -76,12 +76,16 @@ void AliensDestroyedAchievement::displayAchievements() {
 }
 
 
-bool AliensDestroyedAchievement::isDrawable() {
+bool AliensDestroyedAchievement::isDrawable() const {
     return drawable;
 }
 
-bool AliensDestroyedAchievement::isAchReached() {
+bool AliensDestroyedAchievement::isAchReached() const {
     return achReached;
+}
+
+int AliensDestroyedAchievement::getAliensKilled() const {
+    return aliensKilled;
 }
 
 void AliensDestroyedAchievement::setAchReached(bool achReached) {
@@ -90,8 +94,4 @@ void AliensDestroyedAchievement::setAchReached(bool achReached) {
 
 void AliensDestroyedAchievement::setAliensKilled(int aliensKilled){
     this->aliensKilled = aliensKilled;
-}
-
-int AliensDestroyedAchievement::getAliensKilled(){
-    return aliensKilled;
 }

@@ -40,7 +40,7 @@ public:
     Texture& getTexShip();
     Vector2f getPosition();
     Time& getTime();
-    IntRect getHitBox();
+    FloatRect getHitBox();
     std::shared_ptr<std::vector<Bullet>> getBullets();
     CurrentPower getCurrentPower();
     bool isHitted();

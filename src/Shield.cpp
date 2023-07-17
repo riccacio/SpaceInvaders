@@ -68,7 +68,7 @@ void Shield::update() {
 
 }
 
-bool Shield::checkCollision(IntRect hitBox) {
+bool Shield::checkCollision(FloatRect hitBox) {
     if(getHitBox().intersects(hitBox))
         return true;
     else
@@ -79,8 +79,8 @@ Sprite &Shield::getSprite() {
     return sprite;
 }
 
-IntRect Shield::getHitBox() {
-    return IntRect (sprite.getPosition().x, sprite.getPosition().y, sprite.getGlobalBounds().width, sprite.getGlobalBounds().height);
+FloatRect Shield::getHitBox() {
+    return FloatRect (sprite.getPosition().x, sprite.getPosition().y, sprite.getGlobalBounds().width, sprite.getGlobalBounds().height);
 }
 
 bool Shield::isHitted() const {

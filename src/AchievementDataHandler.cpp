@@ -1,6 +1,6 @@
 #include "../headers/AchievementDataHandler.h"
 
-void AchievementDataHandler::saveAchievementData(std::string filename, int data) {
+void AchievementDataHandler::saveAchievementData(const std::string& filename, int data) {
     std::ofstream file(filename);
     if (file.is_open()) {
         file << data;
@@ -8,8 +8,7 @@ void AchievementDataHandler::saveAchievementData(std::string filename, int data)
     }
 }
 
-
-int AchievementDataHandler::loadAchievementData(std::string filename) {
+int AchievementDataHandler::loadAchievementData(const std::string& filename) {
     int data = 0;
     std::ifstream file(filename);
     if (file.is_open()) {
@@ -19,7 +18,7 @@ int AchievementDataHandler::loadAchievementData(std::string filename) {
     return data;
 }
 
-void AchievementDataHandler::resetAchievementData(std::string filename) {
+void AchievementDataHandler::resetAchievementData(const std::string& filename) {
     std::ofstream file(filename);
     if (file.is_open()) {
         file << 0;

@@ -16,11 +16,9 @@ void BulletPower::draw(RenderTarget &target){}
  Vector2f BulletPower::getPosition(){
     return sprite.getPosition();
 }
- IntRect BulletPower::getHitBox() const{
-     return IntRect (sprite.getPosition().x, sprite.getPosition().y, sprite.getGlobalBounds().width, sprite.getGlobalBounds().height);
+ FloatRect BulletPower::getHitBox() const{
+     return FloatRect (sprite.getPosition().x, sprite.getPosition().y, sprite.getGlobalBounds().width, sprite.getGlobalBounds().height);
 }
  Sprite BulletPower::getSprite(){
      return sprite;
 }
-
-

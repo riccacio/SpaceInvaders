@@ -10,9 +10,9 @@ void GoodJobAchievement::update(bool lifeLost) {
     }
 }
 
-bool GoodJobAchievement::isDrawable() {
+bool GoodJobAchievement::isDrawable() const{
     return drawable;
 }
-bool GoodJobAchievement::isReached() {
+bool GoodJobAchievement::isReached() const{
     return reached;
 }

@@ -38,7 +38,7 @@ void UFO::updatePowerUp(){
 }
 
 //uff vs ship bullet
-bool UFO::checkCollision(IntRect b){
+bool UFO::checkCollision(FloatRect b){
     if(getHitBox().intersects(b))
         return true;
     else
@@ -46,7 +46,6 @@ bool UFO::checkCollision(IntRect b){
 }
 
 void UFO::dropPowerUp(Vector2f pos){
-
     if(type == 0){
         powerUp->emplace_back(PowerUp(pos, PowerUp::Type::SHIELD));
     }
@@ -62,7 +61,7 @@ void UFO::dropPowerUp(Vector2f pos){
 }
 
 //power-up vs ship
-bool UFO::checkCollisionPU(IntRect shipHB) {
+bool UFO::checkCollisionPU(FloatRect shipHB) {
     int i=0;
     for(auto p : *powerUp){
         if(p.getHitBox().intersects(shipHB)){
@@ -72,7 +71,6 @@ bool UFO::checkCollisionPU(IntRect shipHB) {
         i++;
     }
     return false;
-
 }
 
 //getter and setter
@@ -81,8 +79,8 @@ Sprite &UFO::getSprite() {
     return sprite;
 }
 
-IntRect UFO::getHitBox() {
-    return IntRect(sprite.getPosition().x, sprite.getPosition().y, sprite.getGlobalBounds().width, sprite.getGlobalBounds().height);
+FloatRect UFO::getHitBox() {
+    return FloatRect (sprite.getPosition().x, sprite.getPosition().y, sprite.getGlobalBounds().width, sprite.getGlobalBounds().height);
 }
 
 bool UFO::isDead() {

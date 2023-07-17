@@ -11,8 +11,8 @@ public:
     ExtraLifeAchievements();
 
     void update(int score);
-    bool isDrawable();
-    bool isReached();
+    bool isDrawable() const;
+    bool isReached() const;
     void setReached(bool reached);
 };
 

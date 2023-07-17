@@ -23,9 +23,8 @@ public:
 
     //getter
     virtual Vector2f getPosition();
-    virtual IntRect getHitBox() const;
+    virtual FloatRect getHitBox() const;
     virtual Sprite getSprite();
-
 };
 
 #endif //SPACEINVADERS_BULLETPOWER_H

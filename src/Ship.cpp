@@ -89,8 +89,8 @@ Vector2f Ship::getPosition() {
 Time &Ship::getTime() {
     return time;
 }
-IntRect Ship::getHitBox(){
-    return IntRect(sprite.getPosition().x - sprite.getGlobalBounds().width / 2, (sprite.getPosition().y - sprite.getGlobalBounds().height / 2) + PADDING, sprite.getGlobalBounds().width, sprite.getGlobalBounds().height);
+FloatRect Ship::getHitBox(){
+    return FloatRect(sprite.getPosition().x - sprite.getGlobalBounds().width / 2, (sprite.getPosition().y - sprite.getGlobalBounds().height / 2) + PADDING, sprite.getGlobalBounds().width, sprite.getGlobalBounds().height);
 }
 
 std::shared_ptr<std::vector<Bullet>> Ship::getBullets() {

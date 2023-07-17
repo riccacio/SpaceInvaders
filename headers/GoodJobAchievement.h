@@ -13,8 +13,8 @@ public:
     void update(bool life);
 
     //getter & setter
-    bool isDrawable();
-    bool isReached();
+    bool isDrawable() const;
+    bool isReached() const;
 };
 
 #endif //SPACEINVADERS_GOODJOBACHIEVEMENT_H

@@ -23,7 +23,6 @@ public:
     std::shared_ptr<UFO> ufo;
     Map map;
 
-    AchievementDataHandler handler;
     std::shared_ptr<AliensDestroyedAchievement> killObserver;
     std::shared_ptr<ExtraLifeAchievements> lifeObserver;
     std::shared_ptr<GoodJobAchievement> goodJobObserver;
@@ -32,6 +31,7 @@ public:
     std::vector<Sprite> sprShipL = {};
     std::vector<SoundBuffer> soundBuffers = {};
     std::vector<Sound> sounds = {};
+    std::random_device rd;
     std::mt19937_64 random_engine;
     RectangleShape line;
     RectangleShape powerUpBar;
@@ -47,13 +47,13 @@ public:
     int record;
     int score;
     int lives;
-    int moveTimer;
-    int timeAliens;
+    float moveTimer;
+    float timeAliens;
     int stage;
     float direction;
     bool changeMusic;
     int ufoPlayingMusic;
-    int speedAlienLevel;
+    float speedAlienLevel;
     float speedAlien;
     float powerupDuration;
     bool livesIncremented;
@@ -64,7 +64,7 @@ public:
     void initText();
 public:
     //constructor
-    Game(int score, int lives, int speedAlienLevel, int stage, bool life);
+    Game(int score, int lives, float speedAlienLevel, int stage, bool life);
 
     //functions
     void run() override;
@@ -77,9 +77,9 @@ public:
     void updateScoreRecord();
     void moveAliens();
     void checkDeadAliens();
-    void checkHitShields();
-    void checkHitAlienBulletShields();
-    void checkHitAlienShields();
+    void checkHitShields() const;
+    void checkHitAlienBulletShields() const;
+    void checkHitAlienShields() const;
     void checkEndLevel();
     void checkGameOver();
 
@@ -89,6 +89,7 @@ public:
 
     //getter
     const std::shared_ptr<Ship> &getShip() const;
+    const std::shared_ptr<UFO> &getUFO() const;
     const std::shared_ptr<std::vector<std::shared_ptr<Alien>>> &getAliens() const;
     const std::shared_ptr<std::vector<std::shared_ptr<Shield>>> &getShields() const;
 };

@@ -19,7 +19,7 @@ public:
 
     //functions
     void draw(RenderTarget& target) override;
-    void update(int direction);
+    void update(float direction);
 };
 
 #endif //SPACEINVADERS_BULLET_H

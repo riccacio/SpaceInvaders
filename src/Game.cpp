@@ -1,8 +1,9 @@
 # include "../headers/Game.h"
 
-Game::Game(int score, int lives, int speedAlienLevel, int stage, bool lifeLost) : record(0), lives(lives), score(score), stage(stage), reloadTimer(0), moveTimer(0), direction(1), timeAliens(0), changeMusic(true), ufoPlayingMusic(0), speedAlienLevel(speedAlienLevel), speedAlien(speedAlienLevel), powerupDuration(300), livesIncremented(false), lifeLost(lifeLost){
+Game::Game(int score, int lives, float speedAlienLevel, int stage, bool lifeLost) : record(0), lives(lives), score(score), stage(stage), reloadTimer(0), moveTimer(0), direction(1), timeAliens(0), changeMusic(true), ufoPlayingMusic(0), speedAlienLevel(speedAlienLevel), speedAlien(speedAlienLevel), powerupDuration(300), livesIncremented(false), lifeLost(lifeLost), random_engine(rd()){
     std::chrono::microseconds lag(0);
     std::chrono::steady_clock::time_point previous_time;
+
     initVariables();
     initFont();
     initItems();
@@ -17,7 +18,6 @@ Game::Game(int score, int lives, int speedAlienLevel, int stage, bool lifeLost) 
 //functions
 void Game::initVariables() {
     window = nullptr;
-    srand(time(NULL));
 
     //init arrays
     for(int j=0; j<10; j++)
@@ -49,8 +49,8 @@ void Game::initItems() {
     createShip();
 
     //aliens creation
-    int alienX=55;
-    int alienY=120;
+    float alienX=55;
+    float alienY=120;
     for(int i=0; i<8; i++){
         map.createAliens(Alien::Type::ALIEN1, Vector2f (alienX, alienY));
         alienX+=150;
@@ -82,18 +82,18 @@ void Game::initItems() {
     aliens = map.getAliens();
 
     //create shields
-    int x0 = 100;
-    int y0 = 950;
+    float x0 = 100;
+    float y0 = 950;
     for(int i = 0; i<3; i++){
-        int shieldWidth = 70;
-        int shieldHeight = 40;
+        float shieldWidth = 70;
+        float shieldHeight = 40;
         map.createShields(Shield::Type::LeftUp, Vector2f(x0, y0));
         map.createShields(Shield::Type::LeftBot, Vector2f(x0, (y0 + (2*shieldHeight))));
         map.createShields(Shield::Type::RightUp, Vector2f((x0 + (2*shieldWidth)), y0));
         map.createShields(Shield::Type::RightBot, Vector2f((x0 + (2*shieldWidth)), (y0 + (2*shieldHeight))));
         map.createShields(Shield::Type::Unique, Vector2f((x0 + shieldWidth), y0));
-        int shieldX = x0;
-        for(int i=0; i<3; i++){
+        float shieldX = x0;
+        for(int j=0; j<3; j++){
             map.createShields(Shield::Type::Unique, Vector2f(shieldX, (y0 + shieldHeight)));
             shieldX+=shieldWidth;
         }
@@ -114,7 +114,7 @@ void Game::initItems() {
     powerUpBar.setSize(Vector2f(300,30));
 
     killObserver = std::make_shared<AliensDestroyedAchievement>();
-    killObserver->setAliensKilled(handler.loadAchievementData("achievements.txt"));
+    killObserver->setAliensKilled(AchievementDataHandler::loadAchievementData("achievements.txt"));
 
     lifeObserver = std::make_shared<ExtraLifeAchievements>();
 
@@ -152,7 +152,7 @@ void Game::initText() {
     graphicText[5].setPosition(550, 20);//STAGE
     graphicText[6].setPosition(750, 20);//STAGE NUM
 
-    int offset=215;
+    float offset=215;
     for(int j=0; j<10; j++){
         sprShipL[j].setTexture(ship->getTexShip());
         sprShipL[j].setScale(3, 3);
@@ -343,7 +343,8 @@ void Game::update() {
                 sounds[6].play();
                 ship->getBullets()->erase(ship->getBullets()->begin() + i);
                 score+=200;
-                ufo->setType(rand()%4);
+                std::uniform_int_distribution<int> distribution(0, 3);
+                ufo->setType(distribution(random_engine));
                 ufo->dropPowerUp(Vector2f(ufo->getSprite().getPosition().x + ufo->getSprite().getGlobalBounds().width/2.f, ufo->getSprite().getPosition().y+ufo->getSprite().getGlobalBounds().height));
                 ufo->getSprite().setPosition(WIDTH+ufo->getSprite().getGlobalBounds().width, 150);
             }
@@ -506,9 +507,9 @@ void Game::moveAliens() {
 }
 
 void Game::checkDeadAliens() {
-    for (int j = ship->getBullets()->size() - 1; j >= 0; j--) {
+    for (int j = static_cast<int>(ship->getBullets()->size()) - 1; j >= 0; j--) {
         Bullet& b = ship->getBullets()->at(j);
-        for (int i = aliens->size() - 1; i >= 0; i--) {
+        for (int i = static_cast<int>(aliens->size()) - 1; i >= 0; i--) {
             std::shared_ptr<Alien>& a = aliens->at(i);
             if (a->checkCollision(b)) {
                 switch (a->getType()) {
@@ -539,10 +540,10 @@ void Game::checkDeadAliens() {
     }
 }
 
-void Game::checkHitShields() {
-    for (int i = shields->size() - 1; i >= 0; i--) {
+void Game::checkHitShields() const{
+    for (int i = static_cast<int>(shields->size()) - 1; i >= 0; i--) {
         std::shared_ptr<Shield>& s = shields->at(i);
-        for(int j = ship->getBullets()->size() - 1; j >= 0; j--) {
+        for(int j = static_cast<int>(ship->getBullets()->size()) - 1; j >= 0; j--) {
             Bullet &b = ship->getBullets()->at(j);
             if (s->checkCollision(b.getHitBox())) {
                 ship->getBullets()->erase(ship->getBullets()->begin() + j);
@@ -556,13 +557,13 @@ void Game::checkHitShields() {
     }
 }
 
-void Game::checkHitAlienBulletShields(){
-    for (int i = shields->size() - 1; i >= 0; i--) {
+void Game::checkHitAlienBulletShields() const{
+    for (int i = static_cast<int>(shields->size()) - 1; i >= 0; i--) {
         std::shared_ptr<Shield>& s = shields->at(i);
 
         for(auto& a : *aliens){
             if(a != nullptr){
-                for(int j = a->getBullets().size() - 1; j >= 0; j--) {
+                for(int j = static_cast<int>(a->getBullets().size()) - 1; j >= 0; j--) {
                     Bullet &b = a->getBullets().at(j);
                     if (s->checkCollision(b.getHitBox())) {
                         a->getBullets().erase(a->getBullets().begin() + j);
@@ -578,8 +579,8 @@ void Game::checkHitAlienBulletShields(){
     }
 }
 
-void Game::checkHitAlienShields() {
-    for (int i = shields->size() - 1; i >= 0; i--) {
+void Game::checkHitAlienShields() const{
+    for (int i = static_cast<int>(shields->size()) - 1; i >= 0; i--) {
         std::shared_ptr<Shield>& s = shields->at(i);
 
         for(auto& a : *aliens){
@@ -608,7 +609,7 @@ void Game::checkEndLevel(){
         window->close();
         speedAlienLevel-=10;
         stage++;
-        handler.saveAchievementData("achievements.txt", killObserver->getAliensKilled());
+        AchievementDataHandler::saveAchievementData("achievements.txt", killObserver->getAliensKilled());
         if(goodJobObserver->isReached()){
             lifeLost = true;
         }
@@ -621,7 +622,7 @@ void Game::checkGameOver() {
     for(auto& a : *aliens){
         if(a != nullptr && a->checkCollisionAlienShip(ship->getHitBox())){
             stopMusic();
-            handler.resetAchievementData("achievements.txt");
+            AchievementDataHandler::resetAchievementData("achievements.txt");
             window->close();
             std::unique_ptr<GameOver> go(new GameOver);
             go->run();
@@ -629,7 +630,7 @@ void Game::checkGameOver() {
     }
     if(lives == 0 && ship->getTime().asSeconds() > 1.0f){
         stopMusic();
-        handler.resetAchievementData("achievements.txt");
+        AchievementDataHandler::resetAchievementData("achievements.txt");
         window->close();
         std::unique_ptr<GameOver> go(new GameOver);
         go->run();
@@ -675,6 +676,10 @@ const std::shared_ptr<std::vector<std::shared_ptr<Alien>>> &Game::getAliens() co
 
 const std::shared_ptr<Ship> &Game::getShip() const {
     return ship;
+}
+
+const std::shared_ptr<UFO> &Game::getUFO() const {
+    return ufo;
 }
 
 const std::shared_ptr<std::vector<std::shared_ptr<Shield>>> &Game::getShields() const {

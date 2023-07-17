@@ -18,7 +18,7 @@ Bullet::Bullet(Vector2f pos, Type type) : type(type){
 //functions
 void Bullet::draw(RenderTarget &target) {
     if(type == Type::SHIP){
-        sprite.setTexture((change)?textures[0]:textures[0]);
+        sprite.setTexture(textures[0]);
     }
     else if(type == Type::ALIEN){
         sprite.setTexture((change)?textures[1]:textures[2]);
@@ -26,6 +26,6 @@ void Bullet::draw(RenderTarget &target) {
     target.draw(sprite);
 }
 
-void Bullet::update(int direction) {
+void Bullet::update(float direction) {
     sprite.move(0.0f, BULLET_SPEED * direction);
 }

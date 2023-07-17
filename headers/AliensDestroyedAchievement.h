@@ -20,9 +20,9 @@ public:
     void update() override;
 
     //getter & setter
-    bool isDrawable();
-    bool isAchReached();
-    int getAliensKilled();
+    bool isDrawable() const;
+    bool isAchReached() const;
+    int getAliensKilled() const;
     void setAchReached(bool achReached);
     void setAliensKilled(int aliensKilled);
 };
